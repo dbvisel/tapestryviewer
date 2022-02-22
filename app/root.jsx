@@ -8,7 +8,7 @@ import {
 } from "remix";
 
 export function meta() {
-  return { title: "New Remix App" };
+  return { title: "Tapestry Viewer" };
 }
 
 export default function App() {
@@ -17,6 +17,7 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"></link>
         <Meta />
         <Links />
       </head>
