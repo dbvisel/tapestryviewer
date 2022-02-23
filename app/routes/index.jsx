@@ -27,7 +27,12 @@ export default function MainIndex() {
           here
         </a>
         . The code can be looked at on{" "}
-        <a href="https://github.com/dbvisel/tapestryviewer">Github</a>.
+        <a href="https://github.com/dbvisel/tapestryviewer">Github</a>. A Google
+        sheet with tapestry and item data is{" "}
+        <a href="https://docs.google.com/spreadsheets/d/1EfdUXGmHdiJ5gcqZn4LdBJuXB0L6QZvKe3Vd7RP33SM/edit?usp=sharing">
+          here
+        </a>
+        , though I'm not yet pulling that data in.
       </p>
       {/*<p>
         If you have added another tapestry in the Google sheet, click here to

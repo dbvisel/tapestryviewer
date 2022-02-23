@@ -99,6 +99,8 @@ const getGoogleSpreadsheetData = async () => {
   return googleTapestries;
 };
 
+// TODO: figure out how to make sure that query is only executed once per build
+
 export async function getTapestries() {
   const googleTapestries = []; //await getGoogleSpreadsheetData();
   const tapestries = [...manualTapestries, ...googleTapestries];
