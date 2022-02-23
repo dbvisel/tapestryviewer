@@ -13,11 +13,20 @@ export const cleanDate = (date) => {
   const d = new Date(date);
   return d.toLocaleString("en-US", {
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
     hour12: true,
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
   });
+};
+
+export const publicationStatus = (pubStatus) => {
+  const statuses = {
+    published: "Public",
+    private: "Private",
+    publicWithLink: "Public with link",
+  };
+  return statuses[pubStatus];
 };

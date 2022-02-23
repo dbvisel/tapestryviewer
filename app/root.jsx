@@ -6,6 +6,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "remix";
+import globalStyles from "~/styles/global.css";
+
+export const links = () => {
+  return [{ rel: "stylesheet", href: globalStyles }];
+};
 
 export function meta() {
   return { title: "Tapestry Viewer" };

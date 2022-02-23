@@ -33,20 +33,20 @@ class Tapestry {
     this.forkable = Boolean(forkable);
     this.history = [];
   }
-  createNewVersion() {
+  createNewVersion = () => {
     const newState = JSON.parse(JSON.stringify(this));
     delete newState.history;
     newState.dateUpdated = new Date();
     this.history.push(newState);
     this.dateUpdated = new Date();
-  }
-  addItem(item) {
+  };
+  addItem = (item) => {
     this.createNewVersion();
     const newItemList = JSON.parse(JSON.stringify(this.items));
     newItemList[newItemList.length] = item;
     this.items = newItemList;
-  }
-  fork({ newAuthor, newSlug, newTitle }) {
+  };
+  fork = ({ newAuthor, newSlug, newTitle }) => {
     // TODO: if a tapestry has been forked, shouldn't it retain a record of where it has been forked to?
     if (this.forkable) {
       const newTapestry = new Tapestry({
@@ -68,17 +68,17 @@ class Tapestry {
     }
     console.error("Can't fork tapestry!");
     return null;
-  }
-  publish({ published }) {
+  };
+  publish = (publishState) => {
     if (
-      published === "published" ||
-      published === "private" ||
-      published === "publicWithLink"
+      publishState === "published" ||
+      publishState === "private" ||
+      publishState === "publicWithLink"
     ) {
       this.createNewVersion();
-      this.published = published;
+      this.published = publishState;
     }
-  }
+  };
 }
 
 export const getTapestryFromId = (tapestries, id) => {

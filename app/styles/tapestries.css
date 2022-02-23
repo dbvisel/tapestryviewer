@@ -1,0 +1,75 @@
+.tapestrypage {
+  display: flex;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.tapestrypage h1, .tapestrypage h2 {
+	margin-top: 0;
+}
+
+.tapestrypage nav ul {
+	margin: 0;
+	padding: 0;
+}
+
+.tapestrypage nav li {
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	line-height: 1.5;
+	list-style-type: none;
+}
+
+.tapestrypage > nav {
+  padding-right: 2rem;
+}
+
+.tapestrypage > nav > div {
+	position: sticky;
+	top: 20px;
+}
+
+.tapestrypage > main {
+  flex: 1;
+  border-left: solid 1px #ccc;
+  padding-left: 2rem;
+}
+
+.tapestrypage > main > div > h1 {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+}
+
+.tapestrypage > main summary {
+	font-weight: bold;
+}
+
+@media (max-width: 1023px) {
+
+	.tapestrypage {
+		flex-direction: column;
+	}
+
+	.tapestrypage nav li {
+		white-space: initial;
+	}
+
+	.tapestrypage > nav {
+		padding-right: 0;
+	}
+	
+	.tapestrypage > main {
+		border-left: none;
+		padding-left: 0;
+		border-top: solid 1px #ccc;
+		margin-top: 20px;
+		padding-top: 10px;
+	}
+
+	.tapestrypage > main > div > h1 {
+		flex-direction: column;
+	}
+	
+}

@@ -1,11 +1,11 @@
 import { useLoaderData, Link } from "remix";
 import invariant from "tiny-invariant";
-import { getTapestries, getTapestryFromSlug } from "~/tapestry";
+import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
 import {
   getTapestriesForkedFromThisOne,
   getTapestryForkHistory,
 } from "~/models/tapestry";
-import { cleanDate } from "~/utils/utils";
+import { cleanDate, publicationStatus } from "~/utils/utils";
 
 export const loader = async ({ params }) => {
   invariant(params.slug, "expected params.slug");
@@ -23,11 +23,38 @@ export const loader = async ({ params }) => {
   };
 };
 
-export default function PostSlug() {
+export const meta = (data) => {
+  const tapestry = data.data.tapestry;
+  return {
+    title: `Tapestry Viewer: ${tapestry.title}`,
+    description: `A sample tapestry by ${tapestry.author}`,
+  };
+};
+
+export default function TapestryPage() {
   const { tapestry, forkHistory, forkedFromThis } = useLoaderData();
   return (
     <div>
-      <h1>{tapestry.title}</h1>
+      <h1>
+        {tapestry.title}
+        <span
+          style={{
+            marginLeft: "auto",
+            fontWeight: "normal",
+            fontSize: "75%",
+          }}
+        >
+          Author: {tapestry.author}
+          <span
+            style={{
+              fontStyle: "italic",
+              marginLeft: "1em",
+            }}
+          >
+            {publicationStatus(tapestry.published)}
+          </span>
+        </span>
+      </h1>
       <details>
         <summary>Raw data</summary>
         {JSON.stringify(tapestry)}
