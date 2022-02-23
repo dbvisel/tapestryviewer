@@ -1,36 +1,38 @@
 // app/routes/graphql.jsx
 
-import { useLoaderData, json } from "remix"
-import { GraphQLClient, gql } from "graphql-request"
+import { useLoaderData, json } from "remix";
+import { GraphQLClient, gql } from "graphql-request";
 
-const GET_CHARACTERS = gql`{
-  characters {
-    results {
-      name
-      id
+// n.b. this is not actually doing anything! keeping around to cannibalize.
+
+const GET_CHARACTERS = gql`
+  {
+    characters {
+      results {
+        name
+        id
+      }
     }
   }
-}`
+`;
 
 export let loader = async () => {
-  const client = new GraphQLClient("https://rickandmortyapi.com/graphql")
-  const { characters } = await client.request(GET_CHARACTERS)
-  const { results } = characters
-  return json({ results })
-}
+  const client = new GraphQLClient("https://rickandmortyapi.com/graphql");
+  const { characters } = await client.request(GET_CHARACTERS);
+  const { results } = characters;
+  return json({ results });
+};
 
 export default function Index() {
-  let data = useLoaderData()
+  let data = useLoaderData();
 
   return (
     <>
       <ul>
         {data.results.map(({ name, id }) => (
-          <li key={id}>
-            {name}
-          </li>
+          <li key={id}>{name}</li>
         ))}
       </ul>
     </>
-  )
+  );
 }
