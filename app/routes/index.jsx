@@ -26,12 +26,13 @@ export default function MainIndex() {
         <a href="https://docs.google.com/document/d/1uqnUIORi5lypQeS2-l9VQ3xkUNSP0gmmewaiID9GFPg/edit#">
           here
         </a>
-        .
+        . The code can be looked at on{" "}
+        <a href="https://github.com/dbvisel/tapestryviewer">Github</a>.
       </p>
-      <p>
+      {/*<p>
         If you have added another tapestry in the Google sheet, click here to
-        rebuild this site.
-      </p>
+			rebuild this site.
+      </p>*/}
     </div>
   );
 }
