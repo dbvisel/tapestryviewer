@@ -100,8 +100,8 @@ export default function TapestryPage() {
             {forkHistory.map((history, index) => (
               <li key={index}>
                 Forked from{" "}
-                <Link to={`/tapestries/${history.slug}`}>{history.title}</Link>{" "}
-                at {cleanDate(history.dateUpdated)}
+                <Link to={`/tapestry/${history.slug}`}>{history.title}</Link> at{" "}
+                {cleanDate(history.dateUpdated)}
               </li>
             ))}
           </ul>
@@ -119,8 +119,8 @@ export default function TapestryPage() {
             {forkedFromThis.map((history, index) => (
               <li key={index}>
                 Forked as{" "}
-                <Link to={`/tapestries/${history.slug}`}>{history.title}</Link>{" "}
-                at {cleanDate(history.dateUpdated)}
+                <Link to={`/tapestry/${history.slug}`}>{history.title}</Link> at{" "}
+                {cleanDate(history.dateUpdated)}
               </li>
             ))}
           </ul>
