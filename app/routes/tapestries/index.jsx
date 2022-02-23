@@ -7,18 +7,17 @@ export const loader = async () => {
 
 export default function Posts() {
   const tapestries = useLoaderData();
+  console.log(tapestries);
   return (
     <div>
       <h1>Tapestries</h1>
-			<p>This is a list of tapestries currently in the system.</p>
 			<ul>
         {tapestries.map(tapestry => (
           <li key={tapestry.slug}>
-            <Link to={`/tapestries/${tapestry.slug}`}>{tapestry.title} ({tapestry.dateCreated})</Link>
+            <Link to={`${tapestry.slug}`}>{tapestry.title} ({tapestry.dateCreated})</Link>
           </li>
         ))}
       </ul>
-			<p>If you have added another tapestry in the Google sheet, click here to rebuild this site.</p>
     </div>
   );
 }
