@@ -11,7 +11,7 @@ class Tapestry {
     showTitleOnPage,
     defaultZoom,
     items,
-    comments,
+    generalComments,
     published,
     forkedFrom,
     forkable,
@@ -19,15 +19,15 @@ class Tapestry {
     this.id = uuidv4();
     this.title = title || "New Tapestry";
     this.slug = slug || slugify(this.title);
-    this.icon = icon;
-    this.author = author;
+    this.icon = icon || ""; // what is the type of this? a URL?
+    this.author = author || "anonymous"; // fallback shouldn't actually be possible.
     this.dateCreated = new Date();
     this.dateUpdated = new Date();
-    this.background = background;
+    this.background = background || null; // what is the type on this?
     this.showTitleOnPage = showTitleOnPage || false;
     this.defaultZoom = defaultZoom || 1;
     this.items = items || [];
-    this.comments = comments;
+    this.generalComments = generalComments || [];
     this.published = published || "private";
     this.forkedFrom = forkedFrom || "";
     this.forkable = Boolean(forkable);
@@ -58,7 +58,7 @@ class Tapestry {
         showTitleOnPage: this.showTitleOnPage,
         defaultZoom: this.defaultZoom,
         items: this.items,
-        comments: this.comments,
+        generalComments: this.generalComments,
         published: false,
         forkedFrom: this.id,
         forkable: this.forkable,
@@ -68,6 +68,16 @@ class Tapestry {
     }
     console.error("Can't fork tapestry!");
     return null;
+  }
+  publish({ published }) {
+    if (
+      published === "published" ||
+      published === "private" ||
+      published === "publicWithLink"
+    ) {
+      this.createNewVersion();
+      this.published = published;
+    }
   }
 }
 

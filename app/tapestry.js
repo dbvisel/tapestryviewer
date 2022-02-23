@@ -1,23 +1,23 @@
 import Tapestry from "./models/tapestry";
 
-const bob = new Tapestry({
-  title: "Bob",
-  slug: "bob",
-  author: "Dan",
+const alex = new Tapestry({
+  title: "Alex",
+  slug: "alex",
+  author: "Dan Visel",
   forkable: true,
   published: "published",
 });
 // await new Promise(res => setTimeout(res, 1000));
-bob.createNewVersion();
+alex.createNewVersion();
 // await new Promise(res => setTimeout(res, 1000));
-bob.createNewVersion();
-const al = bob.fork({ newTitle: "Al", newAuthor: "Sally" });
-al.addItem("first item");
-al.addItem("second item");
-const al2 = bob.fork({ newSlug: "secondFork" });
-const al3 = al.fork({});
-const jimmy = new Tapestry({ title: "Tapestry 3", forkable: false });
-const tapestries = [bob, al, al2, al3, jimmy];
+alex.createNewVersion();
+const bertha = alex.fork({ newTitle: "Bertha", newAuthor: "Sally" });
+bertha.addItem("first item");
+bertha.addItem("second item");
+const chris = alex.fork({ newSlug: "secondFork" });
+const doris = bertha.fork({});
+const ernest = new Tapestry({ title: "Ernest", forkable: false });
+const tapestries = [alex, bertha, chris, doris, ernest];
 
 export async function getTapestries() {
   return tapestries;
