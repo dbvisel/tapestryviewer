@@ -19,6 +19,8 @@ bertha.addItem(item1);
 bertha.addItem(item2);
 const chris = alex.fork({ newSlug: "secondFork" });
 const doris = bertha.fork({});
+const item3 = new Item({ title: "Item 3", content: "This is text frame #3" });
+doris.addItem(item3);
 const ernest = new Tapestry({ title: "Ernest", forkable: false });
 const tapestries = [alex, bertha, chris, doris, ernest];
 

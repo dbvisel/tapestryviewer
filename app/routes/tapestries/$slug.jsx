@@ -28,12 +28,14 @@ export default function PostSlug() {
   return (
     <div>
       <h1>{tapestry.title}</h1>
-      <div>
-        <h2>Raw data</h2>
+      <details>
+        <summary>Raw data</summary>
         {JSON.stringify(tapestry)}
-      </div>
-      <div>
-        <h2>Items</h2>
+      </details>
+      <details>
+        <summary>
+          Items {tapestry.items.length ? `(${tapestry.items.length})` : ""}
+        </summary>
         {tapestry.items.length ? (
           <ul>
             {tapestry.items.map((item, index) => (
@@ -43,9 +45,12 @@ export default function PostSlug() {
         ) : (
           <p>No items!</p>
         )}
-      </div>
-      <div>
-        <h2>Tapestry history</h2>
+      </details>
+      <details>
+        <summary>
+          Tapestry history{" "}
+          {tapestry.history.length ? `(${tapestry.history.length})` : ""}
+        </summary>
         {tapestry.history.length ? (
           <ul>
             {tapestry.history.reverse().map((history, index) => (
@@ -58,9 +63,11 @@ export default function PostSlug() {
         ) : (
           <p>No tapestry history!</p>
         )}
-      </div>
-      <div>
-        <h2>Fork history</h2>
+      </details>
+      <details>
+        <summary>
+          Fork history {forkHistory.length ? `(${forkHistory.length})` : ""}
+        </summary>
         {forkHistory.length ? (
           <ul>
             {forkHistory.map((history, index) => (
@@ -74,9 +81,12 @@ export default function PostSlug() {
         ) : (
           <p>No fork history!</p>
         )}
-      </div>
-      <div>
-        <h2>Tapestries forked from this one:</h2>
+      </details>
+      <details>
+        <summary>
+          Tapestries forked from this one{" "}
+          {forkedFromThis.length ? `(${forkedFromThis.length})` : ""}
+        </summary>
         {forkedFromThis.length ? (
           <ul>
             {forkedFromThis.map((history, index) => (
@@ -90,7 +100,7 @@ export default function PostSlug() {
         ) : (
           <p>No fork history!</p>
         )}
-      </div>{" "}
+      </details>{" "}
     </div>
   );
 }
