@@ -20,7 +20,6 @@ export default function PostSlug() {
 	// console.log(tapestry)
 	return (
     <div>
-			<h5><Link to="/">Back</Link></h5>
 			<h1>{tapestry.title}</h1>
 			<div>
 				{JSON.stringify(tapestry)}

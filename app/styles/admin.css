@@ -1,12 +1,12 @@
-.admin {
+.overview {
   display: flex;
 }
 
-.admin > nav {
+.overview > nav {
   padding-right: 2rem;
 }
 
-.admin > main {
+.overview > main {
   flex: 1;
   border-left: solid 1px #ccc;
   padding-left: 2rem;
