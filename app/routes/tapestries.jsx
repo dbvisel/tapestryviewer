@@ -21,6 +21,7 @@ export default function TapestryOverview() {
         <ul>
           {tapestries.map((tapestry) => (
             <li key={tapestry.slug}>
+              →{" "}
               <Link to={`${tapestry.slug}`}>
                 {tapestry.title} ({cleanDate(tapestry.dateCreated)})
               </Link>

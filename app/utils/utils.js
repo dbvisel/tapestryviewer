@@ -11,5 +11,13 @@ export const slugify = (text, separator = "-") => {
 
 export const cleanDate = (date) => {
   const d = new Date(date);
-  return d.toLocaleTimeString("en-US");
+  return d.toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour12: true,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 };

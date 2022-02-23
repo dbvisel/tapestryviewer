@@ -2,6 +2,19 @@
   display: flex;
 }
 
+.overview nav ul {
+	margin: 0;
+	padding: 0;
+
+}
+
+.overview nav li {
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
 .overview > nav {
   padding-right: 2rem;
 }
