@@ -97,4 +97,15 @@ export const getTapestryForkHistory = (tapestries, tapestry, list = []) => {
   return [];
 };
 
+export const getTapestriesForkedFromThisOne = (tapestries, tapestry) => {
+  // Right now this is only getting a flat list – this should be a tree.
+  const list = [];
+  for (let i = 0; i < tapestries.length; i++) {
+    if (tapestries[i].forkedFrom === tapestry.id) {
+      list[list.length] = tapestries[i];
+    }
+  }
+  return list;
+};
+
 export default Tapestry;

@@ -1,7 +1,7 @@
 import { useLoaderData, Link } from "remix";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestry";
-import { getTapestryForkHistory} from '~/models/tapestry';
+import { getTapestriesForkedFromThisOne, getTapestryForkHistory} from '~/models/tapestry';
 import { cleanDate } from '~/utils/utils'
 
 
@@ -12,16 +12,18 @@ export const loader = async ({
 	const tapestries = await getTapestries();
   const tapestry = await getTapestryFromSlug(params.slug);
 	const forkHistory = await getTapestryForkHistory(tapestries, tapestry);
-	return {tapestry: tapestry, forkHistory: forkHistory}
+	const forkedFromThis = await getTapestriesForkedFromThisOne(tapestries, tapestry);
+	return {tapestry: tapestry, forkHistory: forkHistory, forkedFromThis: forkedFromThis}
 };
 
 export default function PostSlug() {
-  const {tapestry, forkHistory} = useLoaderData();
+  const {tapestry, forkHistory, forkedFromThis} = useLoaderData();
 	// console.log(tapestry)
 	return (
     <div>
 			<h1>{tapestry.title}</h1>
 			<div>
+				<h2>Raw data</h2>
 				{JSON.stringify(tapestry)}
 			</div>
 			<div>
@@ -49,6 +51,17 @@ export default function PostSlug() {
 						</ul> 
 					: <p>No fork history!</p>}
 			</div>
-		</div>
+			<div>
+				<h2>Tapestries forked from this one:</h2>
+				{forkedFromThis.length 
+					? <ul>{
+						forkedFromThis.map((history, index) => 
+								<li key={index}>
+									Forked as <Link to={`/tapestries/${history.slug}`}>{history.title}</Link> at {cleanDate(history.dateUpdated)}
+								</li>)
+							}
+						</ul> 
+					: <p>No fork history!</p>}
+			</div>		</div>
   );
 }

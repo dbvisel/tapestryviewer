@@ -11,7 +11,7 @@ const bob = new Tapestry({
 bob.createNewVersion();
 // await new Promise(res => setTimeout(res, 1000));
 bob.createNewVersion();
-const al = bob.fork({ newAuthor: "Sally" });
+const al = bob.fork({ newTitle: "Al", newAuthor: "Sally" });
 al.addItem("first item");
 al.addItem("second item");
 const al2 = bob.fork({ newSlug: "secondFork" });
