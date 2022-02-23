@@ -1,4 +1,5 @@
 import Tapestry from "./models/tapestry";
+import Item from "./models/item";
 
 const alex = new Tapestry({
   title: "Alex",
@@ -12,8 +13,10 @@ alex.createNewVersion();
 // await new Promise(res => setTimeout(res, 1000));
 alex.createNewVersion();
 const bertha = alex.fork({ newTitle: "Bertha", newAuthor: "Sally" });
-bertha.addItem("first item");
-bertha.addItem("second item");
+const item1 = new Item({ title: "Item 1", content: "This is text frame #1" });
+const item2 = new Item({ title: "Item 2", content: "This is text frame #2" });
+bertha.addItem(item1);
+bertha.addItem(item2);
 const chris = alex.fork({ newSlug: "secondFork" });
 const doris = bertha.fork({});
 const ernest = new Tapestry({ title: "Ernest", forkable: false });
