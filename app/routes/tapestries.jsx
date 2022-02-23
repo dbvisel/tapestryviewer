@@ -17,21 +17,23 @@ export default function TapestryOverview() {
   return (
     <div className="overview">
       <nav>
-				<h1>Tapestries</h1>
-				<ul>
-					{tapestries.map(tapestry => (
-						<li key={tapestry.slug}>
-							<Link to={`${tapestry.slug}`}>{tapestry.title} ({cleanDate(tapestry.dateCreated)})</Link>
-						</li>
-					))}
-				</ul>
-				<h5><Link to={"/"}>Home</Link></h5>
+        <h1>Tapestries</h1>
+        <ul>
+          {tapestries.map((tapestry) => (
+            <li key={tapestry.slug}>
+              <Link to={`${tapestry.slug}`}>
+                {tapestry.title} ({cleanDate(tapestry.dateCreated)})
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <h5>
+          <Link to={"/"}>Home</Link>
+        </h5>
       </nav>
       <main>
-				<Outlet />
-			</main>
+        <Outlet />
+      </main>
     </div>
   );
 }
-
-

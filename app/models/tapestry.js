@@ -48,7 +48,6 @@ class Tapestry {
   }
   fork({ newAuthor, newSlug, newTitle }) {
     // TODO: if a tapestry has been forked, shouldn't it retain a record of where it has been forked to?
-    //
     if (this.forkable) {
       const newTapestry = new Tapestry({
         title: newTitle || this.title + " fork",
@@ -67,7 +66,7 @@ class Tapestry {
       });
       return newTapestry;
     }
-    console.log("Can't fork tapestry!");
+    console.error("Can't fork tapestry!");
     return null;
   }
 }
@@ -98,7 +97,7 @@ export const getTapestryForkHistory = (tapestries, tapestry, list = []) => {
 };
 
 export const getTapestriesForkedFromThisOne = (tapestries, tapestry) => {
-  // Right now this is only getting a flat list – this should be a tree.
+  // TODO: Right now this is only getting a flat list – this should be a tree.
   const list = [];
   for (let i = 0; i < tapestries.length; i++) {
     if (tapestries[i].forkedFrom === tapestry.id) {
