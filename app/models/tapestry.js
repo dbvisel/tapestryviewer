@@ -42,17 +42,17 @@ class Tapestry {
   }
   addItem(item) {
     this.createNewVersion();
-    const newItemList = this.items;
+    const newItemList = JSON.parse(JSON.stringify(this.items));
     newItemList[newItemList.length] = item;
     this.items = newItemList;
   }
-  fork({ newAuthor, newSlug }) {
+  fork({ newAuthor, newSlug, newTitle }) {
     // TODO: if a tapestry has been forked, shouldn't it retain a record of where it has been forked to?
     //
     if (this.forkable) {
       const newTapestry = new Tapestry({
-        title: this.title,
-        slug: newSlug || this.slug + "_copy",
+        title: newTitle || this.title + " fork",
+        slug: newSlug || this.slug + "_fork",
         icon: this.icon,
         author: newAuthor || this.author,
         background: this.background,

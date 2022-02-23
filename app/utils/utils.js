@@ -8,3 +8,8 @@ export const slugify = (text, separator = "-") => {
     .trim()
     .replace(/\s+/g, separator);
 };
+
+export const cleanDate = (date) => {
+  const d = new Date(date);
+  return d.toLocaleTimeString("en-US");
+};
