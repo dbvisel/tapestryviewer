@@ -92,6 +92,7 @@ export const getTapestryFromId = (tapestries, id) => {
 export const getTapestryForkHistory = (tapestries, tapestry, list = []) => {
   // if these is a fork history, this returns the fork history with the newest first
   // this returns a list of tapestries or an empty list
+  // probably this should be a tree?
   if (tapestry) {
     if (tapestry.forkedFrom) {
       list[list.length] = tapestry.forkedFrom;
