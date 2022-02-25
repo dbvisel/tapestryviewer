@@ -48,9 +48,9 @@ const TapestryComponent = ({ tapestry }) => {
 
   // console.log(calculateTapestrySize(tapestry.items));
 
-  console.log(tapestry.items);
+  // console.log(tapestry.items);
   const linksList = makeLinkList(tapestry.items);
-  console.log(linksList);
+  // console.log(linksList);
   const updateXarrow = useXarrow();
   return (
     <Xwrapper>

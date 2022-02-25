@@ -49,7 +49,7 @@ class Tapestry {
   addLink = (fromId, toId) => {
     const myItemIds = this.items.map((item) => item.id);
     if (myItemIds.indexOf(fromId) > -1 && myItemIds.indexOf(toId) > -1) {
-      console.log("Creating link from " + fromId + " to " + toId);
+      // console.log("Creating link from " + fromId + " to " + toId);
       this.createNewVersion();
       const newLinks = JSON.parse(JSON.stringify(this.items));
       newLinks[myItemIds.indexOf(fromId)].linksTo.push(toId);
