@@ -53,6 +53,18 @@ const item2 = new Item({
 bertha.addItem(item1);
 bertha.addItem(item2);
 
+// add a link on bertha back to Alex.
+
+const berthaTapestryLink = new Item({
+  title: "Link to Alex",
+  type: "tapestry",
+  url: "alex",
+  x: 4,
+  y: 3,
+});
+
+bertha.addItem(berthaTapestryLink);
+
 // fork the first tapestry again.
 
 const chris = alex.fork({ newSlug: "secondFork" });
@@ -115,6 +127,8 @@ ernest.addItem(e6);
 ernest.addItem(e7);
 ernest.addItem(e8);
 
+// add a tapestry link to alex – because this is done after Alex was forked, it only shows up here.
+
 const tapestryLink = new Item({
   title: "Link to Doris",
   type: "tapestry",
@@ -124,9 +138,22 @@ const tapestryLink = new Item({
 });
 alex.addItem(tapestryLink);
 
+const fiona = alex.fork({ newTitle: "Fiona", newSlug: "Fiona" });
+
+const fionaIntro = new Item({
+  title: "Fiona",
+  content:
+    "Like Bertha, Fiona was forked from Alex, but Fiona was forked after the link was added to Alex, so Fiona has that and Bertha doesn't.",
+  x: 1,
+  y: 1,
+  width: 3,
+});
+
+fiona.addItem(fionaIntro);
+
 // send all of these tapestries out as data for the rest of the site.
 
-const manualTapestries = [alex, bertha, chris, doris, ernest];
+const manualTapestries = [alex, bertha, chris, doris, ernest, fiona];
 
 // get google spreadsheets
 
