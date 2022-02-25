@@ -2,6 +2,11 @@
   display: flex;
 	margin-left: 10px;
 	margin-right: 10px;
+	--borderColor: #ccc;
+	--gridUnitSize: 200px;
+	--gridGap: 20px;
+	--textPadding: 10px;
+	--headerHeight: 50px;
 }
 
 .tapestrypage h1, .tapestrypage h2 {
@@ -45,6 +50,42 @@
 .tapestrypage > main summary {
 	font-weight: bold;
 }
+
+
+.tapestryGrid {
+	display: grid;
+	grid-gap: var(--gridGap);
+	grid-auto-rows: var(--gridUnitSize);
+	grid-auto-columns: var(--gridUnitSize);
+	box-sizing: border-box;
+}
+
+.tapestryGrid > section > div > h2 {
+	box-sizing: border-box;
+	height: calc(var(--headerHeight) - var(--textPadding));
+	margin: 0;
+	margin-bottom: var(--textPadding);
+	padding: 0 var(--textPadding);
+	display: inline-flex;
+	background-color: #333;
+	width: 100%;
+}
+
+.textframe {
+	border: 1px solid var(--borderColor);
+	height: 100%;
+	overflow-y: hidden;
+}
+
+.textframe > div {
+	box-sizing: border-box;
+	height: calc(100% - var(--headerHeight));
+	padding:  0 var(--textPadding) var(--textPadding) var(--textPadding);
+	width: 100%;
+	overflow-y: auto;
+}
+
+
 
 @media (max-width: 1023px) {
 

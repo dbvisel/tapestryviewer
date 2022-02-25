@@ -55,6 +55,10 @@ const outItemRows = itemRows.map((x) => {
     content: x.content,
     url: x.url,
     type: x.type,
+    x: Number(x.x),
+    y: Number(x.y),
+    width: Number(x.width),
+    height: Number(x.height),
   };
 });
 const googleTapestries = {

@@ -29,8 +29,22 @@ const bertha = alex.fork({ newTitle: "Bertha", newAuthor: "Sally" });
 
 // make two items – these are, by default, text frames.
 
-const item1 = new Item({ title: "Item 1", content: "This is text frame #1" });
-const item2 = new Item({ title: "Item 2", content: "This is text frame #2" });
+const item1 = new Item({
+  title: "Item 1",
+  content: "This is text frame #1",
+  x: 1,
+  y: 1,
+  width: 2,
+  height: 1,
+});
+const item2 = new Item({
+  title: "Item 2",
+  content: "This is text frame #2",
+  x: 1,
+  y: 2,
+  width: 1,
+  height: 2,
+});
 
 // add the two items to the second tapestry.
 
@@ -47,7 +61,14 @@ const doris = bertha.fork({});
 
 // make another new text frame and add it to the newly created tapestry.
 
-const item3 = new Item({ title: "Item 3", content: "This is text frame #3" });
+const item3 = new Item({
+  title: "Item 3",
+  content: "This is text frame #3",
+  width: 2,
+  height: 2,
+  x: 3,
+  y: 3,
+});
 doris.addItem(item3);
 
 // make a new tapestry from scratch.
@@ -148,6 +169,10 @@ const getDownloadedGoogleData = async () => {
           title: thisItemRow.title,
           content: thisItemRow.content,
           type: thisItemRow.type,
+          x: thisItemRow.x,
+          y: thisItemRow.y,
+          width: thisItemRow.width,
+          height: thisItemRow.height,
         });
         thisTapestry.addItem(thisItem);
       }

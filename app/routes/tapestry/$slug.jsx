@@ -1,11 +1,13 @@
-import { Link, useCatch, useParams, useLoaderData } from "remix";
+import { useCatch, useParams, useLoaderData } from "remix";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
 import {
   getTapestriesForkedFromThisOne,
   getTapestryForkHistory,
 } from "~/models/tapestry.mjs";
-import { cleanDate, publicationStatus } from "~/utils/utils.mjs";
+import { publicationStatus } from "~/utils/utils.mjs";
+import TapestryInfo from "~/components/TapestryInfo";
+import TapestryComponent from "~/components/TapestryComponent";
 
 export const loader = async ({ params }) => {
   invariant(params.slug, "expected params.slug");
@@ -57,6 +59,7 @@ export function CatchBoundary() {
 
 export default function TapestryPage() {
   const { tapestry, forkHistory, forkedFromThis } = useLoaderData();
+  const [showDetails, setShowDetails] = React.useState(false);
   return (
     <div>
       <h1>
@@ -65,93 +68,43 @@ export default function TapestryPage() {
           style={{
             marginLeft: "auto",
             fontWeight: "normal",
-            fontSize: "75%",
+            fontSize: "50%",
           }}
         >
-          Author: {tapestry.author}
-          <span
-            style={{
-              fontStyle: "italic",
-              marginLeft: "1em",
+          <a
+            href="/#"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log("hi!");
+              setShowDetails(!showDetails);
             }}
           >
-            {publicationStatus(tapestry.published)}
-          </span>
+            {showDetails ? "Hide" : "Show"} details
+          </a>
+          {showDetails ? (
+            <span style={{ marginLeft: "1em" }}>
+              Author: {tapestry.author}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  marginLeft: "1em",
+                }}
+              >
+                {publicationStatus(tapestry.published)}
+              </span>
+            </span>
+          ) : null}
         </span>
       </h1>
-      <details>
-        <summary>Raw data</summary>
-        {JSON.stringify(tapestry)}
-      </details>
-      <details>
-        <summary>
-          Items {tapestry.items.length ? `(${tapestry.items.length})` : ""}
-        </summary>
-        {tapestry.items.length ? (
-          <ul>
-            {tapestry.items.map((item, index) => (
-              <li key={index}>{JSON.stringify(item)}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No items!</p>
-        )}
-      </details>
-      <details>
-        <summary>
-          Tapestry history{" "}
-          {tapestry.history.length ? `(${tapestry.history.length})` : ""}
-        </summary>
-        {tapestry.history.length ? (
-          <ul>
-            {tapestry.history.reverse().map((history, index) => (
-              <li key={index}>
-                <b>{cleanDate(history.dateUpdated)}:</b>
-                <p>{JSON.stringify(history)}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No tapestry history!</p>
-        )}
-      </details>
-      <details>
-        <summary>
-          Fork history {forkHistory.length ? `(${forkHistory.length})` : ""}
-        </summary>
-        {forkHistory.length ? (
-          <ul>
-            {forkHistory.map((history, index) => (
-              <li key={index}>
-                Forked from{" "}
-                <Link to={`/tapestry/${history.slug}`}>{history.title}</Link> at{" "}
-                {cleanDate(history.dateUpdated)}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No fork history!</p>
-        )}
-      </details>
-      <details>
-        <summary>
-          Tapestries forked from this one{" "}
-          {forkedFromThis.length ? `(${forkedFromThis.length})` : ""}
-        </summary>
-        {forkedFromThis.length ? (
-          <ul>
-            {forkedFromThis.map((history, index) => (
-              <li key={index}>
-                Forked as{" "}
-                <Link to={`/tapestry/${history.slug}`}>{history.title}</Link> at{" "}
-                {cleanDate(history.dateUpdated)}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No fork history!</p>
-        )}
-      </details>{" "}
+      {showDetails ? (
+        <TapestryInfo
+          tapestry={tapestry}
+          forkHistory={forkHistory}
+          forkedFromThis={forkedFromThis}
+        />
+      ) : (
+        <TapestryComponent tapestry={tapestry} />
+      )}
     </div>
   );
 }
