@@ -9,16 +9,24 @@
 	--headerHeight: 50px;
 	--headerBackground: #333;
 	--headerColor: #ccc;
+	--textFrameColor: #333;
+	--textFrameBackground: #ccc;
+	--tapestryFrameColor: #333;
+	--tapestryFrameBackground: magenta;
 
 }
 
 .tapestrypage main {
 	width: calc(100% - calc(var(--navWidth) + calc(1px + calc(calc(var(--outsideMargin) + calc(var(--navGap) * 2))))));
 	overflow-x: hidden;
+	height: 100vh;
 }
 
 .tapestrypage .viewport {
+	box-sizing: border-box;
 	overflow-x: auto;
+	padding-right: var(--navGap);
+	padding-bottom: var(--navGap);
 }
 
 .tapestrypage h1, .tapestrypage h2 {
@@ -75,6 +83,11 @@
 	box-sizing: border-box;
 }
 
+.tapestryItem {
+	box-sizing: border-box;
+	border: 1px solid var(--borderColor);
+}
+
 .tapestryItemHead {
 	box-sizing: border-box;
 	height: calc(var(--headerHeight) - var(--textPadding));
@@ -90,10 +103,10 @@
 
 .textframe {
 	box-sizing: border-box;
-	border: 1px solid var(--borderColor);
 	height: 100%;
 	overflow-y: hidden;
 	padding-bottom: var(--textPadding);
+	background-color: var(--textFrameBackground);
 }
 
 .textframe > div {
@@ -102,8 +115,26 @@
 	padding:  0 var(--textPadding) var(--textPadding) var(--textPadding);
 	width: 100%;
 	overflow-y: auto;
+	color: var(--textFrameColor);
 }
 
+.tapestryframe {
+	color: var(--tapestryFrameColor);
+	background-color: var(--tapestryFrameBackground);
+	height: 100%;
+}
+
+.tapestryframe a {
+	display: block;
+	height: 100%;
+	width: 100%;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--tapestryFrameColor);
+	font-weight: bold;
+	font-size: 150%;
+}
 
 
 @media (max-width: 1023px) {

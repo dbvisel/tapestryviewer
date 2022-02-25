@@ -31,7 +31,8 @@ const bertha = alex.fork({ newTitle: "Bertha", newAuthor: "Sally" });
 
 const item1 = new Item({
   title: "Item 1",
-  content: "This is text frame #1",
+  content:
+    "This is text frame #1 on Bertha. Bertha was forked from Alex, but it doesn't have all of Alex's things because things were added to Alex after Bertha was created.",
   x: 1,
   y: 1,
   width: 2,
@@ -39,7 +40,8 @@ const item1 = new Item({
 });
 const item2 = new Item({
   title: "Item 2",
-  content: "This is text frame #2",
+  content:
+    "These two frames were added to Bertha after Bertha was created; you won't see them on Alex, because when Bertha was created, Alex didn't actually have any items!",
   x: 1,
   y: 2,
   width: 1,
@@ -57,7 +59,7 @@ const chris = alex.fork({ newSlug: "secondFork" });
 
 // fork the second tapesty.
 
-const doris = bertha.fork({});
+const doris = bertha.fork({ newTitle: "Doris" });
 
 // make another new text frame and add it to the newly created tapestry.
 
@@ -79,14 +81,30 @@ const ernest = new Tapestry({ title: "Ernest", forkable: false });
 
 ernest.publish("publicWithLink");
 
-const e1 = new Item({ title: "1", x: 1, y: 1 });
+const e1 = new Item({
+  title: "1",
+  x: 1,
+  y: 1,
+  content:
+    "If the content is too wide for the page, you can scroll to see it all.",
+});
 const e2 = new Item({ title: "2", x: 2, y: 1 });
 const e3 = new Item({ title: "3", x: 3, y: 1 });
 const e4 = new Item({ title: "4", x: 4, y: 1 });
 const e5 = new Item({ title: "5", x: 5, y: 1 });
 const e6 = new Item({ title: "6", x: 6, y: 1 });
-const e7 = new Item({ title: "7", x: 7, y: 1 });
-const e8 = new Item({ title: "8", x: 8, y: 1 });
+const e7 = new Item({
+  title: "7",
+  x: 7,
+  y: 1,
+  content: "Keep scrolling: there's another frame.",
+});
+const e8 = new Item({
+  title: "8",
+  x: 28,
+  y: 1,
+  content: "This is the last one.",
+});
 
 ernest.addItem(e1);
 ernest.addItem(e2);
@@ -96,6 +114,15 @@ ernest.addItem(e5);
 ernest.addItem(e6);
 ernest.addItem(e7);
 ernest.addItem(e8);
+
+const tapestryLink = new Item({
+  title: "Link to Doris",
+  type: "tapestry",
+  url: "alex_fork_fork",
+  x: 3,
+  y: 3,
+});
+alex.addItem(tapestryLink);
 
 // send all of these tapestries out as data for the rest of the site.
 

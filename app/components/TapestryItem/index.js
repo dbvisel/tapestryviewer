@@ -1,7 +1,15 @@
+import { Link } from "remix";
+
 const TextFrame = ({ title, content }) => (
   <div className="textframe">
     <h2 className="tapestryItemHead">{title}</h2>
     <div dangerouslySetInnerHTML={{ __html: content }} />
+  </div>
+);
+
+const TapestryFrame = ({ title, link }) => (
+  <div className="tapestryframe">
+    <Link to={`/tapestry/${link}`}>{title}</Link>
   </div>
 );
 
@@ -19,6 +27,8 @@ const TapestryItem = ({ item }) => {
     >
       {item.type === "textFrame" ? (
         <TextFrame title={item.title} content={item.content} />
+      ) : item.type === "tapestry" ? (
+        <TapestryFrame title={item.title} link={item.url} />
       ) : (
         item.title
       )}
