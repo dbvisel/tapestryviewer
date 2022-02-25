@@ -1,6 +1,6 @@
 const TextFrame = ({ title, content }) => (
   <div className="textframe">
-    <h2>{title}</h2>
+    <h2 className="tapestryItemHead">{title}</h2>
     <div dangerouslySetInnerHTML={{ __html: content }} />
   </div>
 );
@@ -9,6 +9,7 @@ const TapestryItem = ({ item }) => {
   console.log(item);
   return (
     <section
+      className="tapestryItem"
       style={{
         gridColumnStart: item.x,
         gridColumnEnd: item.x + item.width,

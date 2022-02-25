@@ -79,6 +79,24 @@ const ernest = new Tapestry({ title: "Ernest", forkable: false });
 
 ernest.publish("publicWithLink");
 
+const e1 = new Item({ title: "1", x: 1, y: 1 });
+const e2 = new Item({ title: "2", x: 2, y: 1 });
+const e3 = new Item({ title: "3", x: 3, y: 1 });
+const e4 = new Item({ title: "4", x: 4, y: 1 });
+const e5 = new Item({ title: "5", x: 5, y: 1 });
+const e6 = new Item({ title: "6", x: 6, y: 1 });
+const e7 = new Item({ title: "7", x: 7, y: 1 });
+const e8 = new Item({ title: "8", x: 8, y: 1 });
+
+ernest.addItem(e1);
+ernest.addItem(e2);
+ernest.addItem(e3);
+ernest.addItem(e4);
+ernest.addItem(e5);
+ernest.addItem(e6);
+ernest.addItem(e7);
+ernest.addItem(e8);
+
 // send all of these tapestries out as data for the rest of the site.
 
 const manualTapestries = [alex, bertha, chris, doris, ernest];
