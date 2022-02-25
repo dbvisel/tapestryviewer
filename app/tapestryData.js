@@ -1,7 +1,7 @@
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 import Tapestry from "./models/tapestry.mjs";
 import Item from "./models/item.mjs";
-import googleData from "./data/googleData.json";
+import googleData from "app/data/googleData.json";
 
 console.log("running tapestrydata.js");
 
