@@ -5,11 +5,17 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "remix";
+import { getTapestries } from "~/tapestryData";
 import globalStyles from "~/styles/global.css";
 
 export const links = () => {
   return [{ rel: "stylesheet", href: globalStyles }];
+};
+
+export const loader = async () => {
+  return { tapestries: await getTapestries() };
 };
 
 export function meta() {
@@ -17,6 +23,7 @@ export function meta() {
 }
 
 export default function App() {
+  const data = useLoaderData();
   return (
     <html lang="en">
       <head>
@@ -30,7 +37,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Outlet context={data} />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

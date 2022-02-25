@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { slugify } from "../utils/utils";
+import { slugify } from "../utils/utils.mjs";
 
 class Tapestry {
   constructor({

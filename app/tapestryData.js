@@ -1,6 +1,9 @@
 const { GoogleSpreadsheet } = require("google-spreadsheet");
-import Tapestry from "./models/tapestry";
-import Item from "./models/item";
+import Tapestry from "./models/tapestry.mjs";
+import Item from "./models/item.mjs";
+import googleData from "./data/googleData.json";
+
+console.log("running tapestrydata.js");
 
 // make a new tapestry.
 
@@ -73,7 +76,6 @@ const getGoogleSpreadsheetData = async () => {
   const itemRows = await itemSheet.getRows();
   for (let i = 0; i < tapestryRows.length; i++) {
     const thisTapestryRow = tapestryRows[i];
-    const thisId = thisTapestry.id;
     const thisTapestry = new Tapestry({
       title: thisTapestryRow.title,
       slug: thisTapestryRow.slug,
@@ -81,6 +83,7 @@ const getGoogleSpreadsheetData = async () => {
       forkable: Boolean(thisTapestryRow.forkable),
       items: [],
     });
+    const thisId = thisTapestry.id;
     for (let j = 0; j < itemRows.length; j++) {
       const thisItemRow = itemRows[j];
       const thisItemId = thisItemRow.tapestryId;
@@ -101,15 +104,67 @@ const getGoogleSpreadsheetData = async () => {
 
 // TODO: figure out how to make sure that query is only executed once per build
 
+const getFakeGoogleSpreadsheetData = async () => {
+  console.log("running fake get google data");
+
+  const fakeTapestry1 = new Tapestry({
+    title: "Fake Tapestry 1",
+    author: "Dan Visel",
+    forkable: true,
+    published: "published",
+  });
+  const fakeTapestry2 = new Tapestry({
+    title: "Fake Tapestry 2",
+    author: "Dan Visel",
+    forkable: true,
+    published: "published",
+  });
+  const fakeTapestry3 = new Tapestry({
+    title: "Fake Tapestry 3",
+    author: "Dan Visel",
+    forkable: true,
+    published: "published",
+  });
+  return [fakeTapestry1, fakeTapestry2, fakeTapestry3];
+};
+
+const getDownloadedGoogleData = async () => {
+  const googleTapestries = [];
+  for (let i = 0; i < googleData.tapestryRows.length; i++) {
+    const thisTapestryRow = googleData.tapestryRows[i];
+    const thisTapestry = new Tapestry({
+      title: thisTapestryRow.title,
+      slug: thisTapestryRow.slug,
+      author: thisTapestryRow.author,
+      forkable: Boolean(thisTapestryRow.forkable),
+      items: [],
+    });
+    const thisId = thisTapestryRow.id;
+    for (let j = 0; j < googleData.itemRows.length; j++) {
+      const thisItemRow = googleData.itemRows[j];
+      const thisItemId = thisItemRow.tapestryId;
+      if (thisItemId === thisId) {
+        const thisItem = new Item({
+          title: thisItemRow.title,
+          content: thisItemRow.content,
+          type: thisItemRow.type,
+        });
+        thisTapestry.addItem(thisItem);
+      }
+    }
+    googleTapestries[googleTapestries.length] = thisTapestry;
+  }
+  return googleTapestries;
+};
+
 export async function getTapestries() {
-  const googleTapestries = []; //await getGoogleSpreadsheetData();
+  const googleTapestries = await getDownloadedGoogleData();
   const tapestries = [...manualTapestries, ...googleTapestries];
   return tapestries;
 }
 
 export async function getTapestryFromSlug(slug) {
-  const googleTapestries = []; // await getGoogleSpreadsheetData();
+  const googleTapestries = await getDownloadedGoogleData();
   const tapestries = [...manualTapestries, ...googleTapestries];
-  console.log(slug);
-  return tapestries.find((t) => t.slug === slug);
+  return tapestries.find((t) => t.slug === slug) || null;
 }

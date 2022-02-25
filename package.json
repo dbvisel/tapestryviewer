@@ -5,6 +5,7 @@
   "license": "",
   "sideEffects": false,
   "scripts": {
+		"download": "node scripts/downloadGoogleData.mjs",
     "build": "remix build",
     "dev": "cross-env NODE_ENV=development netlify dev",
     "postinstall": "remix setup node",

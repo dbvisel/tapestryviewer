@@ -1,13 +1,8 @@
-import { Link, useLoaderData } from "remix";
-import { getTapestries } from "~/tapestryData";
-import { cleanDate } from "~/utils/utils";
-
-export const loader = async () => {
-  return getTapestries();
-};
+import { Link, useOutletContext } from "remix";
+import { cleanDate } from "~/utils/utils.mjs";
 
 export default function MainIndex() {
-  const tapestries = useLoaderData();
+  const { tapestries } = useOutletContext();
   return (
     <div style={{ maxWidth: 800, marginLeft: "auto", marginRight: "auto" }}>
       <h1>Tapestries</h1>
@@ -32,7 +27,7 @@ export default function MainIndex() {
         <a href="https://docs.google.com/spreadsheets/d/1EfdUXGmHdiJ5gcqZn4LdBJuXB0L6QZvKe3Vd7RP33SM/edit?usp=sharing">
           here
         </a>
-        , though I'm not yet pulling that data in.
+        , though that data is only pulled in manually at the moment.
       </p>
       {/*<p>
         If you have added another tapestry in the Google sheet, click here to

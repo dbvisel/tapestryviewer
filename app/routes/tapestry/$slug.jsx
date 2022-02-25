@@ -1,35 +1,59 @@
-import { useLoaderData, Link } from "remix";
+import { Link, useCatch, useParams, useLoaderData } from "remix";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
 import {
   getTapestriesForkedFromThisOne,
   getTapestryForkHistory,
-} from "~/models/tapestry";
-import { cleanDate, publicationStatus } from "~/utils/utils";
+} from "~/models/tapestry.mjs";
+import { cleanDate, publicationStatus } from "~/utils/utils.mjs";
 
 export const loader = async ({ params }) => {
   invariant(params.slug, "expected params.slug");
   const tapestries = await getTapestries();
   const tapestry = await getTapestryFromSlug(params.slug);
-  const forkHistory = await getTapestryForkHistory(tapestries, tapestry);
-  const forkedFromThis = await getTapestriesForkedFromThisOne(
-    tapestries,
-    tapestry
-  );
-  return {
-    tapestry: tapestry,
-    forkHistory: forkHistory,
-    forkedFromThis: forkedFromThis,
-  };
+  if (tapestry) {
+    const forkHistory = await getTapestryForkHistory(tapestries, tapestry);
+    const forkedFromThis = await getTapestriesForkedFromThisOne(
+      tapestries,
+      tapestry
+    );
+    return {
+      tapestry: tapestry,
+      forkHistory: forkHistory,
+      forkedFromThis: forkedFromThis,
+    };
+  } else {
+    console.log("tapestry not found");
+    throw new Response("Tapestry not found", {
+      status: 404,
+    });
+  }
 };
 
 export const meta = (data) => {
-  const tapestry = data.data.tapestry;
-  return {
-    title: `Tapestry Viewer: ${tapestry.title}`,
-    description: `A sample tapestry by ${tapestry.author}`,
-  };
+  const tapestry = data?.data?.tapestry;
+  if (tapestry) {
+    return {
+      title: `Tapestry Viewer: ${tapestry.title}`,
+      description: `A sample tapestry by ${tapestry.author}`,
+    };
+  }
 };
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  const params = useParams();
+  console.error("Error: ", caught);
+  return (
+    <div>
+      <h1>Tapestry not found</h1>
+      <p>
+        A tapestry with the slug “{params.slug}” could not be found in the
+        system.
+      </p>
+    </div>
+  );
+}
 
 export default function TapestryPage() {
   const { tapestry, forkHistory, forkedFromThis } = useLoaderData();
