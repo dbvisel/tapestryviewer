@@ -21,7 +21,7 @@ const BookFrame = ({ title, url }) => (
 );
 
 const TapestryItem = ({ item }) => {
-  console.log(item);
+  // console.log(item);
   return (
     <section
       className="tapestryItem"
@@ -39,7 +39,11 @@ const TapestryItem = ({ item }) => {
       ) : item.type === "book" ? (
         <BookFrame title={item.title} url={item.url} />
       ) : (
-        item.title
+        <p>
+          Unrecognized item type: {item.title}
+          <br />
+          {JSON.stringify(item)}
+        </p>
       )}
     </section>
   );

@@ -65,7 +65,7 @@ const googleTapestries = {
   itemRows: outItemRows,
   tapestryRows: outTapestryRows,
 };
-console.log(googleTapestries);
+// console.log(googleTapestries);
 
 fs.writeFile(
   "./app/data/googledata.json",
