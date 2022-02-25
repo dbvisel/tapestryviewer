@@ -1,5 +1,4 @@
 import { Outlet, Link, useOutletContext } from "remix";
-import { cleanDate } from "~/utils/utils.mjs";
 
 import tapestryStyles from "~/styles/tapestries.css";
 
@@ -17,10 +16,7 @@ export default function TapestryOverview() {
           <ul>
             {tapestries.map((tapestry) => (
               <li key={tapestry.slug}>
-                →{" "}
-                <Link to={`${tapestry.slug}`}>
-                  {tapestry.title} ({cleanDate(tapestry.dateCreated)})
-                </Link>
+                → <Link to={`${tapestry.slug}`}>{tapestry.title}</Link>
               </li>
             ))}
           </ul>

@@ -1,17 +1,36 @@
 .tapestrypage {
   display: flex;
-	margin-left: 10px;
-	margin-right: 10px;
+	--navWidth: 300px;
+	--navGap: 25px;
 	--borderColor: #ccc;
 	--gridUnitSize: 200px;
 	--gridGap: 20px;
 	--textPadding: 10px;
 	--headerHeight: 50px;
+	--headerBackground: #333;
+	--headerColor: #ccc;
+
+}
+
+.tapestrypage main {
+	width: calc(100% - calc(var(--navWidth) + calc(1px + calc(calc(var(--outsideMargin) + calc(var(--navGap) * 2))))));
+	overflow-x: hidden;
+}
+
+.tapestrypage .viewport {
+	overflow-x: auto;
 }
 
 .tapestrypage h1, .tapestrypage h2 {
 	margin-top: 0;
 }
+
+.tapestrypage > nav {
+	width: var(--navWidth);
+	min-width: var(--navWidth);
+  padding-right: var(--navGap);
+}
+
 
 .tapestrypage nav ul {
 	margin: 0;
@@ -19,16 +38,12 @@
 }
 
 .tapestrypage nav li {
-	white-space: nowrap;
 	margin: 0;
 	padding: 0;
 	line-height: 1.5;
 	list-style-type: none;
 }
 
-.tapestrypage > nav {
-  padding-right: 2rem;
-}
 
 .tapestrypage > nav > div {
 	position: sticky;
@@ -38,7 +53,7 @@
 .tapestrypage > main {
   flex: 1;
   border-left: solid 1px #ccc;
-  padding-left: 2rem;
+  padding-left: var(--navGap);
 }
 
 .tapestrypage > main > div > h1 {
@@ -67,7 +82,8 @@
 	margin-bottom: var(--textPadding);
 	padding: 0 var(--textPadding);
 	display: inline-flex;
-	background-color: #333;
+	background-color: var(--headerBackground);
+	color: var(--headerColor);
 	width: 100%;
 	align-items: center;
 }

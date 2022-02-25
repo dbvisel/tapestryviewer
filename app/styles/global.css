@@ -1,5 +1,6 @@
 body { 
-	margin: 10px auto;
+	--outsideMargin: 10px;
+	margin: var(--outsideMargin) auto;
 	max-width: 100%;
 	line-height: 1.5;
 }

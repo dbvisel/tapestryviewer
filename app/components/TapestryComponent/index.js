@@ -31,15 +31,17 @@ const TapestryComponent = ({ tapestry }) => {
 
   console.log(tapestry);
   return (
-    <article className="tapestryGrid">
-      {tapestry.items.length ? (
-        tapestry.items.map((item, index) => (
-          <TapestryItem key={index} item={item} />
-        ))
-      ) : (
-        <p>(No items on this tapestry.)</p>
-      )}
-    </article>
+    <div className="viewport">
+      <article className="tapestryGrid">
+        {tapestry.items.length ? (
+          tapestry.items.map((item, index) => (
+            <TapestryItem key={index} item={item} />
+          ))
+        ) : (
+          <p>(No items on this tapestry.)</p>
+        )}
+      </article>
+    </div>
   );
 };
 
