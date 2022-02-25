@@ -1,6 +1,6 @@
 .tapestrypage {
   display: flex;
-	--navWidth: 300px;
+	--navWidth: 200px;
 	--navGap: 25px;
 	--borderColor: #ccc;
 	--gridUnitSize: 200px;
@@ -19,7 +19,7 @@
 .tapestrypage main {
 	width: calc(100% - calc(var(--navWidth) + calc(1px + calc(calc(var(--outsideMargin) + calc(var(--navGap) * 2))))));
 	overflow-x: hidden;
-	height: 100vh;
+	height: calc(100vh - calc(var(--outsideMargin) * 2));
 }
 
 .tapestrypage .viewport {
@@ -68,6 +68,8 @@
 	display: flex;
 	flex-direction: row;
 	align-items: baseline;
+	position: sticky;
+	top: 0;
 }
 
 .tapestrypage > main summary {

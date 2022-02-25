@@ -71,18 +71,8 @@ export default function TapestryPage() {
             fontSize: "50%",
           }}
         >
-          <a
-            href="/#"
-            onClick={(e) => {
-              e.preventDefault();
-              console.log("hi!");
-              setShowDetails(!showDetails);
-            }}
-          >
-            {showDetails ? "Hide" : "Show"} details
-          </a>
           {showDetails ? (
-            <span style={{ marginLeft: "1em" }}>
+            <span>
               Author: {tapestry.author}
               <span
                 style={{
@@ -94,6 +84,17 @@ export default function TapestryPage() {
               </span>
             </span>
           ) : null}
+          <a
+            style={{ marginLeft: "1em" }}
+            href="/#"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log("hi!");
+              setShowDetails(!showDetails);
+            }}
+          >
+            {showDetails ? "Hide" : "Show"} details
+          </a>
         </span>
       </h1>
       {showDetails ? (

@@ -88,11 +88,11 @@ const e1 = new Item({
   content:
     "If the content is too wide for the page, you can scroll to see it all.",
 });
-const e2 = new Item({ title: "2", x: 2, y: 1 });
-const e3 = new Item({ title: "3", x: 3, y: 1 });
-const e4 = new Item({ title: "4", x: 4, y: 1 });
-const e5 = new Item({ title: "5", x: 5, y: 1 });
-const e6 = new Item({ title: "6", x: 6, y: 1 });
+const e2 = new Item({ title: "2", x: 2, y: 2 });
+const e3 = new Item({ title: "3", x: 3, y: 3 });
+const e4 = new Item({ title: "4", x: 4, y: 4 });
+const e5 = new Item({ title: "5", x: 5, y: 3 });
+const e6 = new Item({ title: "6", x: 6, y: 2 });
 const e7 = new Item({
   title: "7",
   x: 7,
