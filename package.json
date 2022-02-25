@@ -5,7 +5,7 @@
   "license": "",
   "sideEffects": false,
   "scripts": {
-		"download": "node scripts/downloadGoogleData.mjs",
+    "download": "node scripts/downloadGoogleData.mjs",
     "build": "remix build",
     "dev": "cross-env NODE_ENV=development netlify dev",
     "postinstall": "remix setup node",
@@ -21,6 +21,7 @@
     "graphql-request": "^4.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-xarrows": "^2.0.2",
     "remix": "^1.2.2",
     "tiny-invariant": "^1.2.0",
     "uuid": "^8.3.2"

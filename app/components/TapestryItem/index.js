@@ -24,6 +24,7 @@ const TapestryItem = ({ item }) => {
   // console.log(item);
   return (
     <section
+      id={item.id}
       className="tapestryItem"
       style={{
         gridColumnStart: item.x,

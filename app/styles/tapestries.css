@@ -37,6 +37,10 @@
 	width: var(--navWidth);
 	min-width: var(--navWidth);
   padding-right: var(--navGap);
+	background: var(--background-body);
+	z-index: 2;
+	margin-left: -10px;
+	padding-left: 10px;
 }
 
 
@@ -62,6 +66,7 @@
   flex: 1;
   border-left: solid 1px #ccc;
   padding-left: var(--navGap);
+	z-index: 1;
 }
 
 .tapestrypage > main > div > h1 {

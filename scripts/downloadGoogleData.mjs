@@ -59,13 +59,14 @@ const outItemRows = itemRows.map((x) => {
     y: Number(x.y),
     width: Number(x.width),
     height: Number(x.height),
+    linksTo: x.linksTo ? x.linksTo.split(",") : [],
   };
 });
 const googleTapestries = {
   itemRows: outItemRows,
   tapestryRows: outTapestryRows,
 };
-// console.log(googleTapestries);
+// console.log(googleTapestries.itemRows);
 
 fs.writeFile(
   "./app/data/googledata.json",

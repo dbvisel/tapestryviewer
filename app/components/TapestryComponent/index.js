@@ -1,3 +1,4 @@
+import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import TapestryItem from "~/components/TapestryItem";
 
 const calculateTapestrySize = (items) => {
@@ -23,25 +24,56 @@ const calculateTapestrySize = (items) => {
   return { minX, minY, maxX, maxY };
 };
 
+const makeLinkList = (items) => {
+  const linksList = [];
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].linksTo.length) {
+      for (let j = 0; j < items[i].linksTo.length; j++) {
+        const linkTo = items[i].linksTo[j];
+        const linkFrom = items[i].id;
+        const link = {
+          from: linkFrom,
+          to: linkTo,
+        };
+        linksList.push(link);
+      }
+    }
+  }
+  return linksList;
+};
+
 const TapestryComponent = ({ tapestry }) => {
   // make sure no items overlap?
   // get tapestry size.
 
   // console.log(calculateTapestrySize(tapestry.items));
 
-  // console.log(tapestry);
+  console.log(tapestry.items);
+  const linksList = makeLinkList(tapestry.items);
+  console.log(linksList);
+  const updateXarrow = useXarrow();
   return (
-    <div className="viewport">
-      <article className="tapestryGrid">
-        {tapestry.items.length ? (
-          tapestry.items.map((item, index) => (
-            <TapestryItem key={index} item={item} />
-          ))
-        ) : (
-          <p>(No items on this tapestry.)</p>
-        )}
-      </article>
-    </div>
+    <Xwrapper>
+      <div className="viewport" onScroll={updateXarrow}>
+        <article className="tapestryGrid">
+          {tapestry.items.length ? (
+            tapestry.items.map((item, index) => (
+              <TapestryItem key={index} item={item} />
+            ))
+          ) : (
+            <p>(No items on this tapestry.)</p>
+          )}
+          {linksList.map((link, index) => (
+            <Xarrow
+              key={index}
+              start={link.from} //can be react ref
+              end={link.to} //or an id
+              curveness={0.5}
+            />
+          ))}
+        </article>
+      </div>
+    </Xwrapper>
   );
 };
 

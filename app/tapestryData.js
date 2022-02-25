@@ -43,7 +43,7 @@ const item2 = new Item({
   content:
     "These two frames were added to Bertha after Bertha was created; you won't see them on Alex, because when Bertha was created, Alex didn't actually have any items!",
   x: 1,
-  y: 2,
+  y: 3,
   width: 1,
   height: 2,
 });
@@ -80,10 +80,12 @@ const item3 = new Item({
   content: "This is text frame #3",
   width: 2,
   height: 2,
-  x: 3,
+  x: 4,
   y: 3,
 });
 doris.addItem(item3);
+doris.addLink(doris.items[0].id, doris.items[1].id);
+doris.addLink(doris.items[1].id, doris.items[2].id);
 
 // make a new tapestry from scratch.
 
@@ -93,29 +95,34 @@ const ernest = new Tapestry({ title: "Ernest", forkable: false });
 
 ernest.publish("publicWithLink");
 
+// a bunch of text frames. They're being defined in reverse order so that we have an ID to link to.
+// You could also do this with the item.addLink method.
+
+const e8 = new Item({
+  title: "8",
+  x: 28,
+  y: 1,
+  content: "This is the last one.",
+});
+const e7 = new Item({
+  title: "7",
+  x: 7,
+  y: 1,
+  content: "Keep scrolling: there's another frame.",
+  linksTo: [e8.id],
+});
+const e6 = new Item({ title: "6", x: 6, y: 2, linksTo: [e7.id] });
+const e5 = new Item({ title: "5", x: 5, y: 3, linksTo: [e6.id] });
+const e4 = new Item({ title: "4", x: 4, y: 4, linksTo: [e5.id] });
+const e3 = new Item({ title: "3", x: 3, y: 3, linksTo: [e4.id] });
+const e2 = new Item({ title: "2", x: 2, y: 2, linksTo: [e3.id] });
 const e1 = new Item({
   title: "1",
   x: 1,
   y: 1,
   content:
     "If the content is too wide for the page, you can scroll to see it all.",
-});
-const e2 = new Item({ title: "2", x: 2, y: 2 });
-const e3 = new Item({ title: "3", x: 3, y: 3 });
-const e4 = new Item({ title: "4", x: 4, y: 4 });
-const e5 = new Item({ title: "5", x: 5, y: 3 });
-const e6 = new Item({ title: "6", x: 6, y: 2 });
-const e7 = new Item({
-  title: "7",
-  x: 7,
-  y: 1,
-  content: "Keep scrolling: there's another frame.",
-});
-const e8 = new Item({
-  title: "8",
-  x: 28,
-  y: 1,
-  content: "This is the last one.",
+  linksTo: [e2.id],
 });
 
 ernest.addItem(e1);
@@ -210,34 +217,9 @@ const getGoogleSpreadsheetData = async () => {
   return googleTapestries;
 };
 
-// TODO: figure out how to make sure that query is only executed once per build
-
-const getFakeGoogleSpreadsheetData = async () => {
-  console.log("running fake get google data");
-
-  const fakeTapestry1 = new Tapestry({
-    title: "Fake Tapestry 1",
-    author: "Dan Visel",
-    forkable: true,
-    published: "published",
-  });
-  const fakeTapestry2 = new Tapestry({
-    title: "Fake Tapestry 2",
-    author: "Dan Visel",
-    forkable: true,
-    published: "published",
-  });
-  const fakeTapestry3 = new Tapestry({
-    title: "Fake Tapestry 3",
-    author: "Dan Visel",
-    forkable: true,
-    published: "published",
-  });
-  return [fakeTapestry1, fakeTapestry2, fakeTapestry3];
-};
-
 const getDownloadedGoogleData = async () => {
   const googleTapestries = [];
+  const listOfGoogleIds = [];
   for (let i = 0; i < googleData.tapestryRows.length; i++) {
     const thisTapestryRow = googleData.tapestryRows[i];
     const thisTapestry = new Tapestry({
@@ -261,10 +243,22 @@ const getDownloadedGoogleData = async () => {
           width: thisItemRow.width,
           height: thisItemRow.height,
           url: thisItemRow.url,
+          linksTo: thisItemRow.linksTo,
         });
+        listOfGoogleIds[thisItemRow.id] = thisItem.id;
         thisTapestry.addItem(thisItem);
       }
     }
+
+    for (let j = 0; j < thisTapestry.items.length; j++) {
+      for (let k = 0; k < thisTapestry.items[j].linksTo.length; k++) {
+        if (listOfGoogleIds[thisTapestry.items[j].linksTo[k]]) {
+          thisTapestry.items[j].linksTo[k] =
+            listOfGoogleIds[thisTapestry.items[j].linksTo[k]];
+        }
+      }
+    }
+
     googleTapestries[googleTapestries.length] = thisTapestry;
   }
   return googleTapestries;

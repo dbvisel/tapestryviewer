@@ -22,7 +22,7 @@ class Item {
     y,
     width,
     height,
-    links,
+    linksTo,
   }) {
     this.id = uuidv4();
     this.title = title || "New Item";
@@ -38,7 +38,7 @@ class Item {
     this.width = width || 1;
     this.height = height || 1;
     this.clippingSetting = clippingSetting;
-    this.links = links || []; // array of Links
+    this.linksTo = linksTo || []; // array of IDs of other items in the same tapestry
   }
 }
 

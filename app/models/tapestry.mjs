@@ -46,6 +46,16 @@ class Tapestry {
     newItemList[newItemList.length] = item;
     this.items = newItemList;
   };
+  addLink = (fromId, toId) => {
+    const myItemIds = this.items.map((item) => item.id);
+    if (myItemIds.indexOf(fromId) > -1 && myItemIds.indexOf(toId) > -1) {
+      console.log("Creating link from " + fromId + " to " + toId);
+      this.createNewVersion();
+      const newLinks = JSON.parse(JSON.stringify(this.items));
+      newLinks[myItemIds.indexOf(fromId)].linksTo.push(toId);
+      this.items = newLinks;
+    }
+  };
   fork = ({ newAuthor, newSlug, newTitle }) => {
     // TODO: if a tapestry has been forked, shouldn't it retain a record of where it has been forked to?
     if (this.forkable) {
