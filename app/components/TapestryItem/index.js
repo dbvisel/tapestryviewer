@@ -13,6 +13,13 @@ const TapestryFrame = ({ title, link }) => (
   </div>
 );
 
+const BookFrame = ({ title, url }) => (
+  <div className="bookframe">
+    <h2 className="tapestryItemHead">{title}</h2>
+    <iframe src={url} />
+  </div>
+);
+
 const TapestryItem = ({ item }) => {
   console.log(item);
   return (
@@ -29,6 +36,8 @@ const TapestryItem = ({ item }) => {
         <TextFrame title={item.title} content={item.content} />
       ) : item.type === "tapestry" ? (
         <TapestryFrame title={item.title} link={item.url} />
+      ) : item.type === "book" ? (
+        <BookFrame title={item.title} url={item.url} />
       ) : (
         item.title
       )}

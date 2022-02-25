@@ -90,6 +90,13 @@
 	border: 1px solid var(--borderColor);
 }
 
+.tapestryItem > div {
+	height: 100%;
+	/* height: calc(100% - var(--headerHeight)); */
+	box-sizing: border-box;
+}
+
+
 .tapestryItemHead {
 	box-sizing: border-box;
 	height: calc(var(--headerHeight) - var(--textPadding));
@@ -137,6 +144,18 @@
 	font-weight: bold;
 	font-size: 150%;
 }
+
+.bookframe .tapestryItemHead {
+	margin-bottom: 0;
+}
+
+.bookframe iframe {
+	box-sizing: border-box;
+	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
+	width: 100%;
+}
+
+
 
 
 @media (max-width: 1023px) {

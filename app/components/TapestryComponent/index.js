@@ -27,9 +27,9 @@ const TapestryComponent = ({ tapestry }) => {
   // make sure no items overlap?
   // get tapestry size.
 
-  console.log(calculateTapestrySize(tapestry.items));
+  // console.log(calculateTapestrySize(tapestry.items));
 
-  console.log(tapestry);
+  // console.log(tapestry);
   return (
     <div className="viewport">
       <article className="tapestryGrid">

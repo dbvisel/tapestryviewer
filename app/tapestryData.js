@@ -149,7 +149,18 @@ const fionaIntro = new Item({
   width: 3,
 });
 
+const fionaBook = new Item({
+  title: "Computers as Theater",
+  url: "https://archive.org/embed/computersasthea000laur/mode/1up",
+  type: "book",
+  x: 1,
+  y: 2,
+  width: 2,
+  height: 3,
+});
+
 fiona.addItem(fionaIntro);
+fiona.addItem(fionaBook);
 
 // send all of these tapestries out as data for the rest of the site.
 
