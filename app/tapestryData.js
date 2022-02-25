@@ -138,6 +138,8 @@ const tapestryLink = new Item({
 });
 alex.addItem(tapestryLink);
 
+// make another new one.
+
 const fiona = alex.fork({ newTitle: "Fiona", newSlug: "Fiona" });
 
 const fionaIntro = new Item({
@@ -148,6 +150,8 @@ const fionaIntro = new Item({
   y: 1,
   width: 3,
 });
+
+// add in a book.
 
 const fionaBook = new Item({
   title: "Computers as Theater",
@@ -256,6 +260,7 @@ const getDownloadedGoogleData = async () => {
           y: thisItemRow.y,
           width: thisItemRow.width,
           height: thisItemRow.height,
+          url: thisItemRow.url,
         });
         thisTapestry.addItem(thisItem);
       }
