@@ -38,13 +38,18 @@ const itemRows = await itemSheet.getRows();
 
 //   googleTapestries[googleTapestries.length] = thisTapestry;
 // }
+const slugList = [];
 const outTapestryRows = tapestryRows.map((x) => {
+  const thisSlug =
+    slugList.indexOf(x.slug) > -1 ? x.slug + "_" + slugList.length : x.slug;
+  slugList[slugList.length] = thisSlug;
   return {
     id: x.id,
     title: x.title,
-    slug: x.slug,
+    slug: thisSlug,
     author: x.author,
     forkable: Boolean(x.forkable),
+    background: x.background,
   };
 });
 const outItemRows = itemRows.map((x) => {

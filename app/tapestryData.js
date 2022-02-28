@@ -13,6 +13,7 @@ const alex = new Tapestry({
   author: "Dan Visel",
   forkable: true,
   published: "published",
+  background: "none",
 });
 
 // make a new version of it – this adds an entry to its history
@@ -89,7 +90,11 @@ doris.addLink(doris.items[1].id, doris.items[2].id);
 
 // make a new tapestry from scratch.
 
-const ernest = new Tapestry({ title: "Ernest", forkable: false });
+const ernest = new Tapestry({
+  title: "Ernest",
+  forkable: false,
+  background: "tan",
+});
 
 // change the publication status of that tapestry.
 
@@ -227,6 +232,7 @@ const getDownloadedGoogleData = async () => {
       slug: thisTapestryRow.slug,
       author: thisTapestryRow.author,
       forkable: Boolean(thisTapestryRow.forkable),
+      background: thisTapestryRow.background,
       items: [],
     });
     const thisId = thisTapestryRow.id;

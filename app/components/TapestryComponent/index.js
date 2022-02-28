@@ -43,6 +43,7 @@ const makeLinkList = (items) => {
 };
 
 const TapestryComponent = ({ tapestry }) => {
+  console.log(tapestry);
   // make sure no items overlap?
   // get tapestry size.
 
@@ -54,7 +55,11 @@ const TapestryComponent = ({ tapestry }) => {
   const updateXarrow = useXarrow();
   return (
     <Xwrapper>
-      <div className="viewport" onScroll={updateXarrow}>
+      <div
+        className="viewport"
+        onScroll={updateXarrow}
+        style={{ background: tapestry.background, backgroundSize: "cover" }}
+      >
         <article className="tapestryGrid">
           {tapestry.items.length ? (
             tapestry.items.map((item, index) => (
