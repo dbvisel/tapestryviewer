@@ -58,7 +58,7 @@ const TapestryComponent = ({ tapestry }) => {
       <div
         className="viewport"
         onScroll={updateXarrow}
-        style={{ background: tapestry.background, backgroundSize: "cover" }} // "cover" isn't firing at first on Safari?
+        style={{ background: tapestry.background, backgroundSize: "cover" }} // "cover" isn't firing sometimes!
       >
         <article className="tapestryGrid">
           {tapestry.items.length ? (

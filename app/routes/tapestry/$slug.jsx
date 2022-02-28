@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useCatch, useParams, useLoaderData } from "remix";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
@@ -61,7 +62,7 @@ export default function TapestryPage() {
   const { tapestry, forkHistory, forkedFromThis } = useLoaderData();
   const [showDetails, setShowDetails] = React.useState(false);
   return (
-    <div>
+    <Fragment>
       <h1>
         {tapestry.title}
         <span
@@ -106,6 +107,6 @@ export default function TapestryPage() {
       ) : (
         <TapestryComponent tapestry={tapestry} />
       )}
-    </div>
+    </Fragment>
   );
 }

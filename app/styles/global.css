@@ -3,4 +3,5 @@ body {
 	margin: var(--outsideMargin) auto;
 	max-width: 100%;
 	line-height: 1.5;
+	padding: 0;
 }

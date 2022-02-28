@@ -17,10 +17,13 @@
 }
 
 .tapestrypage main {
-	width: calc(100% - calc(var(--navWidth) + calc(1px + calc(calc(var(--outsideMargin) + calc(calc(var(--navGap) * 2) + var(--gridGap)))))));
+	width: 100vw;
 	overflow-x: hidden;
-	height: calc(100vh - calc(var(--outsideMargin) * 2));
+	/* height: calc(100vh - calc(var(--outsideMargin) * 2)); */
+  flex: 1;
+	z-index: 1;
 }
+
 
 .tapestrypage .viewport {
 	box-sizing: border-box;
@@ -33,43 +36,9 @@
 
 .tapestrypage h1, .tapestrypage h2 {
 	margin-top: 0;
+	padding: 0 20px;
 }
 
-.tapestrypage > nav {
-	width: var(--navWidth);
-	min-width: var(--navWidth);
-  padding-right: var(--navGap);
-	background: var(--background-body);
-	z-index: 2;
-	margin-left: -10px;
-	padding-left: 10px;
-}
-
-
-.tapestrypage nav ul {
-	margin: 0;
-	padding: 0;
-}
-
-.tapestrypage nav li {
-	margin: 0;
-	padding: 0;
-	line-height: 1.5;
-	list-style-type: none;
-}
-
-
-.tapestrypage > nav > div {
-	position: sticky;
-	top: 20px;
-}
-
-.tapestrypage > main {
-  flex: 1;
-  border-left: solid 1px #ccc;
-  padding-left: var(--navGap);
-	z-index: 1;
-}
 
 .tapestrypage > main > div > h1 {
 	display: flex;
@@ -185,18 +154,10 @@
 		flex-direction: column;
 	}
 
-	.tapestrypage nav li {
-		white-space: initial;
-	}
-
-	.tapestrypage > nav {
-		padding-right: 0;
-	}
-	
 	.tapestrypage > main {
 		border-left: none;
 		padding-left: 0;
-		border-top: solid 1px #ccc;
+		border-top: solid 1px var(--borderColor);
 		margin-top: 20px;
 		padding-top: 10px;
 	}

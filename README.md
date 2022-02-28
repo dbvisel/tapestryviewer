@@ -48,5 +48,8 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ## TODO:
 - set grid unit/gap as tapestry settings
-- move nav/settings to drawers
+- move settings to drawer
 - add in focus
+
+## bugs
+ - background image sizing isn't always right!
