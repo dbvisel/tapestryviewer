@@ -13,6 +13,7 @@ nav.tapestrynav {
 	top: 50%;
 	transform: translateX(-100%);
 	transition: 0.5s;
+	box-shadow: 5px -5px 5px rgba(0,0,0,0.125);
 }
 
 nav.tapestrynav > h2 {

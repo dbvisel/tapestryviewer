@@ -57,26 +57,27 @@ const TapestryComponent = ({ tapestry }) => {
     <Xwrapper>
       <div
         className="viewport"
-        onScroll={updateXarrow}
         style={{ background: tapestry.background, backgroundSize: "cover" }} // "cover" isn't firing sometimes!
       >
-        <article className="tapestryGrid">
-          {tapestry.items.length ? (
-            tapestry.items.map((item, index) => (
-              <TapestryItem key={index} item={item} />
-            ))
-          ) : (
-            <p>(No items on this tapestry.)</p>
-          )}
-          {linksList.map((link, index) => (
-            <Xarrow
-              key={index}
-              start={link.from} //can be react ref
-              end={link.to} //or an id
-              curveness={0.5}
-            />
-          ))}
-        </article>
+        <div className="scroller" onScroll={updateXarrow}>
+          <article className="tapestryGrid">
+            {tapestry.items.length ? (
+              tapestry.items.map((item, index) => (
+                <TapestryItem key={index} item={item} />
+              ))
+            ) : (
+              <p>(No items on this tapestry.)</p>
+            )}
+            {linksList.map((link, index) => (
+              <Xarrow
+                key={index}
+                start={link.from} //can be react ref
+                end={link.to} //or an id
+                curveness={0.5}
+              />
+            ))}
+          </article>
+        </div>
       </div>
     </Xwrapper>
   );

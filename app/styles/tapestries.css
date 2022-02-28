@@ -1,5 +1,6 @@
 .tapestrypage {
   display: flex;
+	--headerHeight: 50px;
 	--navWidth: 200px;
 	--navGap: 25px;
 	--borderColor: #ccc;
@@ -18,7 +19,6 @@
 
 .tapestrypage main {
 	width: 100vw;
-	overflow-x: hidden;
 	/* height: calc(100vh - calc(var(--outsideMargin) * 2)); */
   flex: 1;
 	z-index: 1;
@@ -26,26 +26,49 @@
 
 
 .tapestrypage .viewport {
+	position: fixed;
+	top: var(--headerHeight);
+	left: 0;
+	right: 0;
+	bottom: 0;
 	box-sizing: border-box;
+	overflow-x: hidden;
+	padding: 0;
+	background-size: cover !important;
+}
+
+.scroller {
+	box-sizing: border-box;
+	min-height: 100%;
 	overflow-x: auto;
+	overflow-y: auto;
 	padding-right: var(--navGap);
 	padding-bottom: var(--navGap);
 	padding-left: var(--gridGap);
 	padding-top: var(--gridGap);
-}
-
-.tapestrypage h1, .tapestrypage h2 {
-	margin-top: 0;
-	padding: 0 20px;
+	margin-right: var(--navGap);
 }
 
 
-.tapestrypage > main > div > h1 {
+.tapestrypage h1 {
+	height: var(--headerHeight);
 	display: flex;
 	flex-direction: row;
-	align-items: baseline;
-	position: sticky;
-	top: 0;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+	box-sizing: border-box;
+	padding: 0 20px;
+	font-size: 28px;
+}
+
+.tapestrypage h2 {
+	margin-top: 0;
+}
+
+.tapestrypage > main  details {
+	margin: var(--outsideMargin);
+
 }
 
 .tapestrypage > main summary {
