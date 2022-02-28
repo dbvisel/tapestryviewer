@@ -43,7 +43,7 @@ const makeLinkList = (items) => {
 };
 
 const TapestryComponent = ({ tapestry }) => {
-  console.log(tapestry);
+  // console.log(tapestry);
   // make sure no items overlap?
   // get tapestry size.
 
