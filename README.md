@@ -28,6 +28,9 @@ For items, **type** can currently be:
 
  - **textFrame**, a text frame; if this is chosen, set _content_ to whatever HTML you want to appear in the frame. 
  - **book**, an Internet Archive book; if this is chosen, set _url_ to the book's URL. The form _https://archive.org/embed/xxxxxxxx/mode/1up_ works pretty well.
+ - **image**, an Internet Archive image; if this is chosen, set _url_ to the image's URL. The form _https://archive.org/embed/xxxxxxxx_ works pretty well.
+ - **audio**, an Internet Archive audio; if this is chosen, set _url_ to the audio's URL. The form _https://archive.org/embed/xxxxxxxx/yyyyyyyy_ works pretty well.
+ - **video**, an Internet Archive video; if this is chosen, set _url_ to the video's URL. The form _https://archive.org/embed/xxxxxxxx_ works pretty well.
  - **tapestry**, another tapestry; if this is chosen, set _url_ to the slug of another tapestry, making sure that that slug is unique.
 
 ### Grids
@@ -43,8 +46,7 @@ To put an item at a specific point in the grid, set _x_ and _y_ to the desired v
 To make a link from one item to another item, put the linked item's ID in the **linksTo** field of the linking item. You can link to multiple items; separate them with commas: _item1,item2_.
 
 ## TODO:
-- add in images
-- add in audio
+- Wayback machine embedding
 - set grid unit/gap as tapestry settings
 - move nav/settings to drawers
 - add in focus

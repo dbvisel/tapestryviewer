@@ -152,14 +152,28 @@
 	font-size: 150%;
 }
 
-.bookframe .tapestryItemHead {
+.bookframe .tapestryItemHead, .audioframe .tapestryItemHead, .imageframe .tapestryItemHead, .videoframe .tapestryItemHead {
 	margin-bottom: 0;
 }
 
-.bookframe iframe {
+.bookframe iframe, .imageframe iframe, .videoframe iframe {
 	box-sizing: border-box;
 	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
 	width: 100%;
+	border: none;
+}
+
+.audioframe > div {
+	box-sizing: border-box;
+	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items:center;
+}
+
+.audioframe > div > iframe {
+	border: none;
 }
 
 

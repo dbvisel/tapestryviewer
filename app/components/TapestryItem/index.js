@@ -20,6 +20,29 @@ const BookFrame = ({ title, url }) => (
   </div>
 );
 
+const ImageFrame = ({ title, url }) => (
+  <div className="imageframe">
+    <h2 className="tapestryItemHead">{title}</h2>
+    <iframe src={url} />
+  </div>
+);
+
+const VideoFrame = ({ title, url }) => (
+  <div className="videoframe">
+    <h2 className="tapestryItemHead">{title}</h2>
+    <iframe src={url} />
+  </div>
+);
+
+const AudioFrame = ({ title, url }) => (
+  <div className="audioframe">
+    <h2 className="tapestryItemHead">{title}</h2>
+    <div>
+      <iframe src={url} height={36} width={"100%"} />
+    </div>
+  </div>
+);
+
 const TapestryItem = ({ item }) => {
   // console.log(item);
   return (
@@ -39,6 +62,12 @@ const TapestryItem = ({ item }) => {
         <TapestryFrame title={item.title} link={item.url} />
       ) : item.type === "book" ? (
         <BookFrame title={item.title} url={item.url} />
+      ) : item.type === "image" ? (
+        <ImageFrame title={item.title} url={item.url} />
+      ) : item.type === "audio" ? (
+        <AudioFrame title={item.title} url={item.url} />
+      ) : item.type === "video" ? (
+        <VideoFrame title={item.title} url={item.url} />
       ) : (
         <p>
           Unrecognized item type: {item.title}

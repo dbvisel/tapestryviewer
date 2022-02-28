@@ -70,6 +70,29 @@ bertha.addItem(berthaTapestryLink);
 
 const chris = alex.fork({ newSlug: "secondFork" });
 
+const audioItem = new Item({
+  title: "Audio clip",
+  width: 4,
+  height: 1,
+  x: 1,
+  y: 1,
+  url: "https://archive.org/embed/stereolab-series-2/111+The+Noise+Of+Carpet+-+1996-04-28+Troubadour+LA.flac",
+  type: "audio",
+});
+
+const imageItem = new Item({
+  title: "Image",
+  type: "image",
+  url: "https://archive.org/embed/Desert_201303",
+  x: 1,
+  y: 2,
+  width: 4,
+  height: 3,
+});
+
+chris.addItem(audioItem);
+chris.addItem(imageItem);
+
 // fork the second tapesty.
 
 const doris = bertha.fork({ newTitle: "Doris" });
