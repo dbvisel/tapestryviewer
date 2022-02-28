@@ -43,6 +43,13 @@ const AudioFrame = ({ title, url }) => (
   </div>
 );
 
+const WebFrame = ({ title, url }) => (
+  <div className="webframe">
+    <h2 className="tapestryItemHead">{title}</h2>
+    <iframe src={url} />
+  </div>
+);
+
 const TapestryItem = ({ item }) => {
   // console.log(item);
   return (
@@ -68,6 +75,8 @@ const TapestryItem = ({ item }) => {
         <AudioFrame title={item.title} url={item.url} />
       ) : item.type === "video" ? (
         <VideoFrame title={item.title} url={item.url} />
+      ) : item.type === "web" ? (
+        <WebFrame title={item.title} url={item.url} />
       ) : (
         <p>
           Unrecognized item type: {item.title}

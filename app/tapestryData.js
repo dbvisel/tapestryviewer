@@ -90,8 +90,19 @@ const imageItem = new Item({
   height: 3,
 });
 
+const webItem = new Item({
+  title: "A Wayback Machine embed",
+  type: "web",
+  url: "https://web.archive.org/web/19961219003318/http://voyagerco.com/projects/",
+  x: 5,
+  y: 1,
+  width: 3,
+  height: 4,
+});
+
 chris.addItem(audioItem);
 chris.addItem(imageItem);
+chris.addItem(webItem);
 
 // fork the second tapesty.
 

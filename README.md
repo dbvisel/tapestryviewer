@@ -32,6 +32,7 @@ For items, **type** can currently be:
  - **audio**, an Internet Archive audio; if this is chosen, set _url_ to the audio's URL. The form _https://archive.org/embed/xxxxxxxx/yyyyyyyy_ works pretty well.
  - **video**, an Internet Archive video; if this is chosen, set _url_ to the video's URL. The form _https://archive.org/embed/xxxxxxxx_ works pretty well.
  - **tapestry**, another tapestry; if this is chosen, set _url_ to the slug of another tapestry, making sure that that slug is unique.
+ - **web**, a Wayback Machine embed; if this is chosen, set _url_ to the Wayback Machine URL. The form _https://web.archive.org/web/datestamp/url_ works pretty well.
 
 ### Grids
 
@@ -46,7 +47,6 @@ To put an item at a specific point in the grid, set _x_ and _y_ to the desired v
 To make a link from one item to another item, put the linked item's ID in the **linksTo** field of the linking item. You can link to multiple items; separate them with commas: _item1,item2_.
 
 ## TODO:
-- Wayback machine embedding
 - set grid unit/gap as tapestry settings
 - move nav/settings to drawers
 - add in focus

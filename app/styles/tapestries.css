@@ -152,11 +152,11 @@
 	font-size: 150%;
 }
 
-.bookframe .tapestryItemHead, .audioframe .tapestryItemHead, .imageframe .tapestryItemHead, .videoframe .tapestryItemHead {
+.bookframe .tapestryItemHead, .audioframe .tapestryItemHead, .imageframe .tapestryItemHead, .videoframe .tapestryItemHead,  .webframe .tapestryItemHead {
 	margin-bottom: 0;
 }
 
-.bookframe iframe, .imageframe iframe, .videoframe iframe {
+.bookframe iframe, .imageframe iframe, .videoframe iframe, .webframe iframe {
 	box-sizing: border-box;
 	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
 	width: 100%;
