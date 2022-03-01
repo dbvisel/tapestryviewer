@@ -127,7 +127,7 @@ doris.addLink(doris.items[1].id, doris.items[2].id);
 const ernest = new Tapestry({
   title: "Ernest",
   forkable: false,
-  background: "tan",
+  background: "blanchedalmond",
 });
 
 // change the publication status of that tapestry.
@@ -212,9 +212,15 @@ const fionaBook = new Item({
 fiona.addItem(fionaIntro);
 fiona.addItem(fionaBook);
 
+const george = new Tapestry({
+  title: "George",
+  forkable: false,
+  background: "beige",
+});
+
 // send all of these tapestries out as data for the rest of the site.
 
-const manualTapestries = [alex, bertha, chris, doris, ernest, fiona];
+const manualTapestries = [alex, bertha, chris, doris, ernest, fiona, george];
 
 // get google spreadsheets
 

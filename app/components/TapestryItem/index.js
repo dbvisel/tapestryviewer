@@ -16,21 +16,39 @@ const TapestryFrame = ({ title, link }) => (
 const BookFrame = ({ title, url }) => (
   <div className="bookframe">
     <h2 className="tapestryItemHead">{title}</h2>
-    <iframe src={url} />
+    <iframe
+      src={url}
+      frameborder="0"
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowfullscreen
+    />
   </div>
 );
 
 const ImageFrame = ({ title, url }) => (
   <div className="imageframe">
     <h2 className="tapestryItemHead">{title}</h2>
-    <iframe src={url} />
+    <iframe
+      src={url}
+      frameborder="0"
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowfullscreen
+    />
   </div>
 );
 
 const VideoFrame = ({ title, url }) => (
   <div className="videoframe">
     <h2 className="tapestryItemHead">{title}</h2>
-    <iframe src={url} />
+    <iframe
+      src={url}
+      frameborder="0"
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowfullscreen
+    />
   </div>
 );
 
@@ -38,7 +56,15 @@ const AudioFrame = ({ title, url }) => (
   <div className="audioframe">
     <h2 className="tapestryItemHead">{title}</h2>
     <div>
-      <iframe src={url} height={36} width={"100%"} />
+      <iframe
+        src={url}
+        height={36}
+        width={"100%"}
+        frameborder="0"
+        webkitallowfullscreen="true"
+        mozallowfullscreen="true"
+        allowfullscreen
+      />
     </div>
   </div>
 );
@@ -46,22 +72,29 @@ const AudioFrame = ({ title, url }) => (
 const WebFrame = ({ title, url }) => (
   <div className="webframe">
     <h2 className="tapestryItemHead">{title}</h2>
-    <iframe src={url} />
+    <iframe
+      src={url}
+      frameborder="0"
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowfullscreen
+    />
   </div>
 );
 
-const TapestryItem = ({ item }) => {
+const TapestryItem = ({ item, focused, setFocus }) => {
   // console.log(item);
   return (
     <section
       id={item.id}
-      className="tapestryItem"
+      className={`tapestryItem ${focused ? "focused" : ""}`}
       style={{
         gridColumnStart: item.x,
         gridColumnEnd: item.x + item.width,
         gridRowStart: item.y,
         gridRowEnd: item.y + item.height,
       }}
+      onClick={setFocus}
     >
       {item.type === "textFrame" ? (
         <TextFrame title={item.title} content={item.content} />

@@ -43,6 +43,7 @@ const makeLinkList = (items) => {
 };
 
 const TapestryComponent = ({ tapestry }) => {
+  const [focused, setFocused] = React.useState(-1);
   // console.log(tapestry);
   // make sure no items overlap?
   // get tapestry size.
@@ -53,17 +54,51 @@ const TapestryComponent = ({ tapestry }) => {
   const linksList = makeLinkList(tapestry.items);
   // console.log(linksList);
   const updateXarrow = useXarrow();
+
+  const keyDownHandler = (event) => {
+    if (focused > -1) {
+      if (event.code === "ArrowUp" || event.code === "ArrowLeft") {
+        console.log("left");
+      }
+
+      if (event.code === "ArrowDown" || event.code === "ArrowRight") {
+        if (
+          tapestry.items[focused].linksTo &&
+          tapestry.items[focused].linksTo.length
+        ) {
+          const nextId = tapestry.items[focused].linksTo[0];
+          const nextItem = tapestry.items.find((item) => item.id === nextId);
+          const nextItemIndex = tapestry.items.indexOf(nextItem);
+          setFocused(nextItemIndex);
+        }
+      }
+    }
+  };
   return (
     <Xwrapper>
       <div
         className="viewport"
         style={{ background: tapestry.background, backgroundSize: "cover" }} // "cover" isn't firing sometimes!
+        tabIndex={0}
+        onKeyDown={keyDownHandler}
+        onClick={(e) => {
+          e.stopPropagation();
+          setFocused(-1);
+        }}
       >
         <div className="scroller" onScroll={updateXarrow}>
           <article className="tapestryGrid">
             {tapestry.items.length ? (
               tapestry.items.map((item, index) => (
-                <TapestryItem key={index} item={item} />
+                <TapestryItem
+                  key={index}
+                  item={item}
+                  focused={focused === index}
+                  setFocus={(e) => {
+                    e.stopPropagation();
+                    setFocused(index);
+                  }}
+                />
               ))
             ) : (
               <p>(No items on this tapestry.)</p>
