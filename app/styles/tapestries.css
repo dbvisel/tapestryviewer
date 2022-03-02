@@ -79,6 +79,7 @@
 
 .tapestrypage > main summary {
 	font-weight: bold;
+	user-select: none;
 }
 
 

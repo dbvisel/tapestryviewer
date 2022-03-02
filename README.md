@@ -48,4 +48,5 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ## TODO:
 - move settings to drawer rather than header
-- check to see what else can be added in?
+- zoom in/out/pan
+- tree navigation

@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "remix";
+import { diffJson } from "diff";
+
 import { cleanDate } from "~/utils/utils.mjs";
 
 const TapestryInfo = ({
@@ -10,6 +12,14 @@ const TapestryInfo = ({
   setVersion,
 }) => {
   const [currentVersion, setCurrentVersion] = useState(version);
+  for (let i = 0; i < tapestry.history.length; i++) {
+    console.log(
+      diffJson(
+        i > 0 ? tapestry.history[i - 1] : {},
+        tapestry.history[i]
+      ).filter((x) => x.added)[0].value
+    );
+  }
   return (
     <div>
       <details>
@@ -35,22 +45,40 @@ const TapestryInfo = ({
           Tapestry history{" "}
           {tapestry.history.length ? `(${tapestry.history.length})` : ""}
         </summary>
-        <ul style={{ listStyleType: "none" }}>
+        <div>
           {tapestry.history.length ? (
-            tapestry.history.map((history, index) => (
-              <label key={index}>
-                <input
-                  type="radio"
-                  value={index}
-                  checked={currentVersion === index}
-                  onChange={() => {
-                    setCurrentVersion(index);
-                    setVersion(tapestry.history[index]);
-                  }}
-                />
-                <b>{cleanDate(history.dateUpdated)}:</b>
-                <p>{JSON.stringify(history)}</p>
-              </label>
+            tapestry.history.map((thisHistory, index) => (
+              <details key={index}>
+                <summary>
+                  Added on {cleanDate(thisHistory.dateUpdated)} (version{" "}
+                  {index + 1}):
+                </summary>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <label style={{ flex: 1 }}>
+                    <input
+                      type="radio"
+                      value={index}
+                      checked={currentVersion === index}
+                      onChange={() => {
+                        setCurrentVersion(index);
+                        setVersion(tapestry.history[index]);
+                      }}
+                    />
+                    Switch to this version
+                  </label>
+                  <pre
+                    style={{ flex: 1 }}
+                    dangerouslySetInnerHTML={{
+                      __html: diffJson(
+                        index > 0 ? tapestry.history[index - 1] : {},
+                        thisHistory
+                      ).filter((x) => x.added)[0].value,
+                    }}
+                  />
+                </div>
+              </details>
             ))
           ) : (
             <p>No tapestry history!</p>
@@ -67,7 +95,7 @@ const TapestryInfo = ({
             />
             Current version
           </label>
-        </ul>
+        </div>
       </details>
       <details>
         <summary>
