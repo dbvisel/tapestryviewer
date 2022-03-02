@@ -47,4 +47,5 @@ To put an item at a specific point in the grid, set _x_ and _y_ to the desired v
 To make a link from one item to another item, put the linked item's ID in the **linksTo** field of the linking item. You can link to multiple items; separate them with commas: _item1,item2_.
 
 ## TODO:
-- move settings to drawer
+- move settings to drawer rather than header
+- check to see what else can be added in?
