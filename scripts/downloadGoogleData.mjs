@@ -50,6 +50,8 @@ const outTapestryRows = tapestryRows.map((x) => {
     author: x.author,
     forkable: Boolean(x.forkable),
     background: x.background,
+    gridUnitSize: Number(x.gridUnitSize),
+    gridGap: Number(x.gridGap),
   };
 });
 const outItemRows = itemRows.map((x) => {

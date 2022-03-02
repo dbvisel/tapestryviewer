@@ -15,6 +15,8 @@ class Tapestry {
     published,
     forkedFrom,
     forkable,
+    gridUnitSize,
+    gridGap,
   }) {
     this.id = uuidv4();
     this.title = title || "New Tapestry";
@@ -24,13 +26,15 @@ class Tapestry {
     this.dateCreated = new Date();
     this.dateUpdated = new Date();
     this.background = background || null; // what is the type on this?
-    this.showTitleOnPage = showTitleOnPage || false;
+    this.showTitleOnPage = Boolean(showTitleOnPage) || false;
     this.defaultZoom = defaultZoom || 1;
     this.items = items || [];
     this.generalComments = generalComments || [];
     this.published = published || "private";
     this.forkedFrom = forkedFrom || "";
     this.forkable = Boolean(forkable);
+    this.gridUnitSize = Number(gridUnitSize) || 200;
+    this.gridGap = Number(gridGap) || 20;
     this.history = [];
   }
   createNewVersion = () => {

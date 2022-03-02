@@ -93,7 +93,12 @@ const TapestryComponent = ({ tapestry }) => {
     <Xwrapper>
       <div
         className="viewport"
-        style={{ background: tapestry.background, backgroundSize: "cover" }} // "cover" isn't firing sometimes!
+        style={{
+          background: tapestry.background,
+          backgroundSize: "cover",
+          "--gridUnitSize": `${tapestry.gridUnitSize}px`,
+          "--gridGap": `${tapestry.gridGap}px`,
+        }} // "cover" isn't firing sometimes!
         tabIndex={0}
         onKeyDown={keyDownHandler}
         onClick={(e) => {

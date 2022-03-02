@@ -36,7 +36,7 @@ For items, **type** can currently be:
 
 ### Grids
 
-Items are laid out by grids. The grid is made of squares and gaps between the squares. By default, each item is 1 unit wide and 1 unit high; the default start point is (1,1). The grid does not currently attempt to deal with overlaps, which are a possiblity when adding with a Google Sheet. The default grid is 200px x 200px, with a gap of 20px between squares. Soon this will be adjustable on a per-tapestry level.
+Items are laid out by grids. The grid is made of squares and gaps between the squares. By default, each item is 1 unit wide and 1 unit high; the default start point is (1,1). The grid does not currently attempt to deal with overlaps, which are a possiblity when adding with a Google Sheet. The default grid is 200px x 200px, with a gap of 20px between squares. To change this, set **gridUnitSize** and **gridGap** to something different for the tapestry.
 
 If a tapestry's grid is larger than the viewport, it grows scrollbars. Because of the way CSS grids work, you can't currently have negative _x_ and _y_ values (though this could theoretically be accommodated).
 
@@ -47,5 +47,4 @@ To put an item at a specific point in the grid, set _x_ and _y_ to the desired v
 To make a link from one item to another item, put the linked item's ID in the **linksTo** field of the linking item. You can link to multiple items; separate them with commas: _item1,item2_.
 
 ## TODO:
-- set grid unit/gap as tapestry settings
 - move settings to drawer

@@ -273,6 +273,8 @@ const getDownloadedGoogleData = async () => {
       author: thisTapestryRow.author,
       forkable: Boolean(thisTapestryRow.forkable),
       background: thisTapestryRow.background,
+      gridGap: thisTapestryRow.gridGap,
+      gridUnitSize: thisTapestryRow.gridUnitSize,
       items: [],
     });
     const thisId = thisTapestryRow.id;
