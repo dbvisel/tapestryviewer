@@ -49,4 +49,3 @@ To make a link from one item to another item, put the linked item's ID in the **
 ## TODO:
 - set grid unit/gap as tapestry settings
 - move settings to drawer
-- add in focus

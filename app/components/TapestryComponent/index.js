@@ -2,6 +2,7 @@ import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import TapestryItem from "~/components/TapestryItem";
 
 const calculateTapestrySize = (items) => {
+  // this isn't currently used!
   let minX = 0;
   let minY = 0;
   let maxX = 0;
@@ -44,28 +45,42 @@ const makeLinkList = (items) => {
 
 const TapestryComponent = ({ tapestry }) => {
   const [focused, setFocused] = React.useState(-1);
-  // console.log(tapestry);
-  // make sure no items overlap?
   // get tapestry size.
-
   // console.log(calculateTapestrySize(tapestry.items));
+  // make sure no items overlap?
 
-  // console.log(tapestry.items);
   const linksList = makeLinkList(tapestry.items);
   // console.log(linksList);
   const updateXarrow = useXarrow();
 
+  const findPrevious = () => {
+    const currentId = tapestry.items[focused].id;
+    for (let i = 0; i < tapestry.items.length; i++) {
+      if (
+        tapestry.items[i].linksTo &&
+        tapestry.items[i].linksTo.length &&
+        tapestry.items[i].linksTo[0] === currentId
+      ) {
+        // note that this goes to the first LinkTo that points to the current focused ID
+        setFocused(i);
+        break;
+      }
+    }
+  };
+
   const keyDownHandler = (event) => {
     if (focused > -1) {
       if (event.code === "ArrowUp" || event.code === "ArrowLeft") {
-        console.log("left");
+        findPrevious();
       }
 
       if (event.code === "ArrowDown" || event.code === "ArrowRight") {
+        // maybe preventDefault if it's arrow down? Arrowing down currently pans
         if (
           tapestry.items[focused].linksTo &&
           tapestry.items[focused].linksTo.length
         ) {
+          // Known issue: if this links to more than one thing, it's only taking the first.
           const nextId = tapestry.items[focused].linksTo[0];
           const nextItem = tapestry.items.find((item) => item.id === nextId);
           const nextItemIndex = tapestry.items.indexOf(nextItem);

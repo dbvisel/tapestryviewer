@@ -90,7 +90,6 @@ export default function TapestryPage() {
             href="/#"
             onClick={(e) => {
               e.preventDefault();
-              console.log("hi!");
               setShowDetails(!showDetails);
             }}
           >

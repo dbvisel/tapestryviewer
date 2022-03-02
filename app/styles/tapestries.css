@@ -38,6 +38,11 @@
 	background-size: cover !important;
 }
 
+.tapestrypage .viewport:focus-visible {
+	outline: none;
+	border: none;
+}
+
 .scroller {
 	box-sizing: border-box;
 	min-height: 100%;
@@ -83,6 +88,11 @@
 	grid-auto-rows: var(--gridUnitSize);
 	grid-auto-columns: var(--gridUnitSize);
 	box-sizing: border-box;
+}
+
+.tapestryGrid:focus-visible {
+	outline: none;
+	border: none;
 }
 
 .tapestryItem {
