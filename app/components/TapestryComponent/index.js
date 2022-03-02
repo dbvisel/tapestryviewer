@@ -92,6 +92,7 @@ const TapestryComponent = ({ tapestry }) => {
   return (
     <Xwrapper>
       <div
+        key={tapestry.id}
         className="viewport"
         style={{
           background: tapestry.background,
@@ -123,14 +124,16 @@ const TapestryComponent = ({ tapestry }) => {
             ) : (
               <p>(No items on this tapestry.)</p>
             )}
-            {linksList.map((link, index) => (
-              <Xarrow
-                key={index}
-                start={link.from} //can be react ref
-                end={link.to} //or an id
-                curveness={0.5}
-              />
-            ))}
+            {linksList.map((link, index) =>
+              tapestry.items.filter((x) => x.id === link.to).length ? (
+                <Xarrow
+                  key={index}
+                  start={link.from} //can be react ref
+                  end={link.to} //or an id
+                  curveness={0.5}
+                />
+              ) : null
+            )}
           </article>
         </div>
       </div>

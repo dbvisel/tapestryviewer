@@ -1,7 +1,15 @@
+import { useEffect, useState } from "react";
 import { Link } from "remix";
 import { cleanDate } from "~/utils/utils.mjs";
 
-const TapestryInfo = ({ tapestry, forkHistory, forkedFromThis }) => {
+const TapestryInfo = ({
+  tapestry,
+  forkHistory,
+  forkedFromThis,
+  version,
+  setVersion,
+}) => {
+  const [currentVersion, setCurrentVersion] = useState(version);
   return (
     <div>
       <details>
@@ -27,18 +35,39 @@ const TapestryInfo = ({ tapestry, forkHistory, forkedFromThis }) => {
           Tapestry history{" "}
           {tapestry.history.length ? `(${tapestry.history.length})` : ""}
         </summary>
-        {tapestry.history.length ? (
-          <ul>
-            {tapestry.history.reverse().map((history, index) => (
-              <li key={index}>
+        <ul style={{ listStyleType: "none" }}>
+          {tapestry.history.length ? (
+            tapestry.history.map((history, index) => (
+              <label key={index}>
+                <input
+                  type="radio"
+                  value={index}
+                  checked={currentVersion === index}
+                  onChange={() => {
+                    setCurrentVersion(index);
+                    setVersion(tapestry.history[index]);
+                  }}
+                />
                 <b>{cleanDate(history.dateUpdated)}:</b>
                 <p>{JSON.stringify(history)}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No tapestry history!</p>
-        )}
+              </label>
+            ))
+          ) : (
+            <p>No tapestry history!</p>
+          )}
+          <label>
+            <input
+              type="radio"
+              value={-1}
+              checked={currentVersion === -1}
+              onChange={() => {
+                setCurrentVersion(-1);
+                setVersion(tapestry);
+              }}
+            />
+            Current version
+          </label>
+        </ul>
       </details>
       <details>
         <summary>

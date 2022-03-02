@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useCatch, useParams, useLoaderData } from "remix";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
@@ -60,7 +60,23 @@ export function CatchBoundary() {
 
 export default function TapestryPage() {
   const { tapestry, forkHistory, forkedFromThis } = useLoaderData();
-  const [showDetails, setShowDetails] = React.useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [version, setVersion] = useState(tapestry);
+
+  const figureOutVersion = () => {
+    for (let i = 0; i < tapestry.history.length; i++) {
+      if (tapestry.history[i] === version) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+  useEffect(() => {
+    // console.log("tapestry changed!", tapestry);
+    setVersion(tapestry);
+  }, [tapestry]);
+
   return (
     <Fragment>
       <h1>
@@ -102,9 +118,11 @@ export default function TapestryPage() {
           tapestry={tapestry}
           forkHistory={forkHistory}
           forkedFromThis={forkedFromThis}
+          version={figureOutVersion()}
+          setVersion={setVersion}
         />
       ) : (
-        <TapestryComponent tapestry={tapestry} />
+        <TapestryComponent tapestry={version} key={tapestry.id} />
       )}
     </Fragment>
   );
