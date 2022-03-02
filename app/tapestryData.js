@@ -115,8 +115,8 @@ const item3 = new Item({
   content: "This is text frame #3",
   width: 2,
   height: 2,
-  x: 4,
-  y: 3,
+  x: 5,
+  y: 1,
 });
 doris.addItem(item3);
 doris.addLink(doris.items[0].id, doris.items[1].id);
