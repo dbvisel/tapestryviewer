@@ -1,5 +1,5 @@
 [build]
-  command = "remix build"
+  command = "npm run prebuild && remix build"
   functions = "netlify/functions"
   publish = "public"
 
