@@ -8,7 +8,7 @@ export const loader = () => {
 };
 
 const fireWebhook = (url) => {
-  console.log("firing webhook!");
+  console.log("firing webhook:", url);
   fetch(url, {
     method: "POST",
   }).then((res) => console.log(res));
