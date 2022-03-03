@@ -3,7 +3,6 @@ import { cleanDate } from "~/utils/utils.mjs";
 
 export const loader = () => {
   const buildhook = process.env.BUILD_HOOK;
-  console.log("buildhook: ", buildhook);
   return { buildhook: buildhook };
 };
 
@@ -41,10 +40,8 @@ export default function MainIndex() {
         <a href="https://docs.google.com/spreadsheets/d/1EfdUXGmHdiJ5gcqZn4LdBJuXB0L6QZvKe3Vd7RP33SM/edit?usp=sharing">
           here
         </a>
-        , though that data is only pulled in manually at the moment.
-      </p>
-      <p>
-        If you have added another tapestry in the Google sheet, click{" "}
+        ; instructions are in Github. If you have added another tapestry in the
+        Google sheet, click{" "}
         <a
           href={"/#"}
           onClick={(e) => {
@@ -54,7 +51,7 @@ export default function MainIndex() {
         >
           here
         </a>{" "}
-        to rebuild this site.
+        to rebuild this site; this takes about a minute.
       </p>
     </div>
   );
