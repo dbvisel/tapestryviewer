@@ -1,7 +1,21 @@
-import { Link, useOutletContext } from "remix";
+import { Link, useOutletContext, useLoaderData } from "remix";
 import { cleanDate } from "~/utils/utils.mjs";
 
+export const loader = () => {
+  const buildhook = process.env.BUILD_HOOK;
+  console.log("buildhook: ", buildhook);
+  return { buildhook: buildhook };
+};
+
+const fireWebhook = (url) => {
+  console.log("firing webhook!");
+  fetch(url, {
+    method: "POST",
+  }).then((res) => console.log(res));
+};
+
 export default function MainIndex() {
+  const { buildhook } = useLoaderData();
   const { tapestries } = useOutletContext();
   return (
     <div style={{ maxWidth: 800, marginLeft: "auto", marginRight: "auto" }}>
@@ -29,10 +43,19 @@ export default function MainIndex() {
         </a>
         , though that data is only pulled in manually at the moment.
       </p>
-      {/*<p>
-        If you have added another tapestry in the Google sheet, click here to
-			rebuild this site.
-      </p>*/}
+      <p>
+        If you have added another tapestry in the Google sheet, click{" "}
+        <a
+          href={"/#"}
+          onClick={(e) => {
+            e.preventDefault();
+            fireWebhook(buildhook);
+          }}
+        >
+          here
+        </a>{" "}
+        to rebuild this site.
+      </p>
     </div>
   );
 }
