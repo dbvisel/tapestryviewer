@@ -23,8 +23,11 @@ class Item {
     width,
     height,
     linksTo,
+    googleId,
+    hideTitle,
   }) {
-    this.id = uuidv4();
+    const uuid = uuidv4();
+    this.id = uuid;
     this.title = title || "New Item";
     this.type = type || "textFrame"; // enum(textFrame, image, video, audio, book, webpage, software, tapestry)
     this.url = url || "";
@@ -39,6 +42,8 @@ class Item {
     this.height = height || 1;
     this.clippingSetting = clippingSetting;
     this.linksTo = linksTo || []; // array of IDs of other items in the same tapestry
+    this.googleId = googleId || uuid;
+    this.hideTitle = Boolean(hideTitle);
   }
 }
 

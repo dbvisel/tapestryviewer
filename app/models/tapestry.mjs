@@ -17,8 +17,10 @@ class Tapestry {
     forkable,
     gridUnitSize,
     gridGap,
+    googleId,
   }) {
-    this.id = uuidv4();
+    const uuid = uuidv4();
+    this.id = uuid;
     this.title = title || "New Tapestry";
     this.slug = slug || slugify(this.title);
     this.icon = icon || ""; // what is the type of this? a URL?
@@ -36,6 +38,7 @@ class Tapestry {
     this.gridUnitSize = Number(gridUnitSize) || 200;
     this.gridGap = Number(gridGap) || 20;
     this.history = [];
+    this.googleId = googleId || uuid;
   }
   createNewVersion = () => {
     const newState = JSON.parse(JSON.stringify(this));

@@ -49,4 +49,19 @@ To make a link from one item to another item, put the linked item's ID in the **
 ## TODO:
 - move settings to drawer rather than header
 - zoom in/out/pan
+  - focus
 - tree navigation
+
+- Mark's content
+  - https://www.bbc.com/news/technology-60562240
+  - References: https://web.archive.org/web/20220226051154/https://ria.ru/20220226/rossiya-1775162336.html
+  - Which was archived because of several archiving projects https://web.archive.org/web/collections/*/https://ria.ru/20220226/rossiya-1775162336.html
+  - And this Tweet: https://twitter.com/christogrozev/status/1498026581704519684?s=21
+- basic maker from template
+- resource Google sheets
+- fake comments
+- item metadata (particularly for Wayback Machine embeds)
+- Chrome copy location?
+  - doesn't seem to work inside iframe
+- movement of objects?
+- Hypothesis?

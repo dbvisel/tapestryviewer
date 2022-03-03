@@ -276,6 +276,7 @@ const getDownloadedGoogleData = async () => {
       gridGap: thisTapestryRow.gridGap,
       gridUnitSize: thisTapestryRow.gridUnitSize,
       items: [],
+      googleId: thisTapestryRow.googleId,
     });
     const thisId = thisTapestryRow.id;
     for (let j = 0; j < googleData.itemRows.length; j++) {
@@ -292,6 +293,8 @@ const getDownloadedGoogleData = async () => {
           height: thisItemRow.height,
           url: thisItemRow.url,
           linksTo: thisItemRow.linksTo,
+          googleId: thisItemRow.id,
+          hideTitle: thisItemRow.hideTitle,
         });
         listOfGoogleIds[thisItemRow.id] = thisItem.id;
         thisTapestry.addItem(thisItem);
