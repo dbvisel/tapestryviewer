@@ -1,20 +1,20 @@
 import { Link } from "remix";
 
 const TextFrame = ({ title, content, hideTitle }) => (
-  <div className="frame textframe">
+  <div className={`${hideTitle ? "notitle" : ""} frame textframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <div dangerouslySetInnerHTML={{ __html: content }} />
   </div>
 );
 
 const TapestryFrame = ({ title, link }) => (
-  <div className="frame tapestryframe">
+  <div className={`frame tapestryframe`}>
     <Link to={`/tapestry/${link}`}>{title}</Link>
   </div>
 );
 
 const BookFrame = ({ title, url, hideTitle }) => (
-  <div className="frame bookframe">
+  <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}
@@ -27,7 +27,7 @@ const BookFrame = ({ title, url, hideTitle }) => (
 );
 
 const ImageFrame = ({ title, url, hideTitle }) => (
-  <div className="frame imageframe">
+  <div className={`${hideTitle ? "notitle" : ""} frame imageframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}
@@ -40,7 +40,7 @@ const ImageFrame = ({ title, url, hideTitle }) => (
 );
 
 const VideoFrame = ({ title, url, hideTitle }) => (
-  <div className="frame videoframe">
+  <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}
@@ -53,7 +53,7 @@ const VideoFrame = ({ title, url, hideTitle }) => (
 );
 
 const AudioFrame = ({ title, url, hideTitle }) => (
-  <div className="frame audioframe">
+  <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <div>
       <iframe
@@ -70,7 +70,7 @@ const AudioFrame = ({ title, url, hideTitle }) => (
 );
 
 const WebFrame = ({ title, url, hideTitle }) => (
-  <div className="frame webframe">
+  <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}

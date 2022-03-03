@@ -189,6 +189,11 @@
 	border: none;
 }
 
+.bookframe.notitle iframe, .imageframe.notitle iframe, .videoframe.notitle iframe, .webframe.notitle iframe {
+	height: 100%;
+}
+
+
 .audioframe > div {
 	box-sizing: border-box;
 	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));

@@ -6,7 +6,7 @@
   "sideEffects": false,
   "scripts": {
     "download": "node scripts/downloadGoogleData.mjs",
-		"prebuild": "npm run download",
+    "prebuild": "npm run download",
     "build": "remix build",
     "dev": "cross-env NODE_ENV=development netlify dev",
     "postinstall": "remix setup node",
@@ -24,6 +24,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-xarrows": "^2.0.2",
+    "react-zoom-pan-pinch": "^2.1.3",
     "remix": "^1.2.2",
     "tiny-invariant": "^1.2.0",
     "uuid": "^8.3.2"

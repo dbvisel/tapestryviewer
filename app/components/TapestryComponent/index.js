@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import TapestryItem from "~/components/TapestryItem";
 
 const calculateTapestrySize = (items) => {
@@ -107,34 +109,75 @@ const TapestryComponent = ({ tapestry }) => {
           setFocused(-1);
         }}
       >
-        <div className="scroller" onScroll={updateXarrow}>
-          <article className="tapestryGrid">
-            {tapestry.items.length ? (
-              tapestry.items.map((item, index) => (
-                <TapestryItem
-                  key={index}
-                  item={item}
-                  focused={focused === index}
-                  setFocus={(e) => {
-                    e.stopPropagation();
-                    setFocused(index);
+        <div
+          className="scroller"
+          // onScroll={updateXarrow}
+          style={{ padding: 0, margin: 0 }}
+        >
+          <TransformWrapper
+            initialScale={1.0}
+            initialPositionX={25}
+            initialPositionY={25}
+            minScale={0.5}
+            maxScale={5}
+            centerOnInit={false}
+            limitToBounds={false}
+            onPanningStop={updateXarrow}
+            onZoomStop={updateXarrow}
+            onPinchingStop={updateXarrow}
+            onWheelStop={updateXarrow}
+          >
+            {({ zoomIn, zoomOut, zoomToElement, resetTransform }) => (
+              <Fragment>
+                <TransformComponent
+                  wrapperStyle={{
+                    maxWidth: "100%",
+                    maxHeight: "calc(100vh - var(--headerHeight))",
                   }}
-                />
-              ))
-            ) : (
-              <p>(No items on this tapestry.)</p>
+                >
+                  <article
+                    className="tapestryGrid"
+                    style={{ minWidth: "100vw" }}
+                  >
+                    {tapestry.items.length ? (
+                      tapestry.items.map((item, index) => (
+                        <TapestryItem
+                          key={index}
+                          item={item}
+                          focused={focused === index}
+                          setFocus={(e) => {
+                            e.stopPropagation();
+                            setFocused(index);
+                            zoomToElement(item.id);
+                          }}
+                        />
+                      ))
+                    ) : (
+                      <p>(No items on this tapestry.)</p>
+                    )}
+                  </article>
+                </TransformComponent>
+                {linksList.map((link, index) =>
+                  tapestry.items.filter((x) => x.id === link.to).length ? (
+                    <Xarrow
+                      key={index}
+                      start={link.from} //can be react ref
+                      end={link.to} //or an id
+                      curveness={0.5}
+                    />
+                  ) : null
+                )}
+                <div
+                  className="tools"
+                  style={{ position: "fixed", bottom: 0, right: 10 }}
+                >
+                  <button onClick={() => zoomIn()}>+</button>
+                  <button onClick={() => zoomOut()}>-</button>
+                  <button onClick={() => resetTransform()}>x</button>
+                </div>
+              </Fragment>
             )}
-            {linksList.map((link, index) =>
-              tapestry.items.filter((x) => x.id === link.to).length ? (
-                <Xarrow
-                  key={index}
-                  start={link.from} //can be react ref
-                  end={link.to} //or an id
-                  curveness={0.5}
-                />
-              ) : null
-            )}
-          </article>
+          </TransformWrapper>
         </div>
       </div>
     </Xwrapper>
