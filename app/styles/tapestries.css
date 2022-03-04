@@ -15,6 +15,7 @@
 	--tapestryFrameColor: #333;
 	--tapestryFrameBackground: magenta;
 	--focusColor: orange;
+	--borderRadius: 4px;
 
 }
 
@@ -38,7 +39,7 @@
 	background-size: cover !important;
 }
 
-.tapestrypage .viewport:focus-visible {
+.tapestrypage .viewport:focus, .tapestrypage .viewport:focus-visible {
 	outline: none;
 	border: none;
 }
@@ -98,12 +99,16 @@
 
 .tapestryItem {
 	box-sizing: border-box;
+	border-radius: var(--borderRadius);
 }
 
 .frame {
 	border: 1px solid var(--borderColor);
 	box-sizing: border-box;
+	border-radius: var(--borderRadius);
 }
+
+
 
 .tapestryItem.focused {
 	box-shadow: 0 0 20px var(--focusColor);

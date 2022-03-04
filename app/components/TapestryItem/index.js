@@ -18,10 +18,10 @@ const BookFrame = ({ title, url, hideTitle }) => (
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}
-      frameborder="0"
+      frameBorder="0"
       webkitallowfullscreen="true"
       mozallowfullscreen="true"
-      allowfullscreen
+      allowFullScreen
     />
   </div>
 );
@@ -31,10 +31,10 @@ const ImageFrame = ({ title, url, hideTitle }) => (
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}
-      frameborder="0"
+      frameBorder="0"
       webkitallowfullscreen="true"
       mozallowfullscreen="true"
-      allowfullscreen
+      allowFullScreen
     />
   </div>
 );
@@ -44,10 +44,10 @@ const VideoFrame = ({ title, url, hideTitle }) => (
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}
-      frameborder="0"
+      frameBorder="0"
       webkitallowfullscreen="true"
       mozallowfullscreen="true"
-      allowfullscreen
+      allowFullScreen
     />
   </div>
 );
@@ -60,10 +60,10 @@ const AudioFrame = ({ title, url, hideTitle }) => (
         src={url}
         height={36}
         width={"100%"}
-        frameborder="0"
+        frameBorder="0"
         webkitallowfullscreen="true"
         mozallowfullscreen="true"
-        allowfullscreen
+        allowFullScreen
       />
     </div>
   </div>
@@ -74,10 +74,10 @@ const WebFrame = ({ title, url, hideTitle }) => (
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}
-      frameborder="0"
+      frameBorder="0"
       webkitallowfullscreen="true"
       mozallowfullscreen="true"
-      allowfullscreen
+      allowFullScreen
     />
   </div>
 );
