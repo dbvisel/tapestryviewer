@@ -46,6 +46,7 @@ const makeLinkList = (items) => {
 };
 
 const TapestryComponent = ({ tapestry }) => {
+  // console.log(tapestry);
   const transformerRef = useRef();
   const [focused, setFocused] = useState(-1);
   // get tapestry size.
@@ -81,11 +82,8 @@ const TapestryComponent = ({ tapestry }) => {
       ) {
         // Known issue: if this links to more than one thing, it's only taking the first.
         const nextId = tapestry.items[focused].linksTo[0];
-        console.log(nextId);
         const nextItem = tapestry.items.find((item) => item.id === nextId);
-        console.log(nextItem);
         const nextItemIndex = tapestry.items.indexOf(nextItem);
-        console.log(nextItemIndex);
         return nextItemIndex;
       }
     }

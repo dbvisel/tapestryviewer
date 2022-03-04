@@ -1,4 +1,4 @@
-const { GoogleSpreadsheet } = require("google-spreadsheet");
+// const { GoogleSpreadsheet } = require("google-spreadsheet");
 import Tapestry from "./models/tapestry.mjs";
 import Item from "./models/item.mjs";
 import googleData from "./data/googledata.json";
@@ -224,45 +224,8 @@ const manualTapestries = [alex, bertha, chris, doris, ernest, fiona, george];
 
 // get google spreadsheets
 
-const getGoogleSpreadsheetData = async () => {
-  console.log("Getting Google data");
-  const googleTapestries = [];
-  const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEETS_ID);
-  doc.useApiKey(process.env.GOOGLE_API_KEY);
-  await doc.loadInfo();
-  const tapestrySheet = doc.sheetsByIndex[0];
-  const itemSheet = doc.sheetsByIndex[1];
-  const tapestryRows = await tapestrySheet.getRows();
-  const itemRows = await itemSheet.getRows();
-  for (let i = 0; i < tapestryRows.length; i++) {
-    const thisTapestryRow = tapestryRows[i];
-    const thisTapestry = new Tapestry({
-      title: thisTapestryRow.title,
-      slug: thisTapestryRow.slug,
-      author: thisTapestryRow.author,
-      forkable: Boolean(thisTapestryRow.forkable),
-      items: [],
-    });
-    const thisId = thisTapestry.id;
-    for (let j = 0; j < itemRows.length; j++) {
-      const thisItemRow = itemRows[j];
-      const thisItemId = thisItemRow.tapestryId;
-      if (thisItemId === thisId) {
-        const thisItem = new Item({
-          title: thisItemRow.title,
-          content: thisItemRow.content,
-          type: thisItemRow.type,
-        });
-        thisTapestry.addItem(thisItem);
-      }
-    }
-
-    googleTapestries[googleTapestries.length] = thisTapestry;
-  }
-  return googleTapestries;
-};
-
 const getDownloadedGoogleData = async () => {
+  // TODO: circular tapestries don't work properly – ID gets overwritten when this is run twice.
   const googleTapestries = [];
   const listOfGoogleIds = [];
   for (let i = 0; i < googleData.tapestryRows.length; i++) {
@@ -279,6 +242,7 @@ const getDownloadedGoogleData = async () => {
       googleId: thisTapestryRow.googleId,
     });
     const thisId = thisTapestryRow.id;
+    // TODO: maybe: unnest this loop and just do this with the saved googleId?
     for (let j = 0; j < googleData.itemRows.length; j++) {
       const thisItemRow = googleData.itemRows[j];
       const thisItemId = thisItemRow.tapestryId;
@@ -300,7 +264,7 @@ const getDownloadedGoogleData = async () => {
         thisTapestry.addItem(thisItem);
       }
     }
-
+    // console.log(listOfGoogleIds);
     for (let j = 0; j < thisTapestry.items.length; j++) {
       for (let k = 0; k < thisTapestry.items[j].linksTo.length; k++) {
         if (listOfGoogleIds[thisTapestry.items[j].linksTo[k]]) {
@@ -309,7 +273,7 @@ const getDownloadedGoogleData = async () => {
         }
       }
     }
-
+    // console.log(thisTapestry.items);
     googleTapestries[googleTapestries.length] = thisTapestry;
   }
   return googleTapestries;

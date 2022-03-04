@@ -1,3 +1,4 @@
+import { Fragment, useState } from "react";
 import { Link } from "remix";
 
 const TextFrame = ({ title, content, hideTitle }) => (
@@ -82,6 +83,40 @@ const WebFrame = ({ title, url, hideTitle }) => (
   </div>
 );
 
+const TapestryIcon = ({ item }) => {
+  const [shown, setShown] = useState(false);
+  return (
+    <Fragment>
+      <a
+        href="/#"
+        className={`tapestryIcon ${shown ? "on" : ""}`}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setShown(!shown);
+        }}
+      >
+        i
+      </a>
+      {shown ? (
+        <div
+          className="tapestryDetails"
+          onClick={(e) => {
+            e.stopPropagation();
+            setShown(false);
+          }}
+        >
+          <h3>Details</h3>
+          <p>
+            <strong>Source: </strong>{" "}
+            {item.url ? <a href={item.url}>{item.url}</a> : item.content}
+          </p>
+        </div>
+      ) : null}
+    </Fragment>
+  );
+};
+
 const TapestryItem = ({ item, focused, setFocus }) => {
   // console.log(item);
   return (
@@ -96,6 +131,7 @@ const TapestryItem = ({ item, focused, setFocus }) => {
       }}
       onClick={setFocus}
     >
+      <TapestryIcon item={item} />
       {item.type === "textFrame" ? (
         <TextFrame
           title={item.title}

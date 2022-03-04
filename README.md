@@ -48,12 +48,9 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ## TODO:
 - move settings to drawer rather than header
-- zoom in/out/pan
-  - focus
 - tree navigation
 - basic maker from template
 - fake comments
-- item metadata (particularly for Wayback Machine embeds)
 - Chrome copy location?
   - doesn't seem to work inside iframe
 - movement of objects?

@@ -16,7 +16,6 @@
 	--tapestryFrameBackground: magenta;
 	--focusColor: orange;
 	--borderRadius: 4px;
-
 }
 
 .tapestrypage main {
@@ -100,6 +99,7 @@
 .tapestryItem {
 	box-sizing: border-box;
 	border-radius: var(--borderRadius);
+	position: relative;
 }
 
 .frame {
@@ -114,7 +114,7 @@
 	box-shadow: 0 0 20px var(--focusColor);
 }
 
-.tapestryItem > div {
+.tapestryItem > div:not(.tapestryDetails) {
 	height: 100%;
 	/* height: calc(100% - var(--headerHeight)); */
 	box-sizing: border-box;
@@ -212,6 +212,46 @@
 	border: none;
 }
 
+.tapestryIcon {
+	--iconColor: transparent;
+	position: absolute;
+	right: 8px;
+	top: 8px;
+	color: var(--iconColor);
+	border: 3px solid var(--iconColor);
+	border-radius: 100%;
+	display: inline-flex;
+	width: 20px;
+	height: 20px;
+	align-items: center;
+	justify-content: center;
+	transition: 0.25s;
+	font-weight: bold;
+	user-select: none;
+}
+
+.tapestryIcon:hover, .tapestryIcon.on {
+	--iconColor: white;
+	text-decoration: none;
+}
+
+.tapestryDetails {
+	z-index:999;
+	position: absolute;
+	right: -110px;
+	width: 220px;
+	top: 36px;
+	border: 2px solid white;
+	background-color: var(--textFrameColor);
+	padding: 8px;
+	font-size: 80%;
+	box-shadow: 10px 10px 10px rgba(0,0,0,0.25);
+	border-radius: 4px;
+}
+
+.tapestryDetails h3, p {
+	margin: 0;
+}
 
 
 
