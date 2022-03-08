@@ -50,6 +50,7 @@ To make a link from one item to another item, put the linked item's ID in the **
 - move settings to drawer rather than header
 - tree navigation
 - basic maker from template
+  - see this: https://github.com/sw-yx/netlify-google-spreadsheet-demo
 - fake comments
 - Chrome copy location?
   - doesn't seem to work inside iframe
