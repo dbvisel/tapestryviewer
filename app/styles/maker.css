@@ -4,13 +4,17 @@
 	margin-right: auto;
 }
 
+hr {
+	margin: 2em 0;
+}
+
 label {
 	display: flex;
 	width: 100%;
-	align-items: baseline;
+	align-items: center;
 }
 
-label > input[type="text"], label > input[type="number"] {
+label > input[type="text"], label > input[type="number"], label > select, label > textarea {
 	margin-left: 1em;
 	width: 100%;
 }
@@ -34,4 +38,10 @@ input[type="color"] {
 
 .twoinputs label + label {
 	margin-left: 1em;
+}
+
+h3 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }

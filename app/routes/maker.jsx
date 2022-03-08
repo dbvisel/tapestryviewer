@@ -2,6 +2,7 @@ import { useState } from "react";
 import { slugify } from "~/utils/utils.mjs";
 import makerStyles from "~/styles/maker.css";
 import { v4 as uuidv4 } from "uuid";
+import AddTapestryItem from "~/components/AddTapestryItem";
 
 // TODO:
 // - make adding items work
@@ -41,20 +42,25 @@ export default function MakerPage() {
     setMessage(JSON.stringify(row));
   };
   const addSegment = (e) => {
+    console.log("in here!");
     e.preventDefault();
+    const defaultTitle = "Item " + (segments.length + 1);
     setSegments([
       ...segments,
       {
-        id: "item_" + segments.length,
-        title: "",
-        slug: "",
+        id: uuidv4(4),
+        title: defaultTitle,
+        slug: slugify(defaultTitle),
       },
     ]);
+    console.log("added segment");
   };
+
+  console.log(segments);
 
   return (
     <div className="makerpage">
-      <h1>Tapestry Maker</h1>
+      <h1>Tapestry Maker: Add new tapestry</h1>
       <form onSubmit={handleTapestrySubmit}>
         <div>
           <h2>Tapestry details</h2>
@@ -89,25 +95,39 @@ export default function MakerPage() {
               <input type="number" name={"gridGap"} placeholder={20}></input>
             </label>
           </p>
+          <hr style={{ marginTop: "2em" }} />
+          <div>
+            <h2>Items</h2>
+            {segments.length ? (
+              segments.map((segment, index) => (
+                <AddTapestryItem
+                  key={segment.id}
+                  items={segments}
+                  itemData={segment}
+                  index={index}
+                  deleteSelf={(x) => {
+                    const newSegments = segments.filter((y) => y.id !== x);
+                    setSegments(newSegments);
+                  }}
+                  setItemData={(x) => {
+                    const newSegments = segments;
+                    newSegments[index] = x;
+                    setSegments(newSegments);
+                    console.log(newSegments);
+                  }}
+                />
+              ))
+            ) : (
+              <p>No items yet!</p>
+            )}
+            <hr width={"50%"} />
+            <button onClick={addSegment}>Add new item</button>
+          </div>
+          <hr style={{ marginTop: "2em" }} />
           <input type="submit" value="Submit" />
           {message ? <p>{message}</p> : null}
         </div>
       </form>
-      <hr style={{ marginTop: "2em" }} />
-      <div>
-        <h2>Items</h2>
-        {segments.map((segment, index) => (
-          <div className="item" key={segment.id} id={segment.id}>
-            <h3>
-              Item {index + 1}: {segment.title || "untitled"}
-            </h3>
-            <p>{JSON.stringify(segment)}</p>
-          </div>
-        ))}
-        <form onSubmit={addSegment}>
-          <input type="submit" value="Add new item" />
-        </form>
-      </div>
     </div>
   );
 }
