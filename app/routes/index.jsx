@@ -51,7 +51,11 @@ export default function MainIndex() {
         >
           here
         </a>{" "}
-        to rebuild this site; this takes about a minute.
+        to rebuild this site; this takes about a minute. Then reload this page.
+      </p>
+      <p>
+        You can also try the <Link to="/maker">tapestry maker</Link>, though
+        that's still buggy.
       </p>
     </div>
   );

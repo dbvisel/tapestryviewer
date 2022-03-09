@@ -1,21 +1,35 @@
 import { useState } from "react";
+import { useLoaderData } from "remix";
 import { slugify } from "~/utils/utils.mjs";
 import makerStyles from "~/styles/maker.css";
 import { v4 as uuidv4 } from "uuid";
 import AddTapestryItem from "~/components/AddTapestryItem";
 import DemoGrid from "~/components/DemoGrid";
-
 // TODO:
 // - make adding items work
 // - top should start with a list of tapestries – if you choose one, it should list all of the items in the tapestry
 // - connect to Google Spreadsheet: https://github.com/sw-yx/netlify-google-spreadsheet-demo
 //   - need to mod that to work with multiple sheets
 
+const fireWebhook = (url) => {
+  console.log("firing webhook:", url);
+  fetch(url, {
+    method: "POST",
+  }).then((res) => console.log(res));
+};
+
+export const loader = () => {
+  const buildhook = process.env.BUILD_HOOK;
+  return { buildhook: buildhook };
+};
+
 export const links = () => {
   return [{ rel: "stylesheet", href: makerStyles }];
 };
 
 export default function MakerPage() {
+  const { buildhook } = useLoaderData();
+
   const [title, setTitle] = useState("New tapestry");
   const [slug, setSlug] = useState(slugify(title));
   const [author, setAuthor] = useState("Author");
@@ -50,7 +64,7 @@ export default function MakerPage() {
       }),
     };
     console.log(payload);
-    setMessage(`Sending data: \n\n ${JSON.stringify(row)}`);
+    setMessage(`Sending tapestry data: \n\n ${JSON.stringify(row)}`);
     fetch("/.netlify/functions/googlesheets", {
       method: "POST",
       body: JSON.stringify({ tapestry: payload.tapestry }),
@@ -76,16 +90,23 @@ export default function MakerPage() {
               console.log(response);
             })
             .catch((error) => {
-              setMessage("Error adding item: ", error);
-              console.error("Error addint item: ", error);
+              setMessage("Error adding item!");
+              console.error("Error adding item: ", error);
             });
         }
       })
+      .then(() => {
+        setMessage(
+          `Tapestry uploaded correctly. Rebuilding site – go <a href="/">here</a> in about thirty seconds.`
+        );
+        fireWebhook(buildhook);
+      })
       .catch((error) => {
-        setMessage("Error adding tapestry: ", error);
+        setMessage("Error adding tapestry!");
         console.error(error);
       });
   };
+
   const addSegment = (e) => {
     e.preventDefault();
     const defaultTitle = "Item " + (segments.length + 1);
@@ -150,7 +171,6 @@ export default function MakerPage() {
                 type="color"
                 name={"backgroundColor"}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   setBackground(e.target.value);
                 }}
               />
@@ -215,7 +235,7 @@ export default function MakerPage() {
           </div>
           <hr style={{ marginTop: "2em" }} />
           <input type="submit" value="Submit" />
-          {message ? <p>{message}</p> : null}
+          {message ? <p dangerouslySetInnerHTML={{ __html: message }} /> : null}
         </div>
       </form>
     </div>
