@@ -47,7 +47,6 @@ export default function MakerPage() {
     setMessage(JSON.stringify(row));
   };
   const addSegment = (e) => {
-    console.log("in here!");
     e.preventDefault();
     const defaultTitle = "Item " + (segments.length + 1);
     const thisItem = {
@@ -57,10 +56,7 @@ export default function MakerPage() {
     };
     setFocusedItem(thisItem);
     setSegments([...segments, thisItem]);
-    console.log("added segment");
   };
-
-  console.log(segments);
 
   return (
     <div className="makerpage">
@@ -132,7 +128,6 @@ export default function MakerPage() {
                     setSegments(newSegments);
                     setFocusedItem(x);
                     setFlag(!flag);
-                    console.log(newSegments);
                   }}
                 />
               ))

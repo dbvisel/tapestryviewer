@@ -43,14 +43,7 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
   ]);
 
   return (
-    <div
-      className="item"
-      id={itemData.id}
-      tabIndex={1}
-      onFocus={() => {
-        console.log("focused!");
-      }}
-    >
+    <div className="item" id={itemData.id} tabIndex={1}>
       <h3>
         {title || "untitled"}
         <button onClick={() => deleteSelf(itemData.id)}>
