@@ -132,6 +132,9 @@
 	color: var(--headerColor);
 	width: 100%;
 	align-items: center;
+	white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .textframe {
@@ -150,6 +153,14 @@
 	width: 100%;
 	overflow-y: auto;
 	color: var(--textFrameColor);
+}
+
+.textframe > div p {
+	margin-bottom: 8px;
+}
+
+.textframe > div p strong {
+	color: var(--black);
 }
 
 .tapestryframe {
