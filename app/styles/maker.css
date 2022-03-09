@@ -45,3 +45,36 @@ h3 {
 	justify-content: space-between;
 	align-items: center;
 }
+
+.demogrid {
+	position: fixed;
+	top: 0;
+	right: 0;
+	display: grid;
+	padding: 5px;
+	grid-gap: var(--gridGap);
+	grid-auto-rows: var(--gridUnitSize);
+	grid-auto-columns: var(--gridUnitSize);
+	grid-gap: 5px;
+	grid-auto-rows: minmax(40px, 1fr);
+	grid-auto-columns: minmax(40px, 1fr);
+	box-sizing: border-box;
+	background: white;
+	max-width: 100%;
+	overflow: auto;
+}
+
+.demoitem {
+	background-color: rgba(0,0,255,0.125);
+	border: 1px solid white;
+}
+
+.demoitem.focused {
+	background-color: rgba(255,0,0,0.125);
+}
+
+.item:focus-within {
+	border: 4px solid rgba(255,0,0,0.125);
+	padding: 10px;
+	border-radius: 4px;
+}

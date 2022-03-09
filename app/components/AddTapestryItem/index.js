@@ -43,7 +43,14 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
   ]);
 
   return (
-    <div className="item" id={itemData.id}>
+    <div
+      className="item"
+      id={itemData.id}
+      tabIndex={1}
+      onFocus={() => {
+        console.log("focused!");
+      }}
+    >
       <h3>
         {title || "untitled"}
         <button onClick={() => deleteSelf(itemData.id)}>
@@ -71,11 +78,7 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
       <p className="twoinputs">
         <label>
           Type:
-          <select
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            defaultValue="textframe"
-          >
+          <select value={type} onChange={(e) => setType(e.target.value)}>
             <option value="textFrame">Text frame</option>
             <option value="tapestry">Tapestry</option>
             <option value="book">Book</option>
