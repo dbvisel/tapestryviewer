@@ -16,35 +16,75 @@ export const links = () => {
 };
 
 export default function MakerPage() {
+  const [title, setTitle] = useState("New tapestry");
+  const [slug, setSlug] = useState(slugify(title));
+  const [author, setAuthor] = useState("Author");
+  const [background, setBackground] = useState("none");
   const [gridUnitSize, setGridUnitSize] = useState(200);
   const [gridGap, setGridGap] = useState(20);
   const [segments, setSegments] = useState([]);
-  const [tapestryDetails, setTapestryDetails] = useState({});
   const [focusedItem, setFocusedItem] = useState({});
   const [flag, setFlag] = useState(false);
   const [message, setMessage] = useState("");
+
   const handleTapestrySubmit = (e) => {
     e.preventDefault();
-    const {
-      title,
-      slug,
-      author,
-      background,
-      backgroundColor,
-      gridUnitSize,
-      gridGap,
-    } = e.target;
     const row = {
-      title: title.value || "New tapestry",
-      slug: slugify(slug.value) || slugify(title.value) || uuidv4(),
-      id: slugify(slug.value) || slugify(title.value),
-      author: author.value || "Tapestry author",
-      background: background.value || backgroundColor.value,
+      title: title || "New tapestry",
+      slug: slugify(slug) || slugify(title) || uuidv4(),
+      id: slugify(slug) || slugify(title),
+      author: author || "Tapestry author",
+      background: background,
       gridUnitSize: gridUnitSize,
       gridGap: gridGap,
     };
-    setTapestryDetails(row);
-    setMessage(JSON.stringify(row));
+    const payload = {
+      tapestry: row,
+      items: segments.map((segment) => {
+        return {
+          ...segment,
+          tapestryId: row.slug,
+          linksTo: segment.linksTo.join(","), // TODO: this needs to change to an ID
+          forkable: true,
+        };
+      }),
+    };
+    console.log(payload);
+    setMessage(`Sending data: \n\n ${JSON.stringify(row)}`);
+    fetch("/.netlify/functions/googlesheets", {
+      method: "POST",
+      body: JSON.stringify({ tapestry: payload.tapestry }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setMessage(message + "\n\nTapestry added in!");
+        console.log(response);
+        for (let i = 0; i < payload.items.length; i++) {
+          setMessage(
+            `Sending data for item ${i + 1}: ${JSON.stringify(
+              payload.items[i]
+            )}`
+          );
+          console.log(payload.items[i]);
+          fetch("/.netlify/functions/googlesheets", {
+            method: "POST",
+            body: JSON.stringify({ item: payload.items[i] }),
+          })
+            .then((res) => res.json())
+            .then((response) => {
+              setMessage(message + "\nItem added in!");
+              console.log(response);
+            })
+            .catch((error) => {
+              setMessage("Error adding item: ", error);
+              console.error("Error addint item: ", error);
+            });
+        }
+      })
+      .catch((error) => {
+        setMessage("Error adding tapestry: ", error);
+        console.error(error);
+      });
   };
   const addSegment = (e) => {
     e.preventDefault();
@@ -66,19 +106,54 @@ export default function MakerPage() {
           <h2>Tapestry details</h2>
           <p className="twoinputs">
             <label>
-              Title: <input type="text" name={"title"} />
+              Title:{" "}
+              <input
+                type="text"
+                name={"title"}
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  setSlug(slugify(e.target.value));
+                }}
+              />
             </label>
             <label>
-              Slug: <input type="text" name={"slug"} />
+              Slug:{" "}
+              <input
+                type="text"
+                name={"slug"}
+                value={slug}
+                onChange={(e) => setSlug(slugify(e.target.value))}
+              />
             </label>
           </p>
           <p className="twoinputs">
             <label>
-              Author: <input type="text" name={"author"} />
+              Author:{" "}
+              <input
+                type="text"
+                name={"author"}
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+              />
             </label>
             <label>
-              Background: <input type="text" name={"background"} />
-              <input type="color" name={"backgroundColor"} />
+              Background:{" "}
+              <input
+                placeholder="a CSS background value"
+                type="text"
+                name={"background"}
+                value={background}
+                onChange={(e) => setBackground(e.target.value)}
+              />
+              <input
+                type="color"
+                name={"backgroundColor"}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setBackground(e.target.value);
+                }}
+              />
             </label>
           </p>
           <p className="twoinputs">
@@ -134,8 +209,9 @@ export default function MakerPage() {
             ) : (
               <p>No items yet!</p>
             )}
-            <hr width={"50%"} />
-            <button onClick={addSegment}>Add new item</button>
+            <button style={{ marginTop: "20px" }} onClick={addSegment}>
+              Add new item
+            </button>
           </div>
           <hr style={{ marginTop: "2em" }} />
           <input type="submit" value="Submit" />

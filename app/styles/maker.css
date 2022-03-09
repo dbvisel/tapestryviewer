@@ -2,10 +2,27 @@
 	max-width: 800px;
 	margin-left: auto;
 	margin-right: auto;
+	font-size: 16px;
+}
+
+.makerpage p {
+	margin: 0;
+}
+
+.makerpage label {
+	margin-bottom: 0;
+}
+
+.makerpage select {
+	height: 40px;
+}
+
+.makerpage h2, .makerpage h3 {
+	margin: 0 0 8px 0;
 }
 
 hr {
-	margin: 2em 0;
+	margin: 20px 0;
 }
 
 label {
@@ -17,6 +34,10 @@ label {
 label > input[type="text"], label > input[type="number"], label > select, label > textarea {
 	margin-left: 1em;
 	width: 100%;
+}
+
+textarea:not([rows]) {
+	height: 40px;
 }
 
 input[type="color"] {
@@ -34,6 +55,7 @@ input[type="color"] {
 
 .twoinputs label {
 	white-space: nowrap;
+	flex: 1;
 }
 
 .twoinputs label + label {

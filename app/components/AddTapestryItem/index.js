@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
   const [title, setTitle] = useState(itemData.title);
-  const [slug, setSlug] = useState(itemData.slug);
+  // const [slug, setSlug] = useState(itemData.slug);
   const [type, setType] = useState(itemData.type || "textFrame");
   const [content, setContent] = useState(itemData.content || "");
   const [url, setUrl] = useState(itemData.url || "");
@@ -17,7 +18,7 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
     setItemData({
       id: itemData.id,
       title: title,
-      slug: slug,
+      // slug: slug,
       type: type,
       content: content,
       url: url,
@@ -30,7 +31,7 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
     });
   }, [
     title,
-    slug,
+    // slug,
     type,
     content,
     url,
@@ -60,13 +61,23 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
           />
         </label>
         <label>
+          Hide the title?
+          <select
+            value={hideTitle}
+            onChange={(e) => setHideTitle(Boolean(e.target.value))}
+          >
+            <option value={false}>No</option>
+            <option value={true}>Yes</option>
+          </select>
+        </label>
+        {/*<label>
           ID:
           <input
             type="text"
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
           />
-        </label>
+	</label>*/}
       </p>
       <p className="twoinputs">
         <label>
@@ -112,7 +123,7 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
           <input
             type="number"
             value={x}
-            onChange={(e) => setX(e.target.value)}
+            onChange={(e) => setX(parseInt(e.target.value, 10))}
           />
         </label>
         <label>
@@ -120,7 +131,7 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
           <input
             type="number"
             value={y}
-            onChange={(e) => setY(e.target.value)}
+            onChange={(e) => setY(parseInt(e.target.value, 10))}
           />
         </label>
         <label>
@@ -128,7 +139,7 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
           <input
             type="number"
             value={width}
-            onChange={(e) => setWidth(e.target.value)}
+            onChange={(e) => setWidth(parseInt(e.target.value, 10))}
           />
         </label>{" "}
         <label>
@@ -136,12 +147,10 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
           <input
             type="number"
             value={height}
-            onChange={(e) => setHeight(e.target.value)}
+            onChange={(e) => setHeight(parseInt(e.target.value, 10))}
           />
         </label>
-      </p>
-      <p className="twoinputs">
-        <label>
+        <label style={{ flex: 2 }}>
           Links to:
           <select
             multiple
@@ -151,29 +160,22 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
                 e.target.selectedOptions,
                 (option) => option.value
               );
+
               setLinksTo(value);
             }}
+            style={{ height: `${6 + 18 * items.length}px` }}
           >
             {items
               .filter((x) => x.id !== itemData.id)
               .map((item, index) => (
-                <option key={index} value={item.slug}>
+                <option key={index} value={item.id}>
                   {item.title}
                 </option>
               ))}
           </select>
         </label>
-        <label>
-          Hide the title?
-          <select
-            value={hideTitle}
-            onChange={(e) => setHideTitle(Boolean(e.target.value))}
-          >
-            <option value={false}>No</option>
-            <option value={true}>Yes</option>
-          </select>
-        </label>
       </p>
+      <hr width={"50%"} />
     </div>
   );
 };
