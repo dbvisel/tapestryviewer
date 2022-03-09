@@ -201,25 +201,26 @@ const TapestryComponent = ({ tapestry }) => {
                       />
                     ) : null
                   )}
-                  <div
-                    className="tools"
-                    style={{ position: "fixed", bottom: 0, right: 10 }}
-                  >
+                  <div className="tools">
                     <button
+                      className={focused === -1 ? "disabled" : ""}
+                      disabled={focused === -1}
                       onClick={(e) => {
                         e.stopPropagation();
                         setFocused(goPrev());
                       }}
                     >
-                      &lt;
+                      ←
                     </button>
                     <button
+                      className={focused === -1 ? "disabled" : ""}
+                      disabled={focused === -1}
                       onClick={(e) => {
                         e.stopPropagation();
                         setFocused(goNext());
                       }}
                     >
-                      &gt;
+                      →
                     </button>
                     <button
                       onClick={(e) => {

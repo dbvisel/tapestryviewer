@@ -1,3 +1,5 @@
+// from here: https://www.swyx.io/netlify-google-sheets
+
 /*
  * prerequisites
  */

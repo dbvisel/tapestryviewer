@@ -65,6 +65,7 @@ class Tapestry {
   };
   fork = ({ newAuthor, newSlug, newTitle }) => {
     // TODO: if a tapestry has been forked, shouldn't it retain a record of where it has been forked to?
+
     if (this.forkable) {
       const newTapestry = new Tapestry({
         title: newTitle || this.title + " fork",

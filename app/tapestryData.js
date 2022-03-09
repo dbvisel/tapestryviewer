@@ -225,7 +225,6 @@ const manualTapestries = [alex, bertha, chris, doris, ernest, fiona, george];
 // get google spreadsheets
 
 const getDownloadedGoogleData = async () => {
-  // TODO: circular tapestries don't work properly – ID gets overwritten when this is run twice.
   const googleTapestries = [];
   const listOfGoogleIds = [];
   for (let i = 0; i < googleData.tapestryRows.length; i++) {
@@ -242,7 +241,7 @@ const getDownloadedGoogleData = async () => {
       googleId: thisTapestryRow.googleId,
     });
     const thisId = thisTapestryRow.id;
-    // TODO: maybe: unnest this loop and just do this with the saved googleId?
+
     for (let j = 0; j < googleData.itemRows.length; j++) {
       const thisItemRow = googleData.itemRows[j];
       const thisItemId = thisItemRow.tapestryId;
@@ -269,19 +268,20 @@ const getDownloadedGoogleData = async () => {
 
     for (let j = 0; j < thisTapestry.items.length; j++) {
       if (thisTapestry.items[j].googleLinksTo.length) {
-        console.log("\n\n\n", thisTapestry.title, thisTapestry.items[j].title);
+        // console.log("\n\n\n", thisTapestry.title, thisTapestry.items[j].title);
         for (let k = 0; k < thisTapestry.items[j].googleLinksTo.length; k++) {
           const thisGoogleLink = thisTapestry.items[j].googleLinksTo[k];
-          console.log(thisTapestry.title, thisGoogleLink);
+          // console.log(thisTapestry.title, thisGoogleLink);
           const toLink = thisTapestry.items.find(
             (x) => x.googleId === thisGoogleLink
           );
           if (toLink) {
             // console.log(thisTapestry.items[j].id, toLink.id);
             thisTapestry.addLink(thisTapestry.items[j].id, toLink.id);
-          } else {
-            console.log("Can't find", thisGoogleLink);
           }
+          // else {
+          //   console.log("Can't find", thisGoogleLink);
+          // }
         }
       }
     }

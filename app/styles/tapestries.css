@@ -187,17 +187,37 @@
 	margin-bottom: 0;
 }
 
-.bookframe iframe, .imageframe iframe, .videoframe iframe, .webframe iframe {
+.bookframe iframe, .imageframe iframe, .videoframe iframe, .webframe > div, .webframe iframe {
 	box-sizing: border-box;
 	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
-	width: 100%;
+	width: calc(100% - 2px);
 	border: none;
 }
 
 .bookframe.notitle iframe, .imageframe.notitle iframe, .videoframe.notitle iframe, .webframe.notitle iframe {
 	height: 100%;
 }
+.webframe > div {
+	background: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+}
 
+.webframe > div img {
+	position: absolute;
+}
+
+.webframe  iframe {
+	z-index: 2;
+	position: absolute; 
+	top: calc(var(--headerHeight) - var(--textPadding));
+}
+
+.webframe.notitle iframe {
+	top: 0;
+}
 
 .audioframe > div {
 	box-sizing: border-box;
@@ -273,4 +293,29 @@
 		flex-direction: column;
 	}
 	
+}
+
+.tools {
+	position: fixed;
+	bottom: 0;
+	right: 10px;
+}
+
+.tools button {
+	padding: 10px;
+	min-width: 38px;
+	border-radius: 19px;
+	transition: 0.25s;
+}
+
+.tools button:focus {
+	box-shadow: none;
+}
+
+.tools button.disabled, .tools button.disabled:hover {
+	color: gray;
+}
+
+.tools button:hover {
+	color: var(--focusColor);
 }

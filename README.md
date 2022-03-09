@@ -1,6 +1,6 @@
 # tapestryviewer
 
-This site is made using [Remix](https://remix.run) and React. There's a deployment on [Netlify](https://tapestryviewer.netlify.app).
+This site is made using [Remix](https://remix.run) and React. It's set up fordeployment on Netlify, and you can find one  [there](https://tapestryviewer.netlify.app).
 
 To build, run:
 
@@ -8,15 +8,34 @@ To build, run:
 npm start
 ```
 
-You might need to install `netlify-cli` and login to Netlify to run it locally.
+You might need to install `netlify-cli` and login to Netlify to get it running locally.
 
 Data is set up in `/app/tapestryData.js`. Right now that demonstrates creating a few tapestry objects, forking them, adding items to them, and setting publication status. 
 
-Data can also be pulled in from a [Google sheet](https://docs.google.com/spreadsheets/d/1EfdUXGmHdiJ5gcqZn4LdBJuXB0L6QZvKe3Vd7RP33SM/edit?usp=sharing). This is not currently done on build, but is done manually; to do that, run:
+Data can also be pulled in from a [Google sheet](https://docs.google.com/spreadsheets/d/1EfdUXGmHdiJ5gcqZn4LdBJuXB0L6QZvKe3Vd7RP33SM/edit?usp=sharing). This is done by a prebuild script:
 
 ```
-npm run download
+npm run prebuild
 ```
+
+
+## Environmental variables
+
+This is expecting to find the following, which should be in an `.env` file. From Google:
+
+ - GOOGLE_API_KEY
+ - GOOGLE_SERVICE_ACCOUNT_EMAIL
+ - GOOGLE_PRIVATE_KEY (these three you can get pretty easily from the Google API console with a dev account)
+ - GOOGLE_SHEETS_ID, the ID of the Google sheet that's being used for the data.
+
+From Netlify:
+
+ - BUILD_HOOK, the URL that a post is fired to to trigger a rebuild of the site.
+
+
+## Maker
+
+If you go to `/maker`, there's a basic tapestry maker, which lets you add data which will then be put into the Google Sheet. This is generally easier than adding data to the Google Sheet directly! However, it doesn't let you edit data saved in the Google Sheet; to do that, you still need to go into the Google Sheet.
 
 ## Google sheet instructions
 
@@ -47,12 +66,13 @@ To put an item at a specific point in the grid, set _x_ and _y_ to the desired v
 To make a link from one item to another item, put the linked item's ID in the **linksTo** field of the linking item. You can link to multiple items; separate them with commas: _item1,item2_.
 
 ## TODO:
+
+- make Google Sheet editing of existing tapestries work
 - move settings to drawer rather than header
 - tree navigation
-- basic maker from template
-  - see this: https://github.com/sw-yx/netlify-google-spreadsheet-demo
 - fake comments
 - Chrome copy location?
   - doesn't seem to work inside iframe
 - movement of objects?
+  - could maybe get this to work inside of the maker preview
 - Hypothesis?

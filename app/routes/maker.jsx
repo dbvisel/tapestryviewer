@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { Link, useLoaderData } from "remix";
-import { slugify } from "~/utils/utils.mjs";
-import makerStyles from "~/styles/maker.css";
 import { v4 as uuidv4 } from "uuid";
+import { slugify } from "~/utils/utils.mjs";
 import AddTapestryItem from "~/components/AddTapestryItem";
 import DemoGrid from "~/components/DemoGrid";
-// TODO:
-// - make adding items work
-// - top should start with a list of tapestries – if you choose one, it should list all of the items in the tapestry
-// - connect to Google Spreadsheet: https://github.com/sw-yx/netlify-google-spreadsheet-demo
-//   - need to mod that to work with multiple sheets
+import makerStyles from "~/styles/maker.css";
 
-const fireWebhook = (url) => {
+// TODO:
+// - top should start with a list of tapestries – if you choose one, it should list all of the items in the tapestry
+
+const fireWebhook = async (url) => {
   console.log("firing webhook:", url);
-  fetch(url, {
+  await fetch(url, {
     method: "POST",
-  }).then((res) => console.log(res));
+  }).then((res) => {
+    console.log(res);
+  });
 };
 
 export const loader = () => {

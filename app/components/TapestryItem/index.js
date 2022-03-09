@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 import { Link } from "remix";
+import throbber from "./images/Loading_icon_cropped.gif";
 
 const TextFrame = ({ title, content, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame textframe`}>
@@ -73,6 +74,9 @@ const AudioFrame = ({ title, url, hideTitle }) => (
 const WebFrame = ({ title, url, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+    <div>
+      <img src={throbber} />
+    </div>
     <iframe
       src={url}
       frameBorder="0"
