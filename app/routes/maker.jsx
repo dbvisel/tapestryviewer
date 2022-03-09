@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "remix";
+import { Link, useLoaderData } from "remix";
 import { slugify } from "~/utils/utils.mjs";
 import makerStyles from "~/styles/maker.css";
 import { v4 as uuidv4 } from "uuid";
@@ -41,7 +41,7 @@ export default function MakerPage() {
   const [flag, setFlag] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleTapestrySubmit = (e) => {
+  const handleTapestrySubmit = async (e) => {
     e.preventDefault();
     const row = {
       title: title || "New tapestry",
@@ -65,12 +65,12 @@ export default function MakerPage() {
     };
     console.log(payload);
     setMessage(`Sending tapestry data: \n\n ${JSON.stringify(row)}`);
-    fetch("/.netlify/functions/googlesheets", {
+    await fetch("/.netlify/functions/googlesheets", {
       method: "POST",
       body: JSON.stringify({ tapestry: payload.tapestry }),
     })
       .then((res) => res.json())
-      .then((response) => {
+      .then(async (response) => {
         setMessage(message + "\n\nTapestry added in!");
         console.log(response);
         for (let i = 0; i < payload.items.length; i++) {
@@ -80,7 +80,7 @@ export default function MakerPage() {
             )}`
           );
           console.log(payload.items[i]);
-          fetch("/.netlify/functions/googlesheets", {
+          await fetch("/.netlify/functions/googlesheets", {
             method: "POST",
             body: JSON.stringify({ item: payload.items[i] }),
           })
@@ -96,6 +96,7 @@ export default function MakerPage() {
         }
       })
       .then(() => {
+        // This is firing too soon!
         setMessage(
           `Tapestry uploaded correctly. Rebuilding site – go <a href="/">here</a> in about thirty seconds.`
         );
@@ -121,6 +122,9 @@ export default function MakerPage() {
 
   return (
     <div className="makerpage">
+      <h3>
+        <Link to={"/"}>← Home</Link>
+      </h3>
       <h1>Tapestry Maker: Add new tapestry</h1>
       <form onSubmit={handleTapestrySubmit}>
         <div>
@@ -234,8 +238,13 @@ export default function MakerPage() {
             </button>
           </div>
           <hr style={{ marginTop: "2em" }} />
-          <input type="submit" value="Submit" />
-          {message ? <p dangerouslySetInnerHTML={{ __html: message }} /> : null}
+          {message ? (
+            <p
+              style={{ marginBottom: "1em" }}
+              dangerouslySetInnerHTML={{ __html: message }}
+            />
+          ) : null}
+          <input type="submit" value="Publish to Google Sheets" />
         </div>
       </form>
     </div>

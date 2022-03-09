@@ -24,6 +24,7 @@ class Item {
     height,
     linksTo,
     googleId,
+    googleLinksTo,
     hideTitle,
   }) {
     const uuid = uuidv4();
@@ -42,6 +43,7 @@ class Item {
     this.height = height || 1;
     this.clippingSetting = clippingSetting;
     this.linksTo = linksTo || []; // array of IDs of other items in the same tapestry
+    this.googleLinksTo = googleLinksTo || []; // array of IDs of other items in the same tapestry
     this.googleId = googleId || uuid;
     this.hideTitle = Boolean(hideTitle);
   }

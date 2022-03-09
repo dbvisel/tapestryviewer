@@ -256,7 +256,7 @@ const getDownloadedGoogleData = async () => {
           width: thisItemRow.width,
           height: thisItemRow.height,
           url: thisItemRow.url,
-          linksTo: thisItemRow.linksTo,
+          googleLinksTo: thisItemRow.linksTo, // this is still uncleaned!
           googleId: thisItemRow.id,
           hideTitle: thisItemRow.hideTitle,
         });
@@ -264,16 +264,27 @@ const getDownloadedGoogleData = async () => {
         thisTapestry.addItem(thisItem);
       }
     }
-    // console.log(listOfGoogleIds);
+
+    // now, add in all the links
+
     for (let j = 0; j < thisTapestry.items.length; j++) {
-      for (let k = 0; k < thisTapestry.items[j].linksTo.length; k++) {
-        if (listOfGoogleIds[thisTapestry.items[j].linksTo[k]]) {
-          thisTapestry.items[j].linksTo[k] =
-            listOfGoogleIds[thisTapestry.items[j].linksTo[k]];
+      if (thisTapestry.items[j].googleLinksTo.length) {
+        console.log("\n\n\n", thisTapestry.title, thisTapestry.items[j].title);
+        for (let k = 0; k < thisTapestry.items[j].googleLinksTo.length; k++) {
+          const thisGoogleLink = thisTapestry.items[j].googleLinksTo[k];
+          console.log(thisTapestry.title, thisGoogleLink);
+          const toLink = thisTapestry.items.find(
+            (x) => x.googleId === thisGoogleLink
+          );
+          if (toLink) {
+            // console.log(thisTapestry.items[j].id, toLink.id);
+            thisTapestry.addLink(thisTapestry.items[j].id, toLink.id);
+          } else {
+            console.log("Can't find", thisGoogleLink);
+          }
         }
       }
     }
-    // console.log(thisTapestry.items);
     googleTapestries[googleTapestries.length] = thisTapestry;
   }
   return googleTapestries;

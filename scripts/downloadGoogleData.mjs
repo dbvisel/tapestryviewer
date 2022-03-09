@@ -1,8 +1,8 @@
 import "dotenv/config";
 import fs from "fs";
 import { GoogleSpreadsheet } from "google-spreadsheet";
-import Tapestry from "./../app/models/tapestry.mjs";
-import Item from "./../app/models/item.mjs";
+// import Tapestry from "./../app/models/tapestry.mjs";
+// import Item from "./../app/models/item.mjs";
 
 console.log("Getting Google data");
 const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEETS_ID);
@@ -67,7 +67,7 @@ const outItemRows = itemRows.map((x) => {
     width: Number(x.width),
     height: Number(x.height),
     linksTo: x.linksTo ? x.linksTo.split(",") : [],
-    hideTitle: Boolean(x.hideTitle),
+    hideTitle: Boolean(x.hideTitle === "TRUE"),
   };
 });
 const googleTapestries = {
