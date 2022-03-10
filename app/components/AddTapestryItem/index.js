@@ -87,6 +87,7 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
             <option value="tapestry">Tapestry</option>
             <option value="book">Book</option>
             <option value="video">Video</option>
+            <option value="image">Image</option>
             <option value="audio">Audio</option>
             <option value="web">Web page</option>
           </select>

@@ -68,11 +68,16 @@ To make a link from one item to another item, put the linked item's ID in the **
 ## TODO:
 
 - make Google Sheet editing of existing tapestries work
+  - from there, add editing to tapestry viewer page?
 - move settings to drawer rather than header
 - tree navigation
-- fake comments
-- Chrome copy location?
-  - doesn't seem to work inside iframe
+- Google Spreadhseet-stored comments
 - movement of objects?
   - could maybe get this to work inside of the maker preview
 - Hypothesis?
+- Maker preview:
+  - color-code items
+- get data from internet archive api in maker
+  - figure out what type a link is?
+  - add item metadata – video start/end points etc.
+  - from a collection, make a bunch of items?

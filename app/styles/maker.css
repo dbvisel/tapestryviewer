@@ -89,6 +89,10 @@ h3 {
 .demoitem {
 	background-color: rgba(0,0,255,0.125);
 	border: 1px solid white;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
 }
 
 .demoitem.focused {

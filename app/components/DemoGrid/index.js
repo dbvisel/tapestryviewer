@@ -21,7 +21,9 @@ const DemoGrid = ({ items, focused, gridGap, gridUnitSize }) =>
             gridRowStart: deNaN(item.y),
             gridRowEnd: deNaN(item.y) + deNaN(item.height),
           }}
-        />
+        >
+          {index + 1}
+        </div>
       ))}
     </div>
   ) : null;
