@@ -382,7 +382,7 @@ nav.commentdrawer > div {
 	flex-direction: column;
 }
 
-nav.commentdrawer > div > button {
+nav.commentdrawer > div > button, nav.commentdrawer > div > form {
 	margin-top: auto;
 }
 

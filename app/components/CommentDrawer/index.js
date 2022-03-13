@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Comment from "./Comment";
 
 const comments = [
@@ -28,11 +29,37 @@ const CommentDrawer = ({
   focused,
   tapestry,
 }) => {
+  const [addingComment, setAddingComment] = useState(false);
+  const [message, setMessage] = useState("");
   let referent = tapestry;
   if (focused > -1) {
     referent = tapestry.items[focused];
   }
-  console.log(referent.title, referent.hash);
+
+  const addComment = (e) => {
+    e.preventDefault();
+    setAddingComment(false);
+    setMessage("Submitting your comment...");
+    const data = {
+      referent: referent.hash,
+      name: e.target["name"].value,
+      date: new Date(),
+      content: e.target["content"].value,
+    };
+    console.log(JSON.stringify(data));
+    fetch("/.netlify/functions/comment", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   return (
     <nav
       className="commentdrawer"
@@ -59,7 +86,31 @@ const CommentDrawer = ({
         ) : (
           <p>No comments yet.</p>
         )}
-        <button>Add new comment</button>
+        {addingComment ? (
+          <form onSubmit={addComment}>
+            <label>
+              Name:
+              <br />
+              <input type="text" name="name" />
+            </label>
+            <label>
+              Comment:
+              <br />
+              <textarea name="content" />
+            </label>
+            <input type="submit" value="Submit comment" />
+          </form>
+        ) : message ? (
+          <p style={{ marginTop: "auto" }}>{message}</p>
+        ) : (
+          <button
+            onClick={() => {
+              setAddingComment(true);
+            }}
+          >
+            Add new comment
+          </button>
+        )}
       </div>
     </nav>
   );
