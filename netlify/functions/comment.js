@@ -1,21 +1,19 @@
-// from here: https://www.swyx.io/netlify-google-sheets
-
 /*
  * prerequisites
  */
 if (!process.env.NETLIFY) {
   // get local env vars if not in CI
   // if in CI i expect its already set via the Netlify UI
-  require('dotenv').config();
+  require("dotenv").config();
 }
 // required env vars
 if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL)
-  throw new Error('no GOOGLE_SERVICE_ACCOUNT_EMAIL env var set');
+  throw new Error("no GOOGLE_SERVICE_ACCOUNT_EMAIL env var set");
 if (!process.env.GOOGLE_PRIVATE_KEY)
-  throw new Error('no GOOGLE_PRIVATE_KEY env var set');
+  throw new Error("no GOOGLE_PRIVATE_KEY env var set");
 if (!process.env.GOOGLE_SHEETS_ID)
   // spreadsheet key is the long id in the sheets URL
-  throw new Error('no GOOGLE_SHEETS_ID env var set');
+  throw new Error("no GOOGLE_SHEETS_ID env var set");
 
 /*
  * ok real work
@@ -29,29 +27,26 @@ if (!process.env.GOOGLE_SHEETS_ID)
  * the library also allows working just with cells,
  * but this example only shows CRUD on rows since thats more common
  */
-console.log("in here!");
-const { GoogleSpreadsheet } = require('google-spreadsheet');
+const { GoogleSpreadsheet } = require("google-spreadsheet");
 
 exports.handler = async (event, context) => {
-  const UserIP = event.headers['x-nf-client-connection-ip'] || '6.9.6.9'; // not required, i just feel like using this info
+  const UserIP = event.headers["x-nf-client-connection-ip"] || "6.9.6.9"; // not required, i just feel like using this info
   const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEETS_ID);
 
   // https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication
   await doc.useServiceAccountAuth({
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
+    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
   });
   await doc.loadInfo(); // loads document properties and worksheets. required.
-	console.log("got info!")
   const sheet = doc.sheetsByIndex[2]; // you may want to customize this if you have more than 1 sheet
   // console.log('accessing', sheet.title, 'it has ', sheet.rowCount, ' rows');
-	console.log(sheet);
-  const path = event.path.replace(/\.netlify\/functions\/[^/]+/, '');
-  const segments = path.split('/').filter((e) => e);
+  const path = event.path.replace(/\.netlify\/functions\/[^/]+/, "");
+  const segments = path.split("/").filter((e) => e);
 
   try {
     switch (event.httpMethod) {
-      case 'GET':
+      case "GET":
         /* GET /.netlify/functions/google-spreadsheet-fn */
         if (segments.length === 0) {
           const rows = await sheet.getRows(); // can pass in { limit, offset }
@@ -59,7 +54,7 @@ exports.handler = async (event, context) => {
           return {
             statusCode: 200,
             // body: JSON.stringify(rows) // dont do this - has circular references
-            body: JSON.stringify(serializedRows) // better
+            body: JSON.stringify(serializedRows), // better
           };
         }
         /* GET /.netlify/functions/google-spreadsheet-fn/123456 */
@@ -69,16 +64,15 @@ exports.handler = async (event, context) => {
           const srow = serializeRow(rows[rowId]);
           return {
             statusCode: 200,
-            body: JSON.stringify(srow) // just sends less data over the wire
+            body: JSON.stringify(srow), // just sends less data over the wire
           };
         } else {
           throw new Error(
-            'too many segments in GET request - you should only call somehting like /.netlify/functions/google-spreadsheet-fn/123456 not /.netlify/functions/google-spreadsheet-fn/123456/789/101112'
+            "too many segments in GET request - you should only call somehting like /.netlify/functions/google-spreadsheet-fn/123456 not /.netlify/functions/google-spreadsheet-fn/123456/789/101112"
           );
         }
       /* POST /.netlify/functions/google-spreadsheet-fn */
-      case 'POST':
-				console.log("in post!")
+      case "POST":
         /* parse the string body into a useable JS object */
         const data = JSON.parse(event.body);
         data.UserIP = UserIP;
@@ -89,17 +83,17 @@ exports.handler = async (event, context) => {
           statusCode: 200,
           body: JSON.stringify({
             message: `POST Success - added row ${addedRow._rowNumber - 1}`,
-            rowNumber: addedRow._rowNumber - 1 // minus the header row
-          })
+            rowNumber: addedRow._rowNumber - 1, // minus the header row
+          }),
         };
       /* PUT /.netlify/functions/google-spreadsheet-fn/123456 */
-      case 'PUT':
+      case "PUT":
         /* PUT /.netlify/functions/google-spreadsheet-fn */
         if (segments.length === 0) {
-          console.error('PUT request must also have an id'); // we could allow mass-updating of the sheet, but nah
+          console.error("PUT request must also have an id"); // we could allow mass-updating of the sheet, but nah
           return {
             statusCode: 422, // unprocessable entity https://stackoverflow.com/questions/3050518/what-http-status-response-code-should-i-use-if-the-request-is-missing-a-required
-            body: 'PUT request must also have an id.'
+            body: "PUT request must also have an id.",
           };
         }
         /* PUT /.netlify/functions/google-spreadsheet-fn/123456 */
@@ -116,18 +110,17 @@ exports.handler = async (event, context) => {
           await selectedRow.save(); // save updates
           return {
             statusCode: 200,
-            body: JSON.stringify({ message: 'PUT is a success!' })
+            body: JSON.stringify({ message: "PUT is a success!" }),
             // body: JSON.stringify(rows[rowId]) // just sends less data over the wire
           };
         } else {
           return {
             statusCode: 500,
-            body:
-              'too many segments in PUT request - you should only call somehting like /.netlify/functions/google-spreadsheet-fn/123456 not /.netlify/functions/google-spreadsheet-fn/123456/789/101112'
+            body: "too many segments in PUT request - you should only call somehting like /.netlify/functions/google-spreadsheet-fn/123456 not /.netlify/functions/google-spreadsheet-fn/123456/789/101112",
           };
         }
       /* DELETE /.netlify/functions/google-spreadsheet-fn/123456 */
-      case 'DELETE':
+      case "DELETE":
         //
         // warning:
         // this code is untested but you can probably figure this out
@@ -145,14 +138,14 @@ exports.handler = async (event, context) => {
             await lastRow.delete(); // delete a row
             return {
               statusCode: 200,
-              body: JSON.stringify({ message: 'DELETE is a success!' })
+              body: JSON.stringify({ message: "DELETE is a success!" }),
             };
           } else {
             return {
               statusCode: 200,
               body: JSON.stringify({
-                message: 'no rows left to delete! (first row is sacred)'
-              })
+                message: "no rows left to delete! (first row is sacred)",
+              }),
             };
           }
         } else {
@@ -160,23 +153,23 @@ exports.handler = async (event, context) => {
             statusCode: 500,
             body: JSON.stringify({
               message:
-                'invalid segments in DELETE request, must be /.netlify/functions/google-spreadsheet-fn/123456'
-            })
+                "invalid segments in DELETE request, must be /.netlify/functions/google-spreadsheet-fn/123456",
+            }),
           };
         }
       /* Fallthrough case */
       default:
         return {
           statusCode: 500,
-          body: 'unrecognized HTTP Method, must be one of GET/POST/PUT/DELETE'
+          body: "unrecognized HTTP Method, must be one of GET/POST/PUT/DELETE",
         };
     }
   } catch (err) {
-    console.error('error ocurred in processing ', event);
+    console.error("error ocurred in processing ", event);
     console.error(err);
     return {
       statusCode: 500,
-      body: err.toString()
+      body: err.toString(),
     };
   }
 
@@ -190,3 +183,4 @@ exports.handler = async (event, context) => {
     });
     return temp;
   }
+};

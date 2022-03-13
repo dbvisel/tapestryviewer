@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { json, useLoaderData } from "remix";
 import Comment from "./Comment";
 
 const comments = [
@@ -30,6 +31,8 @@ const CommentDrawer = ({
   tapestry,
 }) => {
   const [addingComment, setAddingComment] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [comments, setComments] = useState([]);
   const [message, setMessage] = useState("");
   let referent = tapestry;
   if (focused > -1) {
@@ -46,15 +49,17 @@ const CommentDrawer = ({
       date: new Date(),
       content: e.target["content"].value,
     };
-    console.log(JSON.stringify(data));
     await fetch("/.netlify/functions/comment", {
       method: "POST",
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((response) => {
+      .then(async (response) => {
         console.log(response);
         setMessage("Comment submitted!");
+        setTimeout(() => {
+          setMessage("");
+        }, 1000);
       })
       .catch((e) => {
         console.error(e);
@@ -62,8 +67,32 @@ const CommentDrawer = ({
       });
   };
 
+  const getComments = async (hash) => {
+    console.log("Loading comments for: ", hash);
+    await fetch("/.netlify/functions/comment", {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then(async (serverComments) => {
+        if (serverComments.length) {
+          const theseComments = serverComments.filter(
+            (x) => parseInt(x.referent, 10) === hash
+          );
+          setComments(theseComments);
+        } else {
+          setComments([]);
+        }
+        setLoading(false);
+      })
+      .catch((e) => {
+        setMessage("There was an error.");
+      });
+  };
+
   useEffect(() => {
     // TODO: get all the comments for that referent.
+    setLoading(true);
+    getComments(referent.hash);
   }, [referent]);
 
   return (
@@ -80,7 +109,9 @@ const CommentDrawer = ({
       </h2>
       <h3>Comments for {referent.title}</h3>
       <div>
-        {comments.length ? (
+        {loading ? (
+          <p>Loading comments...</p>
+        ) : comments.length ? (
           comments.map((comment, index) => (
             <Comment
               author={comment.author}

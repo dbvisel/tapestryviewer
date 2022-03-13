@@ -68,9 +68,6 @@ To make a link from one item to another item, put the linked item's ID in the **
 ## TODO:
 
 - Google Spreadhseet-stored comments
-	- need unchanging ID for tapestry, items (i.e. not dependent on UUIDs)
-	- add new function to pull in commments for comment ID
-	- add new function to post comments
 	- add item halo count
 - make Google Sheet editing of existing tapestries work
   - from there, add editing to tapestry viewer page?

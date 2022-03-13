@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { useCatch, useParams, useLoaderData } from "remix";
+import { useCatch, useParams, useLoaderData, json } from "remix";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
 import {
@@ -14,6 +14,7 @@ export const loader = async ({ params }) => {
   invariant(params.slug, "expected params.slug");
   const tapestries = await getTapestries();
   const tapestry = await getTapestryFromSlug(params.slug);
+
   if (tapestry) {
     const forkHistory = await getTapestryForkHistory(tapestries, tapestry);
     const forkedFromThis = await getTapestriesForkedFromThisOne(
