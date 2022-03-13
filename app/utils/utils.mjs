@@ -30,3 +30,13 @@ export const publicationStatus = (pubStatus) => {
   };
   return statuses[pubStatus];
 };
+
+export const hashString = (m) => {
+  let hash = 0;
+  for (let i = 0; i < m.length; i++) {
+    const character = m.charCodeAt(i);
+    hash = (hash << 5) - hash + character;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
+};

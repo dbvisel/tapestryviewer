@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { slugify } from "../utils/utils.mjs";
+import { slugify, hashString } from "../utils/utils.mjs";
 
 class Tapestry {
   constructor({
@@ -39,6 +39,7 @@ class Tapestry {
     this.gridGap = Number(gridGap) || 20;
     this.history = [];
     this.googleId = googleId || uuid;
+    this.hash = hashString(`${title || "New Tapestry"}_${author}`);
   }
   createNewVersion = () => {
     const newState = JSON.parse(JSON.stringify(this));
@@ -50,7 +51,10 @@ class Tapestry {
   addItem = (item) => {
     this.createNewVersion();
     const newItemList = JSON.parse(JSON.stringify(this.items));
-    newItemList[newItemList.length] = item;
+    const itemHash = hashString(
+      `${this.title}_${item.title}_${item.url}_${item.content}_${item.type}`
+    );
+    newItemList[newItemList.length] = { ...item, hash: itemHash };
     this.items = newItemList;
   };
   addLink = (fromId, toId) => {

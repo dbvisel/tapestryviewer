@@ -32,7 +32,7 @@ const CommentDrawer = ({
   if (focused > -1) {
     referent = tapestry.items[focused];
   }
-  console.log(referent.title, referent.id);
+  console.log(referent.title, referent.hash);
   return (
     <nav
       className="commentdrawer"
