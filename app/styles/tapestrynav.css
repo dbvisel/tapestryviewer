@@ -4,7 +4,7 @@ nav.tapestrynav {
 	bottom: 0;
 	width: var(--navWidth);
 	min-width: var(--navWidth);
-  padding: var(--navGap);
+  padding: var(--navGap) 0 var(--navGap) var(--navGap);
 	background: var(--background-body);
 	z-index: 2;
 	border-top: 1px solid var(--borderColor);
@@ -19,7 +19,7 @@ nav.tapestrynav {
 nav.tapestrynav > h2 {
 	transform: rotate(90deg);
 	position: absolute;
-	right: calc(-50% - 8px);
+	right: -135px;
 	top: 50%;
 	border-top: 1px solid var(--borderColor);
 	border-right: 1px solid var(--borderColor);
@@ -36,6 +36,7 @@ nav.tapestrynav > h2 {
 nav.tapestrynav ul {
 	margin: 0;
 	padding: 0;
+	font-size: 14px;
 }
 
 nav.tapestrynav li {

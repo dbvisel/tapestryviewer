@@ -2,7 +2,9 @@
   display: flex;
 	--headerHeight: 50px;
 	--navWidth: 200px;
-	--navGap: 25px;
+	--commentWidth: 250px;
+	--navGap: 10px;
+	--commentGap: 25px;
 	--borderColor: #ccc;
 	--gridUnitSize: 200px;
 	--gridGap: 20px;
@@ -16,6 +18,7 @@
 	--tapestryFrameBackground: magenta;
 	--focusColor: orange;
 	--borderRadius: 4px;
+	--drawerTransition: 0.5s;
 }
 
 .tapestrypage main {
@@ -33,7 +36,7 @@
 	right: 0;
 	bottom: 0;
 	box-sizing: border-box;
-	overflow-x: hidden;
+	overflow: hidden;
 	padding: 0;
 	background-size: cover !important;
 }
@@ -310,6 +313,7 @@
 	position: fixed;
 	bottom: 0;
 	right: 10px;
+	transition: var(--drawerTransition);
 }
 
 .tools button {
@@ -329,4 +333,76 @@
 
 .tools button:hover {
 	color: var(--focusColor);
+}
+
+nav.commentdrawer {
+	box-sizing: border-box;
+	position: fixed;
+	right: 0;
+	top: var(--headerHeight);
+	width: var(--commentWidth);
+	min-width: var(--commentWidth);
+  padding: 0 0 var(--commentGap) var(--commentGap);
+	background: var(--background-body);
+	z-index: 2;
+	border-left: 1px solid var(--borderColor);
+	transform: translateX(-100%);
+	transition: var(--drawerTransition);;
+	box-shadow: 5px -5px 5px rgba(0,0,0,0.125);
+	height: calc(100vh - var(--headerHeight));
+}
+
+nav.commentdrawer > h2 {
+	transform: rotate(-90deg);
+	position: absolute;
+	left: -105px;
+	top: calc(2 * var(--headerHeight));
+	border-top: 1px solid var(--borderColor);
+	border-right: 1px solid var(--borderColor);
+	border-left: 1px solid var(--borderColor);
+	border-top-right-radius: 10px;
+	padding: 2px var(--commentGap) 1px var(--commentGap);
+	border-top-left-radius: 10px;
+	background: var(--background-body);
+	user-select: none;
+	cursor: pointer;
+}
+
+nav.commentdrawer > h3 {
+	margin: 0 0 10px 0;
+	font-size: 16px;
+}
+
+nav.commentdrawer > div {
+	max-height: calc(100% - 75px);
+	min-height: calc(100% - 75px);
+	overflow-y: auto;
+	padding-right: var(--commentGap);
+	display: flex;
+	flex-direction: column;
+}
+
+nav.commentdrawer > div > button {
+	margin-top: auto;
+}
+
+.comment {
+	padding-bottom: calc(var(--commentGap) / 2);;
+	margin-bottom: calc(var(--commentGap) / 2);;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+	font-size: 14px;
+}
+
+.comment h3 {
+	margin: 0;
+}
+
+.comment h4 {
+	font-style: italic;
+	font-weight: normal;
+	margin: 0;
+}
+
+.comment p {
+	margin: 0;
 }

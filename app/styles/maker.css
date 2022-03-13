@@ -84,6 +84,7 @@ h3 {
 	background: white;
 	max-width: 100%;
 	overflow: auto;
+	resize: both;
 }
 
 .demoitem {

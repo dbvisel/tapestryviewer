@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState, useRef } from "react";
 import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import TapestryItem from "~/components/TapestryItem";
+import CommentDrawer from "~/components/CommentDrawer";
 
 const calculateTapestrySize = (items) => {
   // this isn't currently used!
@@ -49,6 +50,7 @@ const TapestryComponent = ({ tapestry }) => {
   // console.log(tapestry);
   const transformerRef = useRef();
   const [focused, setFocused] = useState(-1);
+  const [commentShown, setCommentShown] = useState(false);
   // get tapestry size.
   // console.log(calculateTapestrySize(tapestry.items));
   // make sure no items overlap?
@@ -201,7 +203,14 @@ const TapestryComponent = ({ tapestry }) => {
                       />
                     ) : null
                   )}
-                  <div className="tools">
+                  <div
+                    className="tools"
+                    style={{
+                      transform: `translateX(${
+                        commentShown ? "calc(0px - var(--commentWidth))" : "0px"
+                      })`,
+                    }}
+                  >
                     <button
                       className={focused === -1 ? "disabled" : ""}
                       disabled={focused === -1}
@@ -253,6 +262,12 @@ const TapestryComponent = ({ tapestry }) => {
           </TransformWrapper>
         </div>
       </div>
+      <CommentDrawer
+        commentShown={commentShown}
+        setCommentShown={setCommentShown}
+        focused={focused}
+        tapestry={tapestry}
+      />
     </Xwrapper>
   );
 };
