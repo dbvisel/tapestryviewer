@@ -36,7 +36,7 @@ const CommentDrawer = ({
     referent = tapestry.items[focused];
   }
 
-  const addComment = (e) => {
+  const addComment = async (e) => {
     e.preventDefault();
     setAddingComment(false);
     setMessage("Submitting your comment...");
@@ -47,16 +47,18 @@ const CommentDrawer = ({
       content: e.target["content"].value,
     };
     console.log(JSON.stringify(data));
-    fetch("/.netlify/functions/comment", {
+    await fetch("/.netlify/functions/comment", {
       method: "POST",
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
+        setMessage("Comment submitted!");
       })
       .catch((e) => {
         console.error(e);
+        setMessage("There was an error.");
       });
   };
 

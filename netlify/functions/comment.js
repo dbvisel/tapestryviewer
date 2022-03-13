@@ -29,6 +29,7 @@ if (!process.env.GOOGLE_SHEETS_ID)
  * the library also allows working just with cells,
  * but this example only shows CRUD on rows since thats more common
  */
+console.log("in here!");
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 exports.handler = async (event, context) => {
@@ -41,8 +42,10 @@ exports.handler = async (event, context) => {
     private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
   });
   await doc.loadInfo(); // loads document properties and worksheets. required.
+	console.log("got info!")
   const sheet = doc.sheetsByIndex[2]; // you may want to customize this if you have more than 1 sheet
   // console.log('accessing', sheet.title, 'it has ', sheet.rowCount, ' rows');
+	console.log(sheet);
   const path = event.path.replace(/\.netlify\/functions\/[^/]+/, '');
   const segments = path.split('/').filter((e) => e);
 
