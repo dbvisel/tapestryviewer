@@ -1,3 +1,5 @@
+// from here: https://www.swyx.io/netlify-google-sheets
+
 /*
  * prerequisites
  */
@@ -11,9 +13,9 @@ if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL)
   throw new Error('no GOOGLE_SERVICE_ACCOUNT_EMAIL env var set');
 if (!process.env.GOOGLE_PRIVATE_KEY)
   throw new Error('no GOOGLE_PRIVATE_KEY env var set');
-if (!process.env.GOOGLE_SPREADSHEET_ID_FROM_URL)
+if (!process.env.GOOGLE_SHEETS_ID)
   // spreadsheet key is the long id in the sheets URL
-  throw new Error('no GOOGLE_SPREADSHEET_ID_FROM_URL env var set');
+  throw new Error('no GOOGLE_SHEETS_ID env var set');
 
 /*
  * ok real work
@@ -31,7 +33,7 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 exports.handler = async (event, context) => {
   const UserIP = event.headers['x-nf-client-connection-ip'] || '6.9.6.9'; // not required, i just feel like using this info
-  const doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET_ID_FROM_URL);
+  const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEETS_ID);
 
   // https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication
   await doc.useServiceAccountAuth({
@@ -73,6 +75,7 @@ exports.handler = async (event, context) => {
         }
       /* POST /.netlify/functions/google-spreadsheet-fn */
       case 'POST':
+				console.log("in post!")
         /* parse the string body into a useable JS object */
         const data = JSON.parse(event.body);
         data.UserIP = UserIP;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Comment from "./Comment";
 
 const comments = [
@@ -59,6 +59,10 @@ const CommentDrawer = ({
         console.error(e);
       });
   };
+
+  useEffect(() => {
+    // TODO: get all the comments for that referent.
+  }, [referent]);
 
   return (
     <nav
