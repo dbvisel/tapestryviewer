@@ -10,7 +10,10 @@ const fireWebhook = (url) => {
   console.log("firing webhook:", url);
   fetch(url, {
     method: "POST",
-  }).then((res) => console.log(res));
+  }).then((res) => {
+    console.log(res);
+    window.location.reload();
+  });
 };
 
 export default function MainIndex() {
@@ -40,7 +43,11 @@ export default function MainIndex() {
         <a href="https://docs.google.com/spreadsheets/d/1EfdUXGmHdiJ5gcqZn4LdBJuXB0L6QZvKe3Vd7RP33SM/edit?usp=sharing">
           here
         </a>
-        ; instructions are in Github. If you have added another tapestry in the
+        ; instructions are in Github.
+      </p>
+      <p>
+        You can also try the <Link to="/maker">tapestry maker</Link>, though
+        that's still buggy. If you have added another tapestry there or in the
         Google sheet, click{" "}
         <a
           href={"/#"}
@@ -52,10 +59,14 @@ export default function MainIndex() {
           here
         </a>{" "}
         to rebuild this site; this takes about a minute. Then reload this page.
+        The Netlify badge below should be green. If it's not, wait a few seconds
+        and reload.
       </p>
       <p>
-        You can also try the <Link to="/maker">tapestry maker</Link>, though
-        that's still buggy.
+        <img
+          src="https://api.netlify.com/api/v1/badges/f9f28c0d-047c-4aa1-876d-aa47bb816f5f/deploy-status"
+          alt="Netlify Status"
+        />
       </p>
     </div>
   );
