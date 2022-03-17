@@ -63,7 +63,7 @@ const AddTapestryItem = ({
         </button>
       </h3>
       <p className="twoinputs">
-        <label>
+        <label style={{ flex: 3 }}>
           Title:
           <input
             type="text"
@@ -71,27 +71,15 @@ const AddTapestryItem = ({
             onChange={(e) => setTitle(e.target.value)}
           />
         </label>
-        <label>
-          Hide the title?
-          <select
-            value={hideTitle}
-            onChange={(e) => setHideTitle(Boolean(e.target.value))}
-          >
-            <option value={false}>No</option>
-            <option value={true}>Yes</option>
-          </select>
-        </label>
-        {/*<label>
-          ID:
+        <label style={{ flex: 1 }}>
           <input
-            type="text"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
+            type="checkbox"
+            value={hideTitle}
+            onChange={(e) => setHideTitle(e.target.checked)}
           />
-	</label>*/}
-      </p>
-      <p className="twoinputs">
-        <label>
+          Hide title?
+        </label>
+        <label style={{ flex: 2 }}>
           Type:
           <select value={type} onChange={(e) => setType(e.target.value)}>
             <option value="textFrame">Text frame</option>
@@ -103,6 +91,8 @@ const AddTapestryItem = ({
             <option value="web">Web page</option>
           </select>
         </label>
+      </p>
+      <p className="twoinputs">
         {type === "textFrame" ? (
           <label>
             Content:
@@ -187,7 +177,7 @@ const AddTapestryItem = ({
           </select>
         </label>
       </p>
-      <hr width={"50%"} />
+      <hr style={{ width: "50%", marginLeft: "25%" }} />
     </div>
   );
 };
