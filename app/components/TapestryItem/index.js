@@ -1,6 +1,30 @@
 import { Fragment, useState } from "react";
 import { Link } from "remix";
 import throbber from "./images/Loading_icon_cropped.gif";
+import { Comment } from "@styled-icons/boxicons-regular";
+import styled from "styled-components";
+
+const CommentIcon = styled.span`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: -35px;
+  top: 6px;
+  fill: black;
+  cursor: pointer;
+  user-select: none;
+  opacity: ${(props) => (props.comments ? 1 : 0.25)};
+  transition: 0.25s;
+  &:after {
+    content: "${(props) => (props.comments ? props.comments : "")}";
+    top: -30px;
+    left: 35px;
+    position: relative;
+  }
+  &:hover {
+    opacity: 1;
+  }
+`;
 
 const TextFrame = ({ title, content, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame textframe`}>
@@ -121,8 +145,7 @@ const TapestryIcon = ({ item }) => {
   );
 };
 
-const TapestryItem = ({ item, focused, setFocus }) => {
-  // console.log(item);
+const TapestryItem = ({ item, focused, setFocus, comments, openComments }) => {
   return (
     <section
       id={item.id}
@@ -136,6 +159,9 @@ const TapestryItem = ({ item, focused, setFocus }) => {
       onClick={setFocus}
     >
       <TapestryIcon item={item} />
+      <CommentIcon comments={comments} onClick={openComments}>
+        <Comment />
+      </CommentIcon>
       {item.type === "textFrame" ? (
         <TextFrame
           title={item.title}

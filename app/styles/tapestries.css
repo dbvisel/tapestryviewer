@@ -406,3 +406,9 @@ nav.commentdrawer > div > button, nav.commentdrawer > div > form {
 .comment p {
 	margin: 0;
 }
+
+.loadingmessage {
+	text-align: center;
+	font-size: 200%;
+	margin:  100px auto;
+}

@@ -287,6 +287,7 @@ const getDownloadedGoogleData = async () => {
     }
     googleTapestries[googleTapestries.length] = thisTapestry;
   }
+
   return googleTapestries;
 };
 
