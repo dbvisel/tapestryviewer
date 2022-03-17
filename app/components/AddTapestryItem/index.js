@@ -9,7 +9,6 @@ const AddTapestryItem = ({
   color,
 }) => {
   const [title, setTitle] = useState(itemData.title);
-  // const [slug, setSlug] = useState(itemData.slug);
   const [type, setType] = useState(itemData.type || "textFrame");
   const [content, setContent] = useState(itemData.content || "");
   const [url, setUrl] = useState(itemData.url || "");
@@ -74,7 +73,7 @@ const AddTapestryItem = ({
         <label style={{ flex: 1 }}>
           <input
             type="checkbox"
-            value={hideTitle}
+            checked={hideTitle}
             onChange={(e) => setHideTitle(e.target.checked)}
           />
           Hide title?
