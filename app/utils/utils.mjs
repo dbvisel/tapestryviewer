@@ -40,3 +40,16 @@ export const hashString = (m) => {
   }
   return hash;
 };
+
+const colors = [
+  "#ff0000",
+  "#ff7f00",
+  "#ffff00",
+  "#00ff00",
+  "#00ffff",
+  "#0000ff",
+  "#7f00ff",
+  "#ff00ff",
+];
+
+export const getColor = (x) => colors[x % colors.length];

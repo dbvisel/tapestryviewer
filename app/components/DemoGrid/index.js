@@ -1,3 +1,5 @@
+import { getColor } from "~/utils/utils.mjs";
+
 const deNaN = (x) => (isNaN(x) ? 1 : parseInt(x, 10));
 
 const DemoGrid = ({ items, focused, gridGap, gridUnitSize }) =>
@@ -20,6 +22,7 @@ const DemoGrid = ({ items, focused, gridGap, gridUnitSize }) =>
             gridColumnEnd: deNaN(item.x) + deNaN(item.width),
             gridRowStart: deNaN(item.y),
             gridRowEnd: deNaN(item.y) + deNaN(item.height),
+            backgroundColor: getColor(index),
           }}
         >
           {index + 1}

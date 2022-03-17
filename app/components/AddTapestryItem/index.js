@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
+const AddTapestryItem = ({
+  itemData,
+  setItemData,
+  items,
+  deleteSelf,
+  color,
+}) => {
   const [title, setTitle] = useState(itemData.title);
   // const [slug, setSlug] = useState(itemData.slug);
   const [type, setType] = useState(itemData.type || "textFrame");
@@ -44,7 +50,12 @@ const AddTapestryItem = ({ itemData, setItemData, items, deleteSelf }) => {
   ]);
 
   return (
-    <div className="item" id={itemData.id} tabIndex={1}>
+    <div
+      className="item"
+      id={itemData.id}
+      tabIndex={1}
+      style={{ "--color": color }}
+    >
       <h3>
         {title || "untitled"}
         <button onClick={() => deleteSelf(itemData.id)}>

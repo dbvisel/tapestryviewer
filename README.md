@@ -67,18 +67,23 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ## TODO:
 
-- Google Spreadhseet-stored comments
-	- add item halo count
-- make Google Sheet editing of existing tapestries work
-  - from there, add editing to tapestry viewer page?
-- move settings to drawer rather than header
-- tree navigation
-- movement of objects?
-  - could maybe get this to work inside of the maker preview
-- Hypothesis?
-- Maker preview:
-  - color-code items
-- get data from internet archive api in maker
-  - figure out what type a link is?
-  - add item metadata – video start/end points etc.
-  - from a collection, make a bunch of items?
+### important
+
+ - make Google Sheet editing of existing tapestries work
+   - from there, add editing to tapestry viewer page?
+ - it zooms too much
+
+### mildly important
+
+ - movement of objects?
+ - could maybe get this to work inside of the maker preview
+ - move settings to drawer rather than header
+ - get data from internet archive api in maker
+ - figure out what type a link is?
+ - add item metadata – video start/end points etc.
+ - from a collection, make a bunch of items?
+
+### think about
+
+ - tree navigation
+ - Hypothesis? Could we do that instead?
