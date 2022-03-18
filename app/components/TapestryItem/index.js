@@ -145,23 +145,36 @@ const TapestryIcon = ({ item }) => {
   );
 };
 
-const TapestryItem = ({ item, focused, setFocus, comments, openComments }) => {
+const TapestryItem = ({
+  item,
+  focused,
+  setFocus,
+  comments,
+  openComments,
+  preview,
+}) => {
   return (
     <section
       id={item.id}
       className={`tapestryItem ${focused ? "focused" : ""}`}
-      style={{
-        gridColumnStart: item.x,
-        gridColumnEnd: item.x + item.width,
-        gridRowStart: item.y,
-        gridRowEnd: item.y + item.height,
-      }}
+      style={
+        preview
+          ? { gridArea: "initial" }
+          : {
+              gridColumnStart: item.x,
+              gridColumnEnd: item.x + item.width,
+              gridRowStart: item.y,
+              gridRowEnd: item.y + item.height,
+            }
+      }
       onClick={setFocus}
     >
       <TapestryIcon item={item} />
-      <CommentIcon comments={comments} onClick={openComments}>
-        <Comment />
-      </CommentIcon>
+      {preview ? null : (
+        <CommentIcon comments={comments} onClick={openComments}>
+          <Comment />
+        </CommentIcon>
+      )}
       {item.type === "textFrame" ? (
         <TextFrame
           title={item.title}

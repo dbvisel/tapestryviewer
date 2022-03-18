@@ -1,4 +1,4 @@
-.tapestrypage {
+.tapestrypage,.makerpage {
   display: flex;
 	--headerHeight: 50px;
 	--navWidth: 200px;

@@ -1,8 +1,9 @@
 .makerpage {
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;
+	/* max-width: 800px; */
+	margin-left: 20px;
+	margin-right: 20px;
 	font-size: 16px;
+	display: block;
 }
 
 .makerpage p {
@@ -101,6 +102,7 @@ input[type="color"] {
 	max-width: 100%;
 	overflow: auto;
 	resize: both;
+	z-index: 999;
 }
 
 .demoitem {
@@ -122,3 +124,18 @@ input[type="color"] {
 	padding: 10px;
 	border-radius: 4px;
 } */
+
+.linkselector:before {
+	width: 16px;
+	height: 16px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 75%;
+	content: attr(data-index);
+	background-color:var(--color);
+	color: black;
+	margin-right: 10px;
+	position: relative;
+	top: -2px;
+}

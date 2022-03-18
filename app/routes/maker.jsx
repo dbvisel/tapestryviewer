@@ -5,6 +5,7 @@ import { slugify, getColor } from "~/utils/utils.mjs";
 import AddTapestryItem from "~/components/AddTapestryItem";
 import DemoGrid from "~/components/DemoGrid";
 import makerStyles from "~/styles/maker.css";
+import tapestryStyles from "~/styles/tapestries.css";
 
 // TODO: on save of existing tapesty: make a new function that does a lot of puts.
 
@@ -23,7 +24,10 @@ export const loader = () => {
 };
 
 export const links = () => {
-  return [{ rel: "stylesheet", href: makerStyles }];
+  return [
+    { rel: "stylesheet", href: tapestryStyles },
+    { rel: "stylesheet", href: makerStyles },
+  ];
 };
 
 export default function MakerPage() {
@@ -139,6 +143,7 @@ export default function MakerPage() {
       id: uuidv4(4),
       title: defaultTitle,
       slug: slugify(defaultTitle),
+      x: segments.length + 1,
     };
     setFocusedItem(thisItem);
     setSegments([...segments, thisItem]);
@@ -266,6 +271,7 @@ export default function MakerPage() {
                   <AddTapestryItem
                     color={getColor(index)}
                     key={segment.id}
+                    gridUnitSize={gridUnitSize}
                     items={segments}
                     itemData={segment}
                     index={index}
