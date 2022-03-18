@@ -180,7 +180,13 @@ export default function MakerPage() {
           .
         </p>
         <div>
-          {isNewTapestry ? <h1>Add new tapestry</h1> : <h1>Editing {title}</h1>}
+          {isNewTapestry ? (
+            <h1>Add new tapestry</h1>
+          ) : (
+            <h1>
+              Editing <strong>{title}</strong>
+            </h1>
+          )}
           <div>
             <h2>Tapestry details</h2>
             <p className="twoinputs">
