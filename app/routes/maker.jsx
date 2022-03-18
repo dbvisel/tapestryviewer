@@ -48,9 +48,21 @@ export default function MakerPage() {
   const [existingTapestry, setExistingTapestry] = useState(null);
 
   const handleSetTapestry = (id) => {
-    setIsNewTapestry(!Boolean(id));
+    if (id === "0" || id === 0) {
+      setIsNewTapestry(true);
+      setTitle("New tapestry");
+      setAuthor("Author");
+      setBackground("none");
+      setGridGap(20);
+      setGridUnitSize(200);
+      setExistingTapestry(null);
+      setSegments([]);
+      return;
+    }
     if (id) {
       const tapestry = tapestries.find((tapestry) => tapestry.id === id);
+      console.log(tapestry);
+      setIsNewTapestry(false);
       setExistingTapestry(tapestry);
       setTitle(tapestry.title);
       setSlug(tapestry.slug);
@@ -62,7 +74,7 @@ export default function MakerPage() {
     }
   };
 
-  const handleTapestrySubmit = async (e) => {
+  const handleTapestrySubmit = async (e, fork) => {
     e.preventDefault();
     const row = {
       title: title || "New tapestry",
@@ -73,6 +85,11 @@ export default function MakerPage() {
       gridUnitSize: gridUnitSize,
       gridGap: gridGap,
     };
+    if (fork) {
+      row.title = `${row.title} fork`;
+      row.slug = `${row.slug}-fork`;
+      row.id = `${row.id}-fork`;
+    }
     const payload = {
       tapestry: row,
       items: segments.map((segment) => {
@@ -85,7 +102,7 @@ export default function MakerPage() {
       }),
     };
     console.log(payload);
-    if (isNewTapestry) {
+    if (isNewTapestry || fork) {
       setMessage(`Sending tapestry data: \n\n ${JSON.stringify(row)}`);
       await fetch("/.netlify/functions/googlesheets", {
         method: "POST",
@@ -162,6 +179,7 @@ export default function MakerPage() {
             style={{ display: "inline-block" }}
             onChange={(e) => handleSetTapestry(e.target.value)}
           >
+            <option value={0}>Create a new tapestry</option>
             {tapestries.map((tapestry, index) => (
               <option key={index} value={tapestry.id}>
                 {tapestry.title}
@@ -310,10 +328,31 @@ export default function MakerPage() {
               />
             ) : null}
             <input type="submit" value="Publish to Google Sheets" />
-            <p>
-              PLEASE DO NOT PUBLISH IF YOU'RE EDITING AN EXISTING TAPESTRY! THIS
-              WILL CREATE A NEW TAPESTRY WITH THE SAME NAME!
-            </p>
+            {!isNewTapestry ? (
+              <p>
+                PLEASE DO NOT CLICK THIS BUTTON IF YOU'RE EDITING AN EXISTING
+                TAPESTRY! RIGHT NOW THIS WILL CREATE A NEW TAPESTRY WITH EXACTLY
+                THE SAME NAME WHICH IS PROBABLY NOT WHAT YOU WANT!
+              </p>
+            ) : null}
+            {isNewTapestry ? null : (
+              <p style={{ display: "flex", alignItems: "baseline" }}>
+                Or you can{" "}
+                <input
+                  style={{
+                    display: "inline-block",
+                    padding: "10px",
+                    margin: "0 10px",
+                  }}
+                  type="button"
+                  onClick={(e) => {
+                    handleTapestrySubmit(e, true);
+                  }}
+                  value="Fork this tapestry"
+                />{" "}
+                which will create a new tapestry with the changed values.
+              </p>
+            )}
           </div>
         </div>
       </form>
