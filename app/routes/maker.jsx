@@ -262,6 +262,7 @@ export default function MakerPage() {
               focused={focusedItem}
               gridGap={gridGap}
               gridUnitSize={gridUnitSize}
+              background={background}
             />
             <hr style={{ marginTop: "2em" }} />
             <div>

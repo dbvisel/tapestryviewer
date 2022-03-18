@@ -103,6 +103,7 @@ input[type="color"] {
 	overflow: auto;
 	resize: both;
 	z-index: 999;
+	opacity: 0.5;
 }
 
 .demoitem {
@@ -112,7 +113,6 @@ input[type="color"] {
 	justify-content: center;
 	align-items: center;
 	color: black;
-	opacity: 0.5;
 }
 
 .demoitem.focused {

@@ -2,13 +2,14 @@ import { getColor } from "~/utils/utils.mjs";
 
 const deNaN = (x) => (isNaN(x) ? 1 : parseInt(x, 10));
 
-const DemoGrid = ({ items, focused, gridGap, gridUnitSize }) =>
+const DemoGrid = ({ items, focused, gridGap, gridUnitSize, background }) =>
   items.length ? (
     <div
       className="demogrid"
       style={{
         "--gridGap": `${gridGap}px`,
         "--gridUnitSize": `${gridUnitSize}px`,
+        background: background,
       }}
     >
       {items.map((item, index) => (
