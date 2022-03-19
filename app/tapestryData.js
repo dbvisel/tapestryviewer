@@ -256,7 +256,7 @@ const getDownloadedGoogleData = async () => {
           height: thisItemRow.height,
           url: thisItemRow.url,
           googleLinksTo: thisItemRow.linksTo, // this is still uncleaned!
-          googleId: thisItemRow.id,
+          googleId: thisItemRow.id, // why is this not coming thorough?n
           hideTitle: thisItemRow.hideTitle,
         });
         listOfGoogleIds[thisItemRow.id] = thisItem.id;

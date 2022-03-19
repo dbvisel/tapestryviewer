@@ -84,7 +84,7 @@ const AudioFrame = ({ title, url, hideTitle }) => (
     <div>
       <iframe
         src={url}
-        height={36}
+        height={url.indexOf(`/embed/`) > -1 ? 36 : "100%"}
         width={"100%"}
         frameBorder="0"
         webkitallowfullscreen="true"

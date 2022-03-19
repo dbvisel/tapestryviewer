@@ -69,7 +69,7 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### important
 
- - make Google Sheet editing of existing tapestries work
+ - add script to save modified tapestries
  - it zooms too much
 
 ### mildly important

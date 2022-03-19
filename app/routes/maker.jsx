@@ -33,6 +33,7 @@ export const links = () => {
 export default function MakerPage() {
   const { buildhook } = useLoaderData();
   const { tapestries } = useOutletContext();
+  // console.log(tapestries); // NOTE: tapestries here have google IDs.
 
   const [isNewTapestry, setIsNewTapestry] = useState(true);
   const [title, setTitle] = useState("New tapestry");
@@ -61,7 +62,8 @@ export default function MakerPage() {
     }
     if (id) {
       const tapestry = tapestries.find((tapestry) => tapestry.id === id);
-      console.log(tapestry);
+      console.log(tapestry.items);
+      // TODO: why are googleIds not showing up here for items?
       setIsNewTapestry(false);
       setExistingTapestry(tapestry);
       setTitle(tapestry.title);
