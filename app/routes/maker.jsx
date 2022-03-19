@@ -101,7 +101,7 @@ export default function MakerPage() {
           };
         }),
       };
-      console.log(payload);
+      // console.log(payload);
       setMessage(`Sending tapestry data: \n\n ${JSON.stringify(row)}`);
       await fetch("/.netlify/functions/googlesheets", {
         method: "POST",
@@ -117,7 +117,7 @@ export default function MakerPage() {
                 payload.items[i]
               )}`
             );
-            console.log(payload.items[i]);
+            // console.log(payload.items[i]);
             await fetch("/.netlify/functions/googlesheets", {
               method: "POST",
               body: JSON.stringify({ item: payload.items[i] }),
@@ -152,12 +152,13 @@ export default function MakerPage() {
       const payload = {
         tapestry: row,
         items: segments.map((segment) => {
-          const { content, height, hideTitle, type, url, width, x, y } =
+          const { content, height, hideTitle, title, type, url, width, x, y } =
             segment;
           return {
             content: content,
             height: height,
             hideTitle: hideTitle,
+            title: title,
             type: type,
             x: x,
             y: y,
@@ -170,8 +171,51 @@ export default function MakerPage() {
         }),
       };
       console.log("Payload: ", payload);
-
       // TODO: make new function to send in modified data, add in new data
+      await fetch(`/.netlify/functions/googlesheets/${row.id}`, {
+        method: "PUT",
+        body: JSON.stringify({ tapestry: payload.tapestry }),
+      })
+        .then((res) => res.json())
+        .then(async (response) => {
+          setMessage(message + "\n\nTapestry modified!");
+          console.log(response);
+          for (let i = 0; i < payload.items.length; i++) {
+            setMessage(
+              `Sending data for item ${i + 1}: ${JSON.stringify(
+                payload.items[i]
+              )}`
+            );
+            // console.log(payload.items[i]);
+            await fetch(
+              `/.netlify/functions/googlesheets/${payload.items[i].id}`,
+              {
+                method: "PUT",
+                body: JSON.stringify({ item: payload.items[i] }),
+              }
+            )
+              .then((res) => res.json())
+              .then((response) => {
+                setMessage(message + "\nItem edited!");
+                console.log(response);
+              })
+              .catch((error) => {
+                setMessage("Error editing item!");
+                console.error("Error editing item: ", error);
+              });
+          }
+        })
+        .then(() => {
+          // This is firing too soon!
+          setMessage(
+            `Tapestry modified correctly. Rebuilding site – go <a href="/">here</a> in about thirty seconds.`
+          );
+          fireWebhook(buildhook);
+        })
+        .catch((error) => {
+          setMessage("Error adding tapestry!");
+          console.error(error);
+        });
     }
   };
 
@@ -349,14 +393,12 @@ export default function MakerPage() {
                 dangerouslySetInnerHTML={{ __html: message }}
               />
             ) : null}
-            <input type="submit" value="Publish to Google Sheets" />
-            {!isNewTapestry ? (
-              <p>
-                PLEASE DO NOT CLICK THIS BUTTON IF YOU'RE EDITING AN EXISTING
-                TAPESTRY! RIGHT NOW THIS WILL CREATE A NEW TAPESTRY WITH EXACTLY
-                THE SAME NAME WHICH IS PROBABLY NOT WHAT YOU WANT!
-              </p>
-            ) : null}
+            <input
+              type="submit"
+              value={`Publish ${
+                isNewTapestry ? "" : "changes "
+              }to Google Sheets`}
+            />
             {isNewTapestry ? null : (
               <p style={{ display: "flex", alignItems: "baseline" }}>
                 Or you can{" "}

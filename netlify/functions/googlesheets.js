@@ -81,13 +81,12 @@ exports.handler = async (event, context) => {
         }
       /* POST /.netlify/functions/google-spreadsheet-fn */
       case "POST":
-        console.log("in post");
         /* parse the string body into a useable JS object */
         const data = JSON.parse(event.body);
         data.UserIP = UserIP;
         // console.log("`POST` invoked", data);
         if (data.tapestry) {
-          console.log("in data.tapestry");
+          // console.log("in data.tapestry");
           const addedRow = await tapestrySheet.addRow(data.tapestry);
           // const addedItemsRow = await sheet.addRow(data.tapestry);
           // console.log({ addedRow });
@@ -102,7 +101,7 @@ exports.handler = async (event, context) => {
           };
         }
         if (data.item) {
-          console.log("in data.item");
+          // console.log("adding data.item");
           const addedRow = await itemsSheet.addRow(data.item);
           // const addedItemsRow = await sheet.addRow(data.tapestry);
           // console.log({ addedRow });
@@ -130,29 +129,69 @@ exports.handler = async (event, context) => {
             body: "PUT request must also have an id.",
           };
         }
+        const putData = JSON.parse(event.body);
+
         /* PUT /.netlify/functions/google-spreadsheet-fn/123456 */
-        if (segments.length === 1) {
-          const rowId = segments[0];
-          const rows = await tapestrySheet.getRows(); // can pass in { limit, offset }
-          const data = JSON.parse(event.body);
-          data.UserIP = UserIP;
-          console.log(`PUT invoked on row ${rowId}`, data);
-          const selectedRow = rows[rowId];
-          Object.entries(data).forEach(([k, v]) => {
-            selectedRow[k] = v;
-          });
-          await selectedRow.save(); // save updates
-          return {
-            statusCode: 200,
-            body: JSON.stringify({ message: "PUT is a success!" }),
-            // body: JSON.stringify(rows[rowId]) // just sends less data over the wire
-          };
-        } else {
-          return {
-            statusCode: 500,
-            body: "too many segments in PUT request - you should only call somehting like /.netlify/functions/google-spreadsheet-fn/123456 not /.netlify/functions/google-spreadsheet-fn/123456/789/101112",
-          };
+        if (putData.tapestry) {
+          if (segments.length === 1) {
+            const rowId = segments[0];
+            const rows = await tapestrySheet.getRows(); // can pass in { limit, offset }
+            putData.UserIP = UserIP;
+            console.log(`PUT invoked on tapestry ID ${rowId}`);
+            const selectedRow = rows.find((x) => rowId === x.id);
+            // console.log(selectedRow);
+            Object.entries(putData.tapestry).forEach(([k, v]) => {
+              // console.log(k, v);
+              selectedRow[k] = v;
+            });
+            // console.log(selectedRow);
+            await selectedRow.save(); // save updates
+            return {
+              statusCode: 200,
+              body: JSON.stringify({ message: "PUT is a success!" }),
+              // body: JSON.stringify(rows[rowId]) // just sends less data over the wire
+            };
+          } else {
+            return {
+              statusCode: 500,
+              body: "too many segments in PUT request - you should only call somehting like /.netlify/functions/google-spreadsheet-fn/123456 not /.netlify/functions/google-spreadsheet-fn/123456/789/101112",
+            };
+          }
         }
+        if (putData.item) {
+          if (segments.length === 1) {
+            const rowId = segments[0];
+            const rows = await itemsSheet.getRows(); // can pass in { limit, offset }
+            putData.UserIP = UserIP;
+            console.log(`PUT invoked on ID ${rowId}`);
+            const selectedRow = rows.find((x) => rowId === x.id);
+            if (!selectedRow) {
+              console.log("This item doesn't exist!", rowId);
+              await itemsSheet.addRow(putData.item);
+            } else {
+              Object.entries(putData.item).forEach(([k, v]) => {
+                selectedRow[k] = v;
+              });
+              // console.log("Changing item: ", selectedRow);
+              await selectedRow.save(); // save updates
+            }
+            return {
+              statusCode: 200,
+              body: JSON.stringify({ message: "PUT is a success!" }),
+              // body: JSON.stringify(rows[rowId]) // just sends less data over the wire
+            };
+          } else {
+            return {
+              statusCode: 500,
+              body: "too many segments in PUT request - you should only call somehting like /.netlify/functions/google-spreadsheet-fn/123456 not /.netlify/functions/google-spreadsheet-fn/123456/789/101112",
+            };
+          }
+        }
+        return {
+          statusCode: 500,
+          body: "neither tapestry nor body!",
+        };
+
       /* DELETE /.netlify/functions/google-spreadsheet-fn/123456 */
       case "DELETE":
         //
