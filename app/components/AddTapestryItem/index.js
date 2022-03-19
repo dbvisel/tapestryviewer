@@ -23,6 +23,7 @@ const AddTapestryItem = ({
 
   useEffect(() => {
     setItemData({
+      ...itemData,
       id: itemData.id,
       title: title,
       // slug: slug,

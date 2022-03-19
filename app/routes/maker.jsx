@@ -33,8 +33,6 @@ export const links = () => {
 export default function MakerPage() {
   const { buildhook } = useLoaderData();
   const { tapestries } = useOutletContext();
-  // console.log(tapestries); // NOTE: tapestries here have google IDs.
-
   const [isNewTapestry, setIsNewTapestry] = useState(true);
   const [title, setTitle] = useState("New tapestry");
   const [slug, setSlug] = useState(slugify(title));
@@ -61,9 +59,7 @@ export default function MakerPage() {
       return;
     }
     if (id) {
-      const tapestry = tapestries.find((tapestry) => tapestry.id === id);
-      console.log(tapestry.items);
-      // TODO: why are googleIds not showing up here for items?
+      const tapestry = tapestries.find((t) => t.id === id);
       setIsNewTapestry(false);
       setExistingTapestry(tapestry);
       setTitle(tapestry.title);
@@ -86,25 +82,26 @@ export default function MakerPage() {
       background: background,
       gridUnitSize: gridUnitSize,
       gridGap: gridGap,
+      forkable: true,
     };
     if (fork) {
       row.title = `${row.title} fork`;
       row.slug = `${row.slug}-fork`;
       row.id = `${row.id}-fork`;
     }
-    const payload = {
-      tapestry: row,
-      items: segments.map((segment) => {
-        return {
-          ...segment,
-          tapestryId: row.slug,
-          linksTo: segment.linksTo.join(","), // TODO: this needs to change to an ID
-          forkable: true,
-        };
-      }),
-    };
-    console.log(payload);
+
     if (isNewTapestry || fork) {
+      const payload = {
+        tapestry: row,
+        items: segments.map((segment) => {
+          return {
+            ...segment,
+            tapestryId: row.slug,
+            linksTo: segment.linksTo.join(","), // TODO: this needs to change to an ID
+          };
+        }),
+      };
+      console.log(payload);
       setMessage(`Sending tapestry data: \n\n ${JSON.stringify(row)}`);
       await fetch("/.netlify/functions/googlesheets", {
         method: "POST",
@@ -148,9 +145,32 @@ export default function MakerPage() {
           console.error(error);
         });
     } else {
-      console.log("Modifying existing tapestry");
-      console.log(existingTapestry);
-      // TODO: mmerge old data with modified data.
+      console.log("Modifying existing tapestry: ", existingTapestry);
+      const getGoogleIdForId = (id) =>
+        segments.find((segment) => segment.id === id).googleId || id;
+      // row.id === existingTapestry.googleId || row.id; // does this need to be done?
+      const payload = {
+        tapestry: row,
+        items: segments.map((segment) => {
+          const { content, height, hideTitle, type, url, width, x, y } =
+            segment;
+          return {
+            content: content,
+            height: height,
+            hideTitle: hideTitle,
+            type: type,
+            x: x,
+            y: y,
+            width: width,
+            url: url,
+            tapestryId: row.slug,
+            linksTo: segment.linksTo.map((x) => getGoogleIdForId(x)).join(","),
+            id: segment.googleId || segment.id,
+          };
+        }),
+      };
+      console.log("Payload: ", payload);
+
       // TODO: make new function to send in modified data, add in new data
     }
   };
