@@ -78,6 +78,32 @@ const VideoFrame = ({ title, url, hideTitle }) => (
   </div>
 );
 
+const SoftwareFrame = ({ title, url, hideTitle }) => (
+  <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
+    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+    <iframe
+      src={url}
+      frameBorder="0"
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowFullScreen
+    />
+  </div>
+);
+
+const IaFrame = ({ title, url, hideTitle }) => (
+  <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
+    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+    <iframe
+      src={url}
+      frameBorder="0"
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowFullScreen
+    />
+  </div>
+);
+
 const AudioFrame = ({ title, url, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
@@ -213,6 +239,14 @@ const TapestryItem = ({
           url={item.url}
           hideTitle={item.hideTitle}
         />
+      ) : item.type === "software" ? (
+        <SoftwareFrame
+          title={item.title}
+          url={item.url}
+          hideTitle={item.hideTitle}
+        />
+      ) : item.type === "iaresource" ? (
+        <IaFrame title={item.title} url={item.url} hideTitle={item.hideTitle} />
       ) : (
         <p>
           Unrecognized item type: {item.title}
