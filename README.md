@@ -69,17 +69,18 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### important
 
- - add script to save modified tapestries
  - it zooms too much
 
 ### mildly important
 
+ - full preview inside maker?
  - movement of objects?
    - could maybe get this to work inside of the maker preview
  - move settings to drawer rather than header
  - get data from internet archive api in maker
    - add item metadata – video start/end points etc.
    - from a collection, make a bunch of items?
+   - Can we query Wayback Machine?
 
 ### think about
 

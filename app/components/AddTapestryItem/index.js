@@ -54,6 +54,41 @@ const AddTapestryItem = ({
 
   useEffect(async () => {
     if (type === "iaresource" && url) {
+      // We could be doing this for any website?
+      if (url.includes("https://web.archive.org/")) {
+        const siteToSearch = url.split("/web.archive.org")[1].split("://")[1];
+        if (siteToSearch) {
+          const deslashed = siteToSearch.split("/").filter(Boolean).join("/"); // this removes trailing slashes
+          if (deslashed) {
+            const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
+            console.log(theUrl);
+            setMessage("Querying Internet Archive . . .");
+            await fetch(theUrl, {
+              method: "GET",
+            })
+              .then((res) => res.json())
+              .then(async (r) => {
+                // if we are here, we have r.archived_snapshots
+                console.log(r);
+              })
+              .catch((e) => {
+                setMessage("There was an error, check the log");
+                console.error(e);
+              });
+            setType("web"); // this could be a special type?
+          } else {
+            console.error("Weird Wayback Machine URL: ", url);
+            setType("web");
+            // if we get here, there's something off about the URL
+            return;
+          }
+        } else {
+          console.error("Weird Wayback Machine URL: ", url);
+          setType("web");
+          // if we get here, there's something off about the URL
+          return;
+        }
+      }
       if (url.includes("https://archive.org/")) {
         const newUrl = url.replace(
           "archive.org/details/",
@@ -78,6 +113,11 @@ const AddTapestryItem = ({
               setType("audio");
             }
             if (r.metadata.mediatype === "movies") {
+              // Could take this as a thumbnail (does this always work?):
+              // though to do this we would need to make sure this works for everything.
+              // and we would need to have a "thumbnail" as part of the itemData.
+              const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
+              console.log("Possible thumbnail: ", thumbnail);
               setType("video");
             }
             if (r.metadata.mediatype === "texts") {

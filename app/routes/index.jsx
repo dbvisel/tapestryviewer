@@ -33,6 +33,10 @@ export default function MainIndex() {
         ))}
       </ul>
       <p>
+        You can also try the <Link to="/maker">tapestry maker</Link>, which
+        should let you edit any of the above tapestries.
+      </p>
+      <p>
         Model reference is{" "}
         <a href="https://docs.google.com/document/d/1uqnUIORi5lypQeS2-l9VQ3xkUNSP0gmmewaiID9GFPg/edit#">
           here
@@ -46,9 +50,7 @@ export default function MainIndex() {
         ; instructions are in Github.
       </p>
       <p>
-        You can also try the <Link to="/maker">tapestry maker</Link>, though
-        that's still buggy. If you have added another tapestry there or in the
-        Google sheet, click{" "}
+        If you have added another tapestry there or in the Google sheet, click{" "}
         <a
           href={"/#"}
           onClick={(e) => {
@@ -60,7 +62,7 @@ export default function MainIndex() {
         </a>{" "}
         to rebuild this site; this takes about a minute. Then reload this page.
         The Netlify badge below should be green. If it's not, wait a few seconds
-        and reload.
+        and reload again.
       </p>
       <p>
         <img
