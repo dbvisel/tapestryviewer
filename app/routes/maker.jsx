@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { slugify, getColor } from "~/utils/utils.mjs";
 import AddTapestryItem from "~/components/AddTapestryItem";
 import DemoGrid from "~/components/DemoGrid";
+import TapestryComponent from "~/components/TapestryComponent";
 import makerStyles from "~/styles/maker.css";
 import tapestryStyles from "~/styles/tapestries.css";
 
@@ -420,6 +421,22 @@ export default function MakerPage() {
           </div>
         </div>
       </form>
+      {segments.length ? (
+        <div>
+          <hr />
+          <h2>Preview: </h2>
+
+          <TapestryComponent
+            tapestry={{
+              id: "preview",
+              gridUnitSize: gridUnitSize,
+              background: background,
+              gridGap: gridGap,
+              items: segments,
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

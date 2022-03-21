@@ -39,19 +39,29 @@ const TapestryFrame = ({ title, link }) => (
   </div>
 );
 
-const BookFrame = ({ title, url, hideTitle }) => (
-  <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <iframe
-      src={url}
-      frameBorder="0"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allowFullScreen
-    />
-  </div>
-);
-
+const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
+  const [clicked, setClicked] = React.useState(false);
+  return (
+    <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
+      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+      {clicked || !thumbnail ? (
+        <iframe
+          src={url}
+          frameBorder="0"
+          webkitallowfullscreen="true"
+          mozallowfullscreen="true"
+          allowFullScreen
+        />
+      ) : (
+        <img
+          src={thumbnail}
+          className="thumbnail"
+          onClick={() => setClicked(true)}
+        />
+      )}
+    </div>
+  );
+};
 const ImageFrame = ({ title, url, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame imageframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
@@ -65,18 +75,29 @@ const ImageFrame = ({ title, url, hideTitle }) => (
   </div>
 );
 
-const VideoFrame = ({ title, url, hideTitle }) => (
-  <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <iframe
-      src={url}
-      frameBorder="0"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allowFullScreen
-    />
-  </div>
-);
+const VideoFrame = ({ title, url, thumbnail, hideTitle }) => {
+  const [clicked, setClicked] = React.useState(false);
+  return (
+    <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
+      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+      {clicked || !thumbnail ? (
+        <iframe
+          src={url}
+          frameBorder="0"
+          webkitallowfullscreen="true"
+          mozallowfullscreen="true"
+          allowFullScreen
+        />
+      ) : (
+        <img
+          src={thumbnail}
+          className="thumbnail"
+          onClick={() => setClicked(true)}
+        />
+      )}
+    </div>
+  );
+};
 
 const SoftwareFrame = ({ title, url, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
@@ -178,10 +199,11 @@ const TapestryItem = ({
   comments,
   openComments,
   preview,
+  hideComments,
 }) => {
   return (
     <section
-      id={item.id}
+      id={preview ? `preview_${item.id}` : item.id}
       className={`tapestryItem ${focused ? "focused" : ""}`}
       style={
         preview
@@ -196,7 +218,7 @@ const TapestryItem = ({
       onClick={setFocus}
     >
       <TapestryIcon item={item} />
-      {preview ? null : (
+      {preview || hideComments ? null : (
         <CommentIcon comments={comments} onClick={openComments}>
           <Comment />
         </CommentIcon>
@@ -213,6 +235,7 @@ const TapestryItem = ({
         <BookFrame
           title={item.title}
           url={item.url}
+          thumbnail={item.thumbnail}
           hideTitle={item.hideTitle}
         />
       ) : item.type === "image" ? (
@@ -231,6 +254,7 @@ const TapestryItem = ({
         <VideoFrame
           title={item.title}
           url={item.url}
+          thumbnail={item.thumbnail}
           hideTitle={item.hideTitle}
         />
       ) : item.type === "web" ? (

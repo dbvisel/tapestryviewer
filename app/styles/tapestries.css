@@ -123,6 +123,13 @@
 	box-sizing: border-box;
 }
 
+.tapestryItem img.thumbnail {
+	cursor: pointer;
+	object-fit: cover;
+	object-position: top;
+	width: 100%;
+	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
+}
 
 .tapestryItemHead {
 	box-sizing: border-box;

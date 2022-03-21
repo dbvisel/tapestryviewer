@@ -21,6 +21,7 @@ const AddTapestryItem = ({
   const [linksTo, setLinksTo] = useState(itemData.linksTo || []);
   const [hideTitle, setHideTitle] = useState(itemData.hideTitle || false);
   const [message, setMessage] = useState("");
+  const [thumbnail, setThumbnail] = useState(itemData.thumbnail || "");
 
   useEffect(() => {
     setItemData({
@@ -37,6 +38,7 @@ const AddTapestryItem = ({
       width: width,
       linksTo: linksTo,
       hideTitle: hideTitle,
+      thumbnail: thumbnail,
     });
   }, [
     title,
@@ -50,11 +52,12 @@ const AddTapestryItem = ({
     height,
     linksTo,
     hideTitle,
+    thumbnail,
   ]);
 
   useEffect(async () => {
     if (type === "iaresource" && url) {
-      // We could be doing this for any website?
+      // We could be doing this for any website? pulling in the closest Wayback Machine URL?
       if (url.includes("https://web.archive.org/")) {
         const siteToSearch = url.split("/web.archive.org")[1].split("://")[1];
         if (siteToSearch) {
@@ -117,10 +120,26 @@ const AddTapestryItem = ({
               // though to do this we would need to make sure this works for everything.
               // and we would need to have a "thumbnail" as part of the itemData.
               const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
+              setThumbnail(thumbnail);
               console.log("Possible thumbnail: ", thumbnail);
               setType("video");
             }
             if (r.metadata.mediatype === "texts") {
+              const pageCount = parseInt(r.metadata.imagecount, 10);
+              const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
+              setThumbnail(thumbnail);
+              const page =
+                newUrl.indexOf("/page/") > -1
+                  ? newUrl.split("/page/")[1].split("/")[0]
+                  : null;
+              const mode =
+                newUrl.indexOf("/mode/") > -1
+                  ? newUrl.split("/mode/")[1].split("/")[0]
+                  : null;
+              console.log(thumbnail, page, pageCount, mode);
+
+              // in URL, there's /page/n1/mode/1up
+
               setType("book");
             }
             if (r.metadata.mediatype === "image") {
@@ -150,7 +169,7 @@ const AddTapestryItem = ({
     >
       <div
         className="item"
-        id={itemData.id}
+        id={`maker-${itemData.id}`}
         tabIndex={1}
         style={{ "--color": color }}
       >

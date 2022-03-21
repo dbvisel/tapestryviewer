@@ -73,7 +73,6 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### mildly important
 
- - full preview inside maker?
  - movement of objects?
    - could maybe get this to work inside of the maker preview
  - move settings to drawer rather than header
@@ -86,3 +85,5 @@ To make a link from one item to another item, put the linked item's ID in the **
 
  - tree navigation
  - Hypothesis? Could we do that instead?
+ - Is it worth moving this to fly.io so we're not entirely client-side?
+   - https://fly.io/docs/getting-started/remix/

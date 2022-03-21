@@ -33,7 +33,7 @@ const calculateTapestrySize = (items) => {
 const makeLinkList = (items) => {
   const linksList = [];
   for (let i = 0; i < items.length; i++) {
-    if (items[i].linksTo.length) {
+    if (items[i].linksTo && items[i].linksTo.length) {
       for (let j = 0; j < items[i].linksTo.length; j++) {
         const linkTo = items[i].linksTo[j];
         const linkFrom = items[i].id;
@@ -141,13 +141,17 @@ const TapestryComponent = ({ tapestry }) => {
 
   useEffect(async () => {
     // console.log("Building comment count!");
+    if (tapestry.id === "preview") {
+      setLoading(false);
+      return;
+    }
     const hashList = tapestry.items.map((item) => item.hash);
     await getComments(hashList);
     // await updateXarrow();
   }, []);
 
   useEffect(() => {
-    if (transformerRef.current && focused > -1) {
+    if (transformerRef.current && focused > -1 && !tapestry.id === "preview") {
       transformerRef.current.zoomToElement(tapestry.items[focused].id); // maybe zoom level should be set based on item height?
     }
   }, [focused]);
@@ -217,9 +221,12 @@ const TapestryComponent = ({ tapestry }) => {
                             <TapestryItem
                               key={`${flag}_${index}`}
                               item={item}
-                              focused={focused === index}
+                              focused={
+                                focused === index && tapestry.id !== "preview"
+                              }
                               tabIndex={-1}
                               comments={commentCounts[index] || 0}
+                              hideComments={tapestry.id === "preview"}
                               onKeyPress={(e) => {
                                 e.stopPropagation();
                                 console.log("firing on item!");
@@ -227,12 +234,16 @@ const TapestryComponent = ({ tapestry }) => {
                               }}
                               openComments={(e) => {
                                 e.stopPropagation();
-                                setFocused(index);
-                                setCommentShown(!commentShown);
+                                if (!tapestry.id !== "preview") {
+                                  setFocused(index);
+                                  setCommentShown(!commentShown);
+                                }
                               }}
                               setFocus={(e) => {
                                 e.stopPropagation();
-                                setFocused(index);
+                                if (tapestry.id !== "preview") {
+                                  setFocused(index);
+                                }
                               }}
                             />
                           ))
@@ -313,12 +324,14 @@ const TapestryComponent = ({ tapestry }) => {
           </div>
         )}
       </div>
-      <CommentDrawer
-        commentShown={commentShown}
-        setCommentShown={setCommentShown}
-        focused={focused}
-        tapestry={tapestry}
-      />
+      {tapestry.id === "preview" ? null : (
+        <CommentDrawer
+          commentShown={commentShown}
+          setCommentShown={setCommentShown}
+          focused={focused}
+          tapestry={tapestry}
+        />
+      )}
     </Xwrapper>
   );
 };
