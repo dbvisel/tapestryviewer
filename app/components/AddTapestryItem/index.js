@@ -22,6 +22,8 @@ const AddTapestryItem = ({
   const [hideTitle, setHideTitle] = useState(itemData.hideTitle || false);
   const [message, setMessage] = useState("");
   const [thumbnail, setThumbnail] = useState(itemData.thumbnail || "");
+  const [dates, setDates] = useState([]);
+  const [maxPageCount, setMaxPageCount] = useState(0);
 
   useEffect(() => {
     setItemData({
@@ -58,26 +60,31 @@ const AddTapestryItem = ({
   useEffect(async () => {
     if (type === "iaresource" && url) {
       // We could be doing this for any website? pulling in the closest Wayback Machine URL?
-      if (url.includes("https://web.archive.org/")) {
-        const siteToSearch = url.split("/web.archive.org")[1].split("://")[1];
+      if (url.includes("https://web.archive.org/web/")) {
+        const siteToSearch = url
+          .split("/web.archive.org/web/")[1]
+          .split("/")[1];
         if (siteToSearch) {
           const deslashed = siteToSearch.split("/").filter(Boolean).join("/"); // this removes trailing slashes
           if (deslashed) {
+            // const theUrl = `http://web.archive.org/web/timemap/json/${deslashed}`;
             const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
             console.log(theUrl);
             setMessage("Querying Internet Archive . . .");
-            await fetch(theUrl, {
-              method: "GET",
+            await fetch(`/.netlify/functions/memento`, {
+              method: "POST",
+              body: JSON.stringify({ url: deslashed }),
             })
               .then((res) => res.json())
               .then(async (r) => {
-                // if we are here, we have r.archived_snapshots
+                // r is an array of dates
+                setDates(r);
                 console.log(r);
               })
               .catch((e) => {
-                setMessage("There was an error, check the log");
                 console.error(e);
               });
+
             setType("web"); // this could be a special type?
           } else {
             console.error("Weird Wayback Machine URL: ", url);
@@ -126,6 +133,7 @@ const AddTapestryItem = ({
             }
             if (r.metadata.mediatype === "texts") {
               const pageCount = parseInt(r.metadata.imagecount, 10);
+              setMaxPageCount(pageCount);
               const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
               setThumbnail(thumbnail);
               const page =
@@ -240,6 +248,85 @@ const AddTapestryItem = ({
                 />
               </label>
             </p>
+            {dates.length ? (
+              <p>
+                <label>
+                  <span style={{ whiteSpace: "nowrap" }}>
+                    Version to show:{" "}
+                  </span>
+                  <select
+                    value={url.split("web.archive.org/web/")[1].split("/")[0]}
+                    onChange={(e) => {
+                      const theRest = url
+                        .split("web.archive.org/web/")[1]
+                        .split("/")[1];
+                      setUrl(
+                        `https://web.archive.org/web/${e.target.value}/${theRest}`
+                      );
+                    }}
+                  >
+                    {dates.map((date) => (
+                      <option value={date} key={date}>
+                        {date}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </p>
+            ) : null}
+            {type === "book" ? (
+              <p className="twoinputs">
+                <label style={{ whiteSpace: "nowrap" }}>
+                  Display style:{" "}
+                  <select
+                    onChange={(e) => {
+                      if (url.indexOf("/mode/") > -1) {
+                        const newUrl = url.replace(
+                          /\/mode\/\w+/,
+                          `/mode/${e.target.value}`
+                        );
+                        setUrl(newUrl);
+                      } else {
+                        setUrl(
+                          `${url}/mode/${e.target.value}/`.replace(
+                            "//mode",
+                            "/mode"
+                          )
+                        );
+                      }
+                    }}
+                    // value={url.split("/mode/")[1]?.split("/")[0]}
+                  >
+                    <option value="1up">Single page</option>
+                    <option value="2up">Facing pages</option>
+                  </select>
+                </label>
+                <label style={{ whiteSpace: "nowrap" }}>
+                  Start on page:{" "}
+                  <input
+                    placeholder={`1-${maxPageCount}`}
+                    type="numeric"
+                    onChange={(e) => {
+                      const val = Math.min(
+                        maxPageCount,
+                        parseInt(e.target.value, 10)
+                      );
+                      if (url.indexOf("/page/") > -1) {
+                        const newUrl = url.replace(
+                          /\/page\/n\d+/,
+                          `/page/n${val}`
+                        );
+                        setUrl(newUrl);
+                      } else {
+                        setUrl(
+                          `${url}/page/n${val}/`.replace("//page", "/page")
+                        );
+                      }
+                    }}
+                  />
+                </label>
+              </p>
+            ) : null}
             {message ? <p>{message}</p> : null}
           </Fragment>
         )}
