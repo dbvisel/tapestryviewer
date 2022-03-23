@@ -60,16 +60,15 @@ const AddTapestryItem = ({
   useEffect(async () => {
     if (type === "iaresource" && url) {
       // We could be doing this for any website? pulling in the closest Wayback Machine URL?
-      if (url.includes("https://web.archive.org/web/")) {
-        const siteToSearch = url
-          .split("/web.archive.org/web/")[1]
-          .split("/")[1];
+      if (url.includes("https://web.archive.org/web")) {
+        const siteToSearch = url.split("/web.archive.org/web")[1];
         if (siteToSearch) {
-          const deslashed = siteToSearch.split("/").filter(Boolean).join("/"); // this removes trailing slashes
+          const deslashed = siteToSearch.split(/\/\d+\//).join(""); //.split("/").filter(Boolean).join("/"); // this removes trailing slashes
+          // console.log(deslashed);
           if (deslashed) {
             // const theUrl = `http://web.archive.org/web/timemap/json/${deslashed}`;
-            const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
-            console.log(theUrl);
+            // const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
+            // console.log(theUrl);
             setMessage("Querying Internet Archive . . .");
             await fetch(`/.netlify/functions/memento`, {
               method: "POST",
@@ -78,6 +77,7 @@ const AddTapestryItem = ({
               .then((res) => res.json())
               .then(async (r) => {
                 // r is an array of dates
+                console.log(r);
                 setDates(r);
                 console.log(r);
               })
@@ -257,12 +257,12 @@ const AddTapestryItem = ({
                   <select
                     value={url.split("web.archive.org/web/")[1].split("/")[0]}
                     onChange={(e) => {
-                      const theRest = url
-                        .split("web.archive.org/web/")[1]
-                        .split("/")[1];
-                      setUrl(
-                        `https://web.archive.org/web/${e.target.value}/${theRest}`
+                      const theRest = url.replace(
+                        /\/\d+\//,
+                        `/${e.target.value}/`
                       );
+                      console.log(theRest);
+                      setUrl(theRest);
                     }}
                   >
                     {dates.map((date) => (

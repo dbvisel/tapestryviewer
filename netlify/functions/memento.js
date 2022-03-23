@@ -1,7 +1,7 @@
 exports.handler = async (event, context) => {
-  const url = event.body.url;
-  // console.log(url);
+  const url = JSON.parse(event.body).url;
   const theUrl = `http://web.archive.org/web/timemap/json/${url}`;
+  // console.log(theUrl);
   let dates = [];
   await fetch(theUrl, {
     method: "GET",
