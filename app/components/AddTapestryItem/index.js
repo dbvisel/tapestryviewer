@@ -1,4 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
+import { MegadraftEditor, editorStateFromRaw, DraftJS } from "megadraft";
+import { convertFromHTML, convertToHTML } from "draft-convert";
 import TapestryItem from "~/components/TapestryItem";
 import { getColor, secondsToTime, humanDate } from "~/utils/utils.mjs";
 
@@ -26,6 +28,12 @@ const AddTapestryItem = ({
   const [maxPageCount, setMaxPageCount] = useState(0);
   const [startPoint, setStartPoint] = useState(0);
   const [maxLength, setMaxLength] = useState(0);
+
+  const [editorState, setEditorState] = useState(() =>
+    content === null
+      ? editorStateFromRaw(content)
+      : DraftJS.EditorState.createWithContent(convertFromHTML(content))
+  );
 
   useEffect(() => {
     setItemData({
@@ -223,17 +231,32 @@ const AddTapestryItem = ({
           </label>
         </p>
         {type === "textFrame" ? (
-          <p className="twoinputs">
-            <label>
-              Content:
-              <textarea
+          <div className="twoinputs">
+            <div
+              style={{
+                margin: "20px 0 20px 80px",
+                width: "100%",
+                background: "white",
+                borderRadius: "4px",
+              }}
+            >
+              <MegadraftEditor
+                editorState={editorState}
+                onChange={(e) => {
+                  setEditorState(e);
+                  setContent(convertToHTML(editorState.getCurrentContent()));
+                }}
+                placeholder="Add some text"
+              />
+            </div>
+            {/*<textarea
                 type="text"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder={"Enter HTML here"}
               />
-            </label>
-          </p>
+								</label>*/}
+          </div>
         ) : (
           <Fragment>
             <p className="twoinputs">

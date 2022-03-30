@@ -7,6 +7,7 @@ import DemoGrid from "~/components/DemoGrid";
 import TapestryComponent from "~/components/TapestryComponent";
 import makerStyles from "~/styles/maker.css";
 import tapestryStyles from "~/styles/tapestries.css";
+import megadraftStyles from "megadraft/dist/css/megadraft.css";
 
 // TODO: on save of existing tapesty: make a new function that does a lot of puts.
 
@@ -28,6 +29,7 @@ export const links = () => {
   return [
     { rel: "stylesheet", href: tapestryStyles },
     { rel: "stylesheet", href: makerStyles },
+    { rel: "stylesheet", href: megadraftStyles },
   ];
 };
 

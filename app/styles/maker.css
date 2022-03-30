@@ -161,3 +161,26 @@ input[type="color"] {
 	position: relative;
 	top: -2px;
 }
+
+.DraftEditor-root {
+	padding: 10px;
+}
+
+.megadraft .megadraft-editor .paragraph + .paragraph {
+	margin-top: 16px;
+}
+
+.megadraft .megadraft-editor .megadraft-block {
+	padding-bottom: 16px;
+}
+
+.megadraft h2, .megadraft h3, .textframe h2, .textframe h3 {
+	color: var(--textFrameColor);
+	display: block;
+}
+
+.megadraft h3:before {
+	width: 0;
+	height: 0;
+	margin: 0;
+}
