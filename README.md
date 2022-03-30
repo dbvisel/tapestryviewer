@@ -75,6 +75,7 @@ To make a link from one item to another item, put the linked item's ID in the **
 
  - movement of objects?
    - could maybe get this to work inside of the maker preview
+     - can we get the preview changes to 
  - move settings to drawer rather than header
  - get data from internet archive api in maker
    - from a collection, make a bunch of items?
