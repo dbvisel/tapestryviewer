@@ -51,6 +51,7 @@ const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
           webkitallowfullscreen="true"
           mozallowfullscreen="true"
           allowFullScreen
+          loading="lazy"
         />
       ) : (
         <img
@@ -71,6 +72,7 @@ const ImageFrame = ({ title, url, hideTitle }) => (
       webkitallowfullscreen="true"
       mozallowfullscreen="true"
       allowFullScreen
+      loading="lazy"
     />
   </div>
 );
@@ -87,6 +89,7 @@ const VideoFrame = ({ title, url, thumbnail, hideTitle }) => {
           webkitallowfullscreen="true"
           mozallowfullscreen="true"
           allowFullScreen
+          loading="lazy"
         />
       ) : (
         <img
@@ -108,6 +111,7 @@ const SoftwareFrame = ({ title, url, hideTitle }) => (
       webkitallowfullscreen="true"
       mozallowfullscreen="true"
       allowFullScreen
+      loading="lazy"
     />
   </div>
 );
@@ -121,6 +125,7 @@ const IaFrame = ({ title, url, hideTitle }) => (
       webkitallowfullscreen="true"
       mozallowfullscreen="true"
       allowFullScreen
+      loading="lazy"
     />
   </div>
 );
@@ -137,6 +142,7 @@ const AudioFrame = ({ title, url, hideTitle }) => (
         webkitallowfullscreen="true"
         mozallowfullscreen="true"
         allowFullScreen
+        loading="lazy"
       />
     </div>
   </div>
@@ -154,6 +160,7 @@ const WebFrame = ({ title, url, hideTitle }) => (
       webkitallowfullscreen="true"
       mozallowfullscreen="true"
       allowFullScreen
+      loading="lazy"
     />
   </div>
 );

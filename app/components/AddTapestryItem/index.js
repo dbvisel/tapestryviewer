@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import TapestryItem from "~/components/TapestryItem";
-import { getColor } from "~/utils/utils.mjs";
+import { getColor, secondsToTime } from "~/utils/utils.mjs";
 
 const AddTapestryItem = ({
   itemData,
@@ -24,6 +24,8 @@ const AddTapestryItem = ({
   const [thumbnail, setThumbnail] = useState(itemData.thumbnail || "");
   const [dates, setDates] = useState([]);
   const [maxPageCount, setMaxPageCount] = useState(0);
+  const [startPoint, setStartPoint] = useState(0);
+  const [maxLength, setMaxLength] = useState(0);
 
   useEffect(() => {
     setItemData({
@@ -129,6 +131,7 @@ const AddTapestryItem = ({
               const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
               setThumbnail(thumbnail);
               console.log("Possible thumbnail: ", thumbnail);
+              setMaxLength(r.files[1]?.length || 0);
               setType("video");
             }
             if (r.metadata.mediatype === "texts") {
@@ -248,6 +251,32 @@ const AddTapestryItem = ({
                 />
               </label>
             </p>
+            {maxLength ? (
+              <p style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ whiteSpace: "nowrap" }}>Set start point: </span>
+                <label>
+                  <input
+                    type="range"
+                    id="startPoint"
+                    name="startPoint"
+                    min="0"
+                    value={startPoint}
+                    max={maxLength}
+                    onChange={(e) => {
+                      const newUrl =
+                        url.replace(/\?start=[0-9]+/, "") +
+                        `?start=${e.target.value}`;
+                      setUrl(newUrl);
+                      setStartPoint(e.target.value);
+                    }}
+                  />
+                  <span>
+                    {" "}
+                    {secondsToTime(startPoint)}/{secondsToTime(maxLength)}
+                  </span>
+                </label>
+              </p>
+            ) : null}
             {dates.length ? (
               <p>
                 <label>
@@ -261,7 +290,7 @@ const AddTapestryItem = ({
                         /\/\d+\//,
                         `/${e.target.value}/`
                       );
-                      console.log(theRest);
+                      // console.log(theRest);
                       setUrl(theRest);
                     }}
                   >

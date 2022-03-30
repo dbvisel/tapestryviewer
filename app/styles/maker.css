@@ -45,6 +45,20 @@ label > input[type="text"], label > input[type="number"], label > select, label 
 	width: 100%;
 }
 
+label > input[type="range"] {
+	display: inline-block;
+	width: 100%;
+	margin: 0 16px;
+}
+
+label > input[type="range"]:focus {
+	box-shadow: none;
+}
+
+label > input[type="range"] + span {
+	white-space: nowrap;
+}
+
 textarea:not([rows]) {
 	height: 80px;
 	margin: 5px 0 10px 10px;
