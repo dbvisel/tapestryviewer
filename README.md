@@ -78,7 +78,6 @@ To make a link from one item to another item, put the linked item's ID in the **
  - move settings to drawer rather than header
  - get data from internet archive api in maker
    - from a collection, make a bunch of items?
-   - Can we query Wayback Machine?
 
 ### think about
 

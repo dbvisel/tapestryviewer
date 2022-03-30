@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import TapestryItem from "~/components/TapestryItem";
-import { getColor, secondsToTime } from "~/utils/utils.mjs";
+import { getColor, secondsToTime, humanDate } from "~/utils/utils.mjs";
 
 const AddTapestryItem = ({
   itemData,
@@ -79,9 +79,9 @@ const AddTapestryItem = ({
               .then((res) => res.json())
               .then(async (r) => {
                 // r is an array of dates
-                console.log(r);
+                // console.log(r);
                 setDates(r);
-                console.log(r);
+                // console.log(r);
               })
               .catch((e) => {
                 console.error(e);
@@ -296,7 +296,7 @@ const AddTapestryItem = ({
                   >
                     {dates.map((date) => (
                       <option value={date} key={date}>
-                        {date}
+                        {humanDate(date)}
                       </option>
                     ))}
                   </select>

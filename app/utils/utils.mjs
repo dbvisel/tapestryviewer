@@ -68,3 +68,32 @@ export const secondsToTime = (e) => {
   return h + ":" + m + ":" + s;
   //return `${h}:${m}:${s}`;
 };
+
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export const humanDate = (e) => {
+  const f = String(e) + "0000000000000000";
+
+  // coming in as yyyymmddhhmmss
+  // return as mm/dd/yyyy hh:mm:ss
+  return `${months[f.substring(4, 6) - 1]} ${parseInt(
+    f.substring(6, 8),
+    10
+  )}, ${f.substring(0, 4)} ${f.substring(8, 10)}:${f.substring(
+    10,
+    12
+  )}:${f.substring(12, 14)}`;
+};
