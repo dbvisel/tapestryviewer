@@ -184,3 +184,75 @@ input[type="color"] {
 	height: 0;
 	margin: 0;
 }
+
+.previewcontainer {
+	grid-area: preview;
+	display: grid;
+	margin-bottom: 25px;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.previewcontainer > input[type="button"] {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	width: 20px;
+	height: 20px;
+	border-radius: 100%;
+	display: inline-flex;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	background-color: rgba(0,0,0,0.25);
+	transition: 0.25;
+}
+
+.previewcontainer > input[type="button"]:hover {
+	background-color: black;
+}
+
+
+.previewcontainer > .up {
+	left: calc(50% - 10px);
+	top: -10px;
+}
+
+.previewcontainer > .down {
+	left: calc(50% - 10px);
+	bottom: -10px;
+}
+
+.previewcontainer > .left {
+	left: -10px;
+	top: calc(50% - 10px);
+}
+
+.previewcontainer > .right {
+	right: -10px;
+	top: calc(50% - 10px);
+}
+
+.previewcontainer > .xminus {
+	right: -10px;
+	top: calc(50% - 40px);
+}
+
+.previewcontainer > .xplus {
+	right: -10px;
+	top: calc(50% + 20px);
+}
+
+.previewcontainer > .yminus {
+	bottom: -10px;
+	left: calc(50% - 40px);
+}
+
+.previewcontainer > .yplus {
+	bottom: -10px;
+	left: calc(50% + 20px);
+}

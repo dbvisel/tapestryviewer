@@ -471,15 +471,85 @@ const AddTapestryItem = ({
         <hr style={{ width: "50%", marginLeft: "25%" }} />
       </div>
       <div
+        className="previewcontainer"
         style={{
-          gridArea: "preview",
-          display: "grid",
           gridTemplateColumns: `${width * gridUnitSize}px`,
           gridTemplateRows: `${height * gridUnitSize}px`,
-          marginBottom: "25px",
         }}
       >
         <TapestryItem item={itemData} preview />
+        <input
+          type="button"
+          value="←"
+          className="left"
+          onClick={() => {
+            if (x > 1) {
+              setX(x - 1);
+            }
+          }}
+        />
+        <input
+          type="button"
+          value="→"
+          className="right"
+          onClick={() => {
+            setX(x + 1);
+          }}
+        />
+        <input
+          type="button"
+          value="+"
+          className="xplus"
+          onClick={() => {
+            setWidth(width + 1);
+          }}
+        />
+        <input
+          type="button"
+          value="–"
+          className="xminus"
+          onClick={() => {
+            if (width > 1) {
+              setWidth(width - 1);
+            }
+          }}
+        />
+        <input
+          type="button"
+          value="↑"
+          className="up"
+          onClick={() => {
+            if (y > 1) {
+              setY(y - 1);
+            }
+          }}
+        />
+        <input
+          type="button"
+          value="↓"
+          className="down"
+          onClick={() => {
+            setY(y + 1);
+          }}
+        />
+        <input
+          type="button"
+          value="+"
+          className="yplus"
+          onClick={() => {
+            setHeight(height + 1);
+          }}
+        />
+        <input
+          type="button"
+          value="–"
+          className="yminus"
+          onClick={() => {
+            if (height > 1) {
+              setHeight(height - 1);
+            }
+          }}
+        />
       </div>
     </div>
   );
