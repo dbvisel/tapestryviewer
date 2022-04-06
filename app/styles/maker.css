@@ -174,7 +174,7 @@ input[type="color"] {
 	padding-bottom: 16px;
 }
 
-.megadraft h2, .megadraft h3, .textframe h2, .textframe h3:not(.tapestryItemHead) {
+.megadraft h2, .megadraft h3, .textframe h2:not(.tapestryItemHead), .textframe >h3:not(.tapestryItemHead) {
 	color: var(--textFrameColor);
 	display: block;
 }

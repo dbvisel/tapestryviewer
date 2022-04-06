@@ -4,6 +4,8 @@ import throbber from "./images/Loading_icon_cropped.gif";
 import { Comment } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 
+const hideThumbnail = true;
+
 const CommentIcon = styled.span`
   width: 30px;
   height: 30px;
@@ -44,7 +46,7 @@ const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
   return (
     <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
       {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-      {clicked || !thumbnail ? (
+      {clicked || !thumbnail || hideThumbnail ? (
         <iframe
           src={url}
           frameBorder="0"
@@ -82,7 +84,7 @@ const VideoFrame = ({ title, url, thumbnail, hideTitle }) => {
   return (
     <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
       {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-      {clicked || !thumbnail ? (
+      {clicked || !thumbnail || hideThumbnail ? (
         <iframe
           src={url}
           frameBorder="0"
