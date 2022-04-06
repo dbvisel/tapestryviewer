@@ -70,6 +70,8 @@ To make a link from one item to another item, put the linked item's ID in the **
 ### important
 
  - it zooms too much
+ - set initial zoom to width of everything
+   - ugly padding currently
 
 ### mildly important
 
@@ -79,6 +81,7 @@ To make a link from one item to another item, put the linked item's ID in the **
  - move settings to drawer rather than header
  - get data from internet archive api in maker
    - from a collection, make a bunch of items?
+ - deletion seems to be inconsistent
 
 ### think about
 

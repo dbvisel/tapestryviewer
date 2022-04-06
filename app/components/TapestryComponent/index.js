@@ -54,11 +54,13 @@ const TapestryComponent = ({ tapestry }) => {
   let navigate = useNavigate();
 
   const transformerRef = useRef();
+  const viewportRef = useRef();
   const [focused, setFocused] = useState(-1);
   const [commentShown, setCommentShown] = useState(false);
   const [commentCounts, setCommentCounts] = useState([]);
   const [flag, setFlag] = useState("1");
   const [loading, setLoading] = useState(useComments);
+  const [initialScale, setInitialScale] = useState(0);
   // get tapestry size.
   // console.log(calculateTapestrySize(tapestry.items));
   // make sure no items overlap?
@@ -142,6 +144,33 @@ const TapestryComponent = ({ tapestry }) => {
     }
   };
 
+  useEffect(() => {
+    // console.log("tapestryID changed!");
+    setInitialScale(0);
+  }, [tapestry.id]);
+
+  useEffect(() => {
+    if (!initialScale && viewportRef.current) {
+      const viewport = viewportRef.current.getBoundingClientRect();
+      const viewH = viewport.height;
+      const viewW = viewport.width;
+      // console.log("viewport: ", viewW, viewH);
+      const tapestryDimensions = calculateTapestrySize(tapestry.items);
+      const tapestryWidth =
+        (tapestryDimensions.maxX - 1) * tapestry.gridUnitSize +
+        tapestry.gridGap * (tapestryDimensions.maxX - 2);
+      const tapestryHeight =
+        (tapestryDimensions.maxY - 1) * tapestry.gridUnitSize +
+        tapestry.gridGap * (tapestryDimensions.maxY - 2);
+      // console.log("tapestry: ", tapestryWidth, tapestryHeight);
+      const scaleW = viewW / tapestryWidth;
+      const scaleH = viewH / tapestryHeight;
+      const scale = Math.min(scaleW, scaleH);
+      // console.log("scale: ", scale);
+      setInitialScale(scale);
+    }
+  }, [initialScale]);
+
   useEffect(async () => {
     // console.log("Building comment count!");
     if (tapestry.id === "preview") {
@@ -164,7 +193,10 @@ const TapestryComponent = ({ tapestry }) => {
       <div
         key={tapestry.id}
         className="viewport"
+        ref={viewportRef}
         style={{
+          padding: "20px",
+          boxSizing: "border-box",
           background: tapestry.background,
           backgroundSize: "cover",
           "--gridUnitSize": `${tapestry.gridUnitSize}px`,
@@ -180,7 +212,7 @@ const TapestryComponent = ({ tapestry }) => {
           setFocused(-1);
         }}
       >
-        {loading ? (
+        {loading || !initialScale ? (
           <p className="loadingmessage">Loading comments . . .</p>
         ) : (
           <div
@@ -189,7 +221,7 @@ const TapestryComponent = ({ tapestry }) => {
             style={{ padding: 0, margin: 0 }}
           >
             <TransformWrapper
-              initialScale={1.0}
+              initialScale={initialScale}
               // initialPositionX={25}
               // initialPositionY={25}
               minScale={0.5}
@@ -243,9 +275,7 @@ const TapestryComponent = ({ tapestry }) => {
                                 }
                               }}
                               setFocus={(e) => {
-                                console.log(item);
                                 if (item.type === "tapestry") {
-                                  console.log(item.url);
                                   navigate(`/tapestry/${item.url}`, {
                                     replace: true,
                                   });
