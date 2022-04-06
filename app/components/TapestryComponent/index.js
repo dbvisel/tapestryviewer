@@ -3,8 +3,9 @@ import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import TapestryItem from "~/components/TapestryItem";
 import CommentDrawer from "~/components/CommentDrawer";
+import { useNavigate } from "remix";
 
-const useComments = true;
+const useComments = false;
 
 const calculateTapestrySize = (items) => {
   // this isn't currently used!
@@ -50,6 +51,8 @@ const makeLinkList = (items) => {
 
 const TapestryComponent = ({ tapestry }) => {
   // console.log(tapestry);
+  let navigate = useNavigate();
+
   const transformerRef = useRef();
   const [focused, setFocused] = useState(-1);
   const [commentShown, setCommentShown] = useState(false);
@@ -240,9 +243,17 @@ const TapestryComponent = ({ tapestry }) => {
                                 }
                               }}
                               setFocus={(e) => {
-                                e.stopPropagation();
-                                if (tapestry.id !== "preview") {
-                                  setFocused(index);
+                                console.log(item);
+                                if (item.type === "tapestry") {
+                                  console.log(item.url);
+                                  navigate(`/tapestry/${item.url}`, {
+                                    replace: true,
+                                  });
+                                } else {
+                                  e.stopPropagation();
+                                  if (tapestry.id !== "preview") {
+                                    setFocused(index);
+                                  }
                                 }
                               }}
                             />

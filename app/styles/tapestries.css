@@ -105,6 +105,10 @@
 	position: relative;
 }
 
+.tapestryItem.link {
+	cursor: pointer;
+}
+
 .frame {
 	border: 1px solid var(--borderColor);
 	box-sizing: border-box;
@@ -178,10 +182,10 @@
 	background-color: var(--tapestryFrameBackground);
 	height: 100%;
 	position: relative;
-	z-index: 2;
+	z-index: -1;
 	border: none;
 }
-.tapestryframe:before {
+/* .tapestryframe a:before {
 	position: absolute;
 	content: "";
 	background-color: gray;
@@ -189,8 +193,8 @@
 	height: 100%;
 	left: calc(var(--gridGap) / 2);
 	top: calc(var(--gridGap) /2);
-	z-index: -1;
-}
+	z-index: 2;
+} */
 
 .tapestryframe a {
 	display: block;
@@ -202,6 +206,10 @@
 	color: var(--tapestryFrameColor);
 	font-weight: bold;
 	font-size: 150%;
+	box-sizing: border-box;
+	padding: 5%;
+	text-align: center;
+	box-shadow: 50px 50px 0 gray;
 }
 
 .bookframe .tapestryItemHead, .audioframe .tapestryItemHead, .imageframe .tapestryItemHead, .videoframe .tapestryItemHead,  .webframe .tapestryItemHead {

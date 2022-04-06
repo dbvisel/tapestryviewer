@@ -36,8 +36,15 @@ const TextFrame = ({ title, content, hideTitle }) => (
 );
 
 const TapestryFrame = ({ title, link }) => (
-  <div className={`frame tapestryframe`}>
-    <Link to={`/tapestry/${link}`}>{title}</Link>
+  <div
+    className={`frame tapestryframe`}
+    onClick={() => {
+      console.log("clicked!");
+    }}
+  >
+    <Link to={`/tapestry/${link}`} tabIndex={-1}>
+      {title}
+    </Link>
   </div>
 );
 
@@ -213,7 +220,9 @@ const TapestryItem = ({
   return (
     <section
       id={preview ? `preview_${item.id}` : item.id}
-      className={`tapestryItem ${focused ? "focused" : ""}`}
+      className={`tapestryItem ${focused ? "focused" : ""} ${
+        item.type === "tapestry" ? "link" : ""
+      }`}
       style={
         preview
           ? { gridArea: "initial" }
