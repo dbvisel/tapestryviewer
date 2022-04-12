@@ -72,6 +72,17 @@ const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
     </div>
   );
 };
+
+const BookImageFrame = ({ title, url, thumbnail, hideTitle }) => {
+  console.log(url, thumbnail);
+  return (
+    <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
+      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+      <img src={thumbnail} className="thumbnail" />
+    </div>
+  );
+};
+
 const ImageFrame = ({ title, url, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame imageframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
@@ -251,6 +262,13 @@ const TapestryItem = ({
         <TapestryFrame title={item.title} link={item.url} />
       ) : item.type === "book" ? (
         <BookFrame
+          title={item.title}
+          url={item.url}
+          thumbnail={item.thumbnail}
+          hideTitle={item.hideTitle}
+        />
+      ) : item.type === "bookimage" ? (
+        <BookImageFrame
           title={item.title}
           url={item.url}
           thumbnail={item.thumbnail}

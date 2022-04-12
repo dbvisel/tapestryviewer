@@ -4,6 +4,49 @@ import { convertFromHTML, convertToHTML } from "draft-convert";
 import TapestryItem from "~/components/TapestryItem";
 import { getColor, secondsToTime, humanDate } from "~/utils/utils.mjs";
 
+const getPage = (url) => {
+  // from IA url, returns page as a number if it exists, otherwise 0
+  const pageLoc = url.indexOf("/page/");
+  if (pageLoc < 0) return 0;
+  const secondHalf = url.split("/page/")[1];
+  if (secondHalf.indexOf("/") < 0)
+    return parseInt(secondHalf.replace("n", ""), 10);
+  return parseInt(secondHalf.split("/")[0].replace("n", ""), 10);
+};
+
+const getMode = (url) => {
+  // from IA url, returns mode as "1up" or "2up" if it exists, otherwise "2up"
+  const modeLoc = url.indexOf("/mode/");
+  if (modeLoc < 0) return "2up";
+  const secondHalf = url.split("/mode/")[1];
+  if (secondHalf.indexOf("/") < 0) return secondHalf;
+  return secondHalf.split("/")[0];
+};
+
+const getBaseUrl = (url) => {
+  // from IA url, returns base url without page or mode
+  const pageLoc = url.indexOf("/page/");
+  const modeLoc = url.indexOf("/mode/");
+  if (pageLoc < 0 && modeLoc < 0) return url;
+  if (pageLoc < 0) return url.substring(0, modeLoc);
+  if (modeLoc < 0) return url.substring(0, pageLoc);
+  return url.substring(0, Math.min(pageLoc, modeLoc));
+};
+
+const composeUrl = (baseUrl, page, mode) =>
+  mode === "1up" || mode === "2up"
+    ? `${baseUrl}/page/n${page || "0"}/mode/${mode || "2up"}`
+    : `${baseUrl}/page/n${page || "0"}`;
+
+const getDownloadUrl = (url, page) => {
+  // from IA url, returns download url with page
+  const baseUrl = getBaseUrl(url);
+  const downloadBaseUrl = baseUrl
+    .replace("/detail/", "/download/")
+    .replace("/embed/", "/download/");
+  return composeUrl(downloadBaseUrl, page);
+};
+
 const AddTapestryItem = ({
   itemData,
   setItemData,
@@ -28,6 +71,7 @@ const AddTapestryItem = ({
   const [maxPageCount, setMaxPageCount] = useState(0);
   const [startPoint, setStartPoint] = useState(0);
   const [maxLength, setMaxLength] = useState(0);
+  const [useImage, setUseImage] = useState(false);
 
   const [editorState, setEditorState] = useState(() =>
     content === null
@@ -147,14 +191,8 @@ const AddTapestryItem = ({
               setMaxPageCount(pageCount);
               const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
               setThumbnail(thumbnail);
-              const page =
-                newUrl.indexOf("/page/") > -1
-                  ? newUrl.split("/page/")[1].split("/")[0]
-                  : null;
-              const mode =
-                newUrl.indexOf("/mode/") > -1
-                  ? newUrl.split("/mode/")[1].split("/")[0]
-                  : null;
+              const page = getPage(newUrl);
+              const mode = getMode(newUrl);
               console.log(thumbnail, page, pageCount, mode);
 
               // in URL, there's /page/n1/mode/1up
@@ -177,6 +215,7 @@ const AddTapestryItem = ({
       setMessage("");
     }
   }, [type, url]);
+
   return (
     <div
       style={{
@@ -227,6 +266,9 @@ const AddTapestryItem = ({
               <option value="audio">Audio</option>
               <option value="web">Web page</option>
               <option value="software">Software</option>
+              <option value="bookimage" hidden>
+                Book image
+              </option>
             </select>
           </label>
         </p>
@@ -326,56 +368,60 @@ const AddTapestryItem = ({
                 </label>
               </p>
             ) : null}
-            {type === "book" ? (
+            {type === "book" || type === "bookimage" ? (
               <p className="twoinputs">
-                <label style={{ whiteSpace: "nowrap" }}>
-                  Display style:{" "}
-                  <select
-                    onChange={(e) => {
-                      if (url.indexOf("/mode/") > -1) {
-                        const newUrl = url.replace(
-                          /\/mode\/\w+/,
-                          `/mode/${e.target.value}`
-                        );
-                        setUrl(newUrl);
-                      } else {
+                {type === "book" ? (
+                  <label style={{ whiteSpace: "nowrap" }}>
+                    Display style:{" "}
+                    <select
+                      value={getMode(url)}
+                      onChange={(e) => {
+                        const baseUrl = getBaseUrl(url);
+                        const currentPage = getPage(url);
                         setUrl(
-                          `${url}/mode/${e.target.value}/`.replace(
-                            "//mode",
-                            "/mode"
-                          )
+                          composeUrl(baseUrl, currentPage, e.target.value)
                         );
-                      }
-                    }}
-                    // value={url.split("/mode/")[1]?.split("/")[0]}
-                  >
-                    <option value="1up">Single page</option>
-                    <option value="2up">Facing pages</option>
-                  </select>
-                </label>
+                      }}
+                    >
+                      <option value="1up">Single page</option>
+                      <option value="2up">Facing pages</option>
+                    </select>
+                  </label>
+                ) : null}
                 <label style={{ whiteSpace: "nowrap" }}>
                   Start on page:{" "}
                   <input
                     placeholder={`1-${maxPageCount}`}
                     type="numeric"
+                    value={getPage(url)}
                     onChange={(e) => {
                       const val = Math.min(
                         maxPageCount,
                         parseInt(e.target.value, 10)
                       );
-                      if (url.indexOf("/page/") > -1) {
-                        const newUrl = url.replace(
-                          /\/page\/n\d+/,
-                          `/page/n${val}`
-                        );
-                        setUrl(newUrl);
-                      } else {
-                        setUrl(
-                          `${url}/page/n${val}/`.replace("//page", "/page")
-                        );
+                      const baseUrl = getBaseUrl(url);
+                      const currentMode = getMode(url);
+                      if (type === "bookimage") {
+                        setThumbnail(getDownloadUrl(baseUrl, val));
                       }
+                      setUrl(composeUrl(baseUrl, val, currentMode));
                     }}
                   />
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={useImage}
+                    onChange={(e) => {
+                      setUseImage(e.target.checked);
+                      if (e.target.checked) {
+                        setThumbnail(getDownloadUrl(url, getPage(url)));
+                      }
+
+                      setType(e.target.checked ? "bookimage" : "book");
+                    }}
+                  />
+                  Use image
                 </label>
               </p>
             ) : null}

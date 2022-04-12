@@ -129,7 +129,7 @@
 
 .tapestryItem img.thumbnail {
 	cursor: pointer;
-	object-fit: cover;
+	object-fit: contain;
 	object-position: top;
 	width: 100%;
 	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));

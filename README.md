@@ -72,6 +72,7 @@ To make a link from one item to another item, put the linked item's ID in the **
  - it zooms too much
  - set initial zoom to width of everything
    - ugly padding currently
+ - can we visually annotate images of pages of books?
 
 ### mildly important
 
