@@ -69,6 +69,7 @@ const outItemRows = itemRows.map((x) => {
     linksTo: x.linksTo ? x.linksTo.split(",") : [],
     hideTitle: Boolean(x.hideTitle === "TRUE"),
     thumbnail: x.thumbnail,
+    controlList: x.controlList ? JSON.parse(x.controlList) : [],
   };
 });
 const googleTapestries = {

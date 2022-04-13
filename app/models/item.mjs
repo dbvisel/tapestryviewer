@@ -29,6 +29,8 @@ class Item {
     googleLinksTo,
     hideTitle,
     thumbnail,
+    controlList,
+    googleControlList,
   }) {
     const uuid = uuidv4();
     this.id = uuid;
@@ -50,6 +52,8 @@ class Item {
     this.googleId = googleId || uuid; // this is the ID given by the user in Google Sheets, used to link other items in Google Sheets
     this.hideTitle = Boolean(hideTitle);
     this.thumbnail = thumbnail || "";
+    this.googleControlList = googleControlList || [];
+    this.controlList = controlList || [];
   }
 }
 

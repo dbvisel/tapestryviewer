@@ -187,7 +187,6 @@ const TapestryComponent = ({ tapestry }) => {
       transformerRef.current.zoomToElement(tapestry.items[focused].id); // maybe zoom level should be set based on item height?
     }
   }, [focused]);
-
   return (
     <Xwrapper>
       <div
@@ -284,6 +283,14 @@ const TapestryComponent = ({ tapestry }) => {
                                   if (tapestry.id !== "preview") {
                                     setFocused(index);
                                   }
+                                }
+                              }}
+                              setFocusElsewhere={(e) => {
+                                const newFocused = tapestry.items.findIndex(
+                                  (x) => x.googleId === e
+                                );
+                                if (newFocused > -1) {
+                                  setFocused(newFocused);
                                 }
                               }}
                             />

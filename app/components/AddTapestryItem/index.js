@@ -72,6 +72,17 @@ const AddTapestryItem = ({
   const [startPoint, setStartPoint] = useState(0);
   const [maxLength, setMaxLength] = useState(0);
   const [useImage, setUseImage] = useState(false);
+  const [directAudioUrl, setDirectAudioUrl] = useState(
+    itemData.type === "audiocontroller" ? itemData.thumbnail : ""
+  );
+  const [useAudioController, setUseAudioController] = useState(
+    itemData.type === "audiocontroller"
+  );
+  const [controlList, setControlList] = useState(
+    itemData.type === "audiocontroller"
+      ? itemData.controlList
+      : [{ id: "", time: 0 }]
+  );
 
   const [editorState, setEditorState] = useState(() =>
     content === null
@@ -95,6 +106,10 @@ const AddTapestryItem = ({
       linksTo: linksTo,
       hideTitle: hideTitle,
       thumbnail: thumbnail,
+      controlList:
+        JSON.stringify(controlList) === `[{"id":"","time":0}]`
+          ? []
+          : controlList,
     });
   }, [
     title,
@@ -109,6 +124,7 @@ const AddTapestryItem = ({
     linksTo,
     hideTitle,
     thumbnail,
+    controlList,
   ]);
 
   useEffect(async () => {
@@ -174,6 +190,14 @@ const AddTapestryItem = ({
               setTitle(r.metadata.title);
             }
             if (r.metadata.mediatype === "audio") {
+              const mp3List = r.files.filter(
+                (x) => x.name.indexOf(".mp3") > -1
+              );
+              if (mp3List.length) {
+                const firstMp3 = mp3List[0];
+                setDirectAudioUrl(`https://${r.d1}${r.dir}/${firstMp3.name}`);
+                setThumbnail(`https://${r.d1}${r.dir}/${firstMp3.name}`);
+              }
               setType("audio");
             }
             if (r.metadata.mediatype === "movies") {
@@ -269,6 +293,9 @@ const AddTapestryItem = ({
               <option value="bookimage" hidden>
                 Book image
               </option>
+              <option value="audiocontroller" hidden>
+                Audio controller
+              </option>
             </select>
           </label>
         </p>
@@ -341,6 +368,92 @@ const AddTapestryItem = ({
                   </span>
                 </label>
               </p>
+            ) : null}
+            {(type === "audio" || type === "audiocontroller") &&
+            directAudioUrl ? (
+              <div>
+                <div className="twoinputs">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={useAudioController}
+                      onChange={(e) => {
+                        setUseAudioController(e.target.checked);
+                        if (e.target.checked) {
+                          console.log("checked!");
+                        }
+
+                        setType(e.target.checked ? "audiocontroller" : "audio");
+                      }}
+                    />
+                    Use audio to control playback
+                  </label>
+                </div>
+                {useAudioController ? (
+                  <div>
+                    {controlList.map((controlPoint, index) => (
+                      <div className="twoinputs">
+                        <label style={{ flex: 2 }}>
+                          Goes to:
+                          <select
+                            value={controlList[index].id}
+                            onChange={(e) => {
+                              const newControlList = [...controlList];
+                              newControlList[index].id = e.target.value;
+                              setControlList(newControlList);
+                            }}
+                          >
+                            <option value={""}>None</option>
+                            {items
+                              .filter((x) => x.id !== itemData.id)
+                              .map((item, index) => (
+                                <option
+                                  key={index}
+                                  value={item.id}
+                                  className="linkselector"
+                                  style={{
+                                    "--color": getColor(
+                                      items.map((x) => x.id).indexOf(item.id)
+                                    ),
+                                  }}
+                                  data-index={
+                                    items.map((x) => x.id).indexOf(item.id) + 1
+                                  }
+                                >
+                                  {item.title}
+                                </option>
+                              ))}
+                          </select>
+                        </label>
+                        <label>
+                          Start time (ms):{" "}
+                          <input
+                            type="text"
+                            value={controlList[index].time}
+                            onChange={(e) => {
+                              const newControlList = [...controlList];
+                              newControlList[index].time = parseInt(
+                                e.target.value,
+                                10
+                              );
+                              setControlList(newControlList);
+                            }}
+                          />
+                        </label>
+                      </div>
+                    ))}
+                    <input
+                      type="button"
+                      value="Add new stop"
+                      onClick={() => {
+                        setControlList(
+                          controlList.concat([{ id: "", time: 0 }])
+                        );
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </div>
             ) : null}
             {dates.length ? (
               <p>

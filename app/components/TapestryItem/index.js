@@ -1,3 +1,4 @@
+import ReactAudioPlayer from "react-audio-player";
 import { Fragment, useState } from "react";
 import { Link } from "remix";
 import throbber from "./images/Loading_icon_cropped.gif";
@@ -168,6 +169,51 @@ const AudioFrame = ({ title, url, hideTitle }) => (
   </div>
 );
 
+const AudioControllerFrame = ({
+  title,
+  url,
+  hideTitle,
+  controlList,
+  setFocus,
+}) => {
+  const [currentId, setCurrentId] = useState("");
+  const sortedControlList = controlList.sort((a, b) => {
+    if (a.time > b.time) return 1;
+    if (a.time < b.time) return -1;
+    return 0;
+  });
+  return (
+    <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
+      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+      <div>
+        <ReactAudioPlayer
+          src={url}
+          crossOrigin
+          controls
+          listenInterval={500}
+          onListen={(e) => {
+            const currentTime = e * 1000;
+
+            if (currentTime < sortedControlList[0].time) return;
+
+            for (
+              let i = sortedControlList.length - 1;
+              i < sortedControlList.length;
+              i--
+            ) {
+              if (currentTime > sortedControlList[i].time) {
+                setCurrentId(sortedControlList[i].id);
+                setFocus(sortedControlList[i].id);
+                break;
+              }
+            }
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
 const WebFrame = ({ title, url, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
@@ -223,6 +269,7 @@ const TapestryItem = ({
   item,
   focused,
   setFocus,
+  setFocusElsewhere,
   comments,
   openComments,
   preview,
@@ -285,6 +332,14 @@ const TapestryItem = ({
           title={item.title}
           url={item.url}
           hideTitle={item.hideTitle}
+        />
+      ) : item.type === "audiocontroller" ? (
+        <AudioControllerFrame
+          title={item.title}
+          url={item.thumbnail}
+          controlList={item.controlList}
+          hideTitle={item.hideTitle}
+          setFocus={setFocusElsewhere}
         />
       ) : item.type === "video" ? (
         <VideoFrame

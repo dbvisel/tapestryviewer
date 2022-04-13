@@ -260,6 +260,8 @@ const getDownloadedGoogleData = async () => {
           googleLinksTo: thisItemRow.linksTo, // this is still uncleaned!
           googleId: thisItemRow.id, // why is this not coming thorough?n
           hideTitle: thisItemRow.hideTitle,
+          thumbnail: thisItemRow.thumbnail,
+          controlList: thisItemRow.controlList,
         });
         listOfGoogleIds[thisItemRow.id] = thisItem.id;
         thisTapestry.addItem(thisItem);

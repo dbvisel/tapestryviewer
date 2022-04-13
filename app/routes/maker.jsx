@@ -97,10 +97,15 @@ export default function MakerPage() {
       const payload = {
         tapestry: row,
         items: segments.map((segment) => {
+          console.log(segment.controlList);
           return {
             ...segment,
             tapestryId: row.slug,
             linksTo: segment.linksTo.join(","), // TODO: this needs to change to an ID
+            controlList:
+              JSON.stringify(segment.controlList) === "[]"
+                ? ""
+                : JSON.stringify(segment.controlList),
           };
         }),
       };
@@ -170,6 +175,7 @@ export default function MakerPage() {
             tapestryId: row.slug,
             linksTo: segment.linksTo.map((x) => getGoogleIdForId(x)).join(","),
             id: segment.googleId || segment.id,
+            controlList: JSON.stringify(segment.controlList), //TODO: fix this
           };
         }),
       };

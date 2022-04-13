@@ -73,6 +73,7 @@ To make a link from one item to another item, put the linked item's ID in the **
  - set initial zoom to width of everything
    - ugly padding currently
  - can we visually annotate images of pages of books?
+ - using audio as controller – how hard is this?
 
 ### mildly important
 
