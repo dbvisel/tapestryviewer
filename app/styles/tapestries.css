@@ -160,6 +160,10 @@
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
+.textframe.notitle {
+	--headerHeight: 0;
+}
+
 .textframe > div {
 	box-sizing: border-box;
 	height: calc(100% - var(--headerHeight));

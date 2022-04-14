@@ -39,9 +39,9 @@ const TextFrame = ({ title, content, hideTitle }) => (
 const TapestryFrame = ({ title, link }) => (
   <div
     className={`frame tapestryframe`}
-    onClick={() => {
-      console.log("clicked!");
-    }}
+    // onClick={() => {
+    //   console.log("clicked!");
+    // }}
   >
     <Link to={`/tapestry/${link}`} tabIndex={-1}>
       {title}

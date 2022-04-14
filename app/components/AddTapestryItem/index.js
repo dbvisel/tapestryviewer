@@ -178,7 +178,7 @@ const AddTapestryItem = ({
         const metadataUrl =
           splitUrl[0] + "/metadata/" + splitUrl[1].split("/")[0];
         setMessage("Querying Internet Archive . . .");
-        console.log(newUrl, metadataUrl);
+        // console.log(newUrl, metadataUrl);
         setUrl(newUrl);
         await fetch(metadataUrl, {
           method: "GET",
@@ -186,6 +186,7 @@ const AddTapestryItem = ({
           .then((res) => res.json())
           .then(async (r) => {
             console.log(r);
+            console.log(r.files.filter((x) => !x.private));
             if (r.metadata.title) {
               setTitle(r.metadata.title);
             }
@@ -201,13 +202,40 @@ const AddTapestryItem = ({
               setType("audio");
             }
             if (r.metadata.mediatype === "movies") {
+              // const captionFile = r.files.filter(
+              //   (x) => x.format === "Closed Caption Text" && !x.private
+              // );
+              // // TODO: this doesn't work because of CORS!
+              // if (captionFile.length) {
+              //   // TODO: fetch caption file
+              //   console.log(
+              //     `Fetching https://${r.d1}${r.dir}/${captionFile[0].name}`
+              //   );
+              //   await fetch(`https://${r.d1}${r.dir}/${captionFile[0].name}`, {
+              //     method: "GET",
+              //     mode: "cors",
+              //   })
+              //     .then(async (r) => {
+              //       console.log(r);
+              //       setContent(r);
+              //     })
+              //     .catch((e) => {
+              //       setMessage("There was an error, check the log");
+              //       console.error(e);
+              //     });
+              // }
+
               // Could take this as a thumbnail (does this always work?):
               // though to do this we would need to make sure this works for everything.
               // and we would need to have a "thumbnail" as part of the itemData.
+
               const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
+              // (this is wrong for tv archive)
               setThumbnail(thumbnail);
               console.log("Possible thumbnail: ", thumbnail);
+              // this fails for TV archive clips.
               setMaxLength(r.files[1]?.length || 0);
+              console.log("Possible maxLength: ", maxLength);
               setType("video");
             }
             if (r.metadata.mediatype === "texts") {
@@ -239,7 +267,6 @@ const AddTapestryItem = ({
       setMessage("");
     }
   }, [type, url]);
-
   return (
     <div
       style={{
@@ -318,13 +345,6 @@ const AddTapestryItem = ({
                 placeholder="Add some text"
               />
             </div>
-            {/*<textarea
-                type="text"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder={"Enter HTML here"}
-              />
-								</label>*/}
           </div>
         ) : (
           <Fragment>
@@ -379,9 +399,9 @@ const AddTapestryItem = ({
                       checked={useAudioController}
                       onChange={(e) => {
                         setUseAudioController(e.target.checked);
-                        if (e.target.checked) {
-                          console.log("checked!");
-                        }
+                        // if (e.target.checked) {
+                        //   console.log("checked!");
+                        // }
 
                         setType(e.target.checked ? "audiocontroller" : "audio");
                       }}
@@ -394,7 +414,7 @@ const AddTapestryItem = ({
                     {controlList.map((controlPoint, index) => (
                       <div className="twoinputs">
                         <label style={{ flex: 2 }}>
-                          Goes to:
+                          Focus on:
                           <select
                             value={controlList[index].id}
                             onChange={(e) => {
@@ -409,7 +429,7 @@ const AddTapestryItem = ({
                               .map((item, index) => (
                                 <option
                                   key={index}
-                                  value={item.id}
+                                  value={item.googleId || item.id}
                                   className="linkselector"
                                   style={{
                                     "--color": getColor(
@@ -426,7 +446,7 @@ const AddTapestryItem = ({
                           </select>
                         </label>
                         <label>
-                          Start time (ms):{" "}
+                          at time
                           <input
                             type="text"
                             value={controlList[index].time}
@@ -438,7 +458,8 @@ const AddTapestryItem = ({
                               );
                               setControlList(newControlList);
                             }}
-                          />
+                          />{" "}
+                          (ms)
                         </label>
                       </div>
                     ))}
