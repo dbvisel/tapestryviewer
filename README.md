@@ -70,6 +70,7 @@ To make a link from one item to another item, put the linked item's ID in the **
 ### important
 
  - it zooms too much
+   - maybe think about using this library: https://github.com/retyui/react-quick-pinch-zoom
  - set initial zoom to width of everything
    - ugly padding currently
  - can we visually annotate images of pages of books?
@@ -86,6 +87,7 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### think about
 
+ - rich text editor: maybe Lexical: https://lexical.dev (though that's still new!)
  - tv archive: right now I can't get captions because they're set to private
  - tree navigation
  - Hypothesis? Could we do that instead?

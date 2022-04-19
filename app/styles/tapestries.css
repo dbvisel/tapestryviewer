@@ -173,6 +173,11 @@
 	color: var(--textFrameColor);
 }
 
+.textframe > div h3 {
+	margin: 8px 0;
+	color: var(--black);
+}
+
 .textframe > div p {
 	margin-bottom: 8px;
 }
