@@ -182,6 +182,10 @@
 	margin-bottom: 8px;
 }
 
+.textframe > div p a {
+	color: var(--background-body);
+}
+
 .textframe > div p strong {
 	color: var(--black);
 }
