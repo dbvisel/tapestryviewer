@@ -19,15 +19,17 @@ const fireWebhook = (url) => {
 export default function MainIndex() {
   const { buildhook } = useLoaderData();
   const { tapestries } = useOutletContext();
+  const filteredTapestries = tapestries.filter((x) => !x.hideOnFront);
   return (
     <div style={{ maxWidth: 800, marginLeft: "auto", marginRight: "auto" }}>
       <h1>Tapestries</h1>
       <p>This is a list of tapestries currently in the system.</p>
       <ul>
-        {tapestries.map((tapestry) => (
+        {filteredTapestries.map((tapestry) => (
           <li key={tapestry.slug}>
             <Link to={`/tapestry/${tapestry.slug}`}>
-              {tapestry.title} ({cleanDate(tapestry.dateCreated)})
+              {tapestry.title}
+              {/*({cleanDate(tapestry.dateCreated)})*/}
             </Link>
           </li>
         ))}

@@ -18,6 +18,7 @@ class Tapestry {
     gridUnitSize,
     gridGap,
     googleId,
+    hideOnFront,
   }) {
     const uuid = uuidv4();
     this.id = uuid;
@@ -39,6 +40,7 @@ class Tapestry {
     this.gridGap = Number(gridGap) || 20;
     this.history = [];
     this.googleId = googleId || uuid;
+    this.hideOnFront = hideOnFront || false;
     this.hash = hashString(`${title || "New Tapestry"}_${author}`);
   }
   createNewVersion = () => {

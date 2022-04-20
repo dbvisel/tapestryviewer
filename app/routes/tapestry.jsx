@@ -14,6 +14,7 @@ export const links = () => {
 export default function TapestryOverview() {
   const { tapestries } = useOutletContext();
   const [navShown, setNavShown] = useState(false);
+  const filteredTapestries = tapestries.filter((x) => !x.hideOnFront);
   return (
     <div className="tapestrypage">
       <nav
@@ -30,7 +31,7 @@ export default function TapestryOverview() {
         <div>
           <h2>Tapestries</h2>
           <ul>
-            {tapestries.map((tapestry) => (
+            {filteredTapestries.map((tapestry) => (
               <li key={tapestry.slug}>
                 → <Link to={`${tapestry.slug}`}>{tapestry.title}</Link>
               </li>

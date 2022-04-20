@@ -52,6 +52,7 @@ const outTapestryRows = tapestryRows.map((x) => {
     background: x.background,
     gridUnitSize: Number(x.gridUnitSize),
     gridGap: Number(x.gridGap),
+    hideOnFront: Boolean(x.hideOnFront),
   };
 });
 const outItemRows = itemRows.map((x) => {

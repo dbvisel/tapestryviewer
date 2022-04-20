@@ -241,6 +241,7 @@ const getDownloadedGoogleData = async () => {
       gridUnitSize: thisTapestryRow.gridUnitSize,
       items: [],
       googleId: thisTapestryRow.googleId,
+      hideOnFront: thisTapestryRow.hideOnFront,
     });
     const thisId = thisTapestryRow.id;
 
