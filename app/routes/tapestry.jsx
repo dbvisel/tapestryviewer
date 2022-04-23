@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Outlet, Link, useOutletContext } from "remix";
 
 import tapestryStyles from "~/styles/tapestries.css";
@@ -11,13 +11,14 @@ export const links = () => {
   ];
 };
 
-function inIframe() {
+const inIframe = () => {
   try {
     return window.self !== window.top;
   } catch (e) {
+    console.log("this is an iframe");
     return true;
   }
-}
+};
 
 const TapestryNav = ({ filteredTapestries }) => {
   const [navShown, setNavShown] = useState(false);
@@ -51,17 +52,25 @@ const TapestryNav = ({ filteredTapestries }) => {
 };
 
 export default function TapestryOverview() {
+  const [isIframe, setIsIframe] = React.useState(false);
   const { tapestries } = useOutletContext();
   const filteredTapestries = tapestries.filter((x) => !x.hideOnFront);
-  const isIframe = inIframe();
-  console.log("isIframe: ", isIframe);
-  return (
+
+  React.useEffect(() => {
+    setIsIframe(inIframe());
+  });
+
+  return isIframe ? (
     <div className="tapestrypage">
-      {isIframe ? null : (
-        <TapestryNav filteredTapestries={filteredTapestries} />
-      )}
-      <main className={isIframe ? "iframe" : "normal"}>
-        <Outlet context={{ isIframe: isIframe }} />
+      <main className="iframe">
+        <Outlet context={{ isIframe: true }} />
+      </main>
+    </div>
+  ) : (
+    <div className="tapestrypage">
+      <TapestryNav filteredTapestries={filteredTapestries} />
+      <main>
+        <Outlet context={{ isIframe: false }} />
       </main>
     </div>
   );
