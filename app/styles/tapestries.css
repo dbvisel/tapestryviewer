@@ -342,6 +342,12 @@
 		padding-top: 10px;
 	}
 
+	.tapestrypage > main.iframe {
+		margin: 0;
+		padding: 0;
+		border: none;
+	}
+
 	.tapestrypage > main > div > h1 {
 		flex-direction: column;
 	}
