@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { useCatch, useParams, useLoaderData, json } from "remix";
+import { useCatch, useParams, useLoaderData, useOutletContext } from "remix";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
 import {
@@ -61,6 +61,8 @@ export function CatchBoundary() {
 
 export default function TapestryPage() {
   const { tapestry, forkHistory, forkedFromThis } = useLoaderData();
+  console.log(tapestry);
+  const { isIframe } = useOutletContext();
   const [showDetails, setShowDetails] = useState(false);
   const [version, setVersion] = useState(tapestry);
 
@@ -80,8 +82,18 @@ export default function TapestryPage() {
 
   return (
     <Fragment>
-      <h1>
-        {tapestry.title}
+      <h1 className={isIframe ? "iframe" : ""}>
+        {isIframe ? (
+          <a
+            href={`https://tapestryviewer.netlify.app/tapestry/${tapestry.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {tapestry.title}
+          </a>
+        ) : (
+          tapestry.title
+        )}
         <span
           style={{
             marginLeft: "auto",
@@ -123,7 +135,11 @@ export default function TapestryPage() {
           setVersion={setVersion}
         />
       ) : (
-        <TapestryComponent tapestry={version} key={tapestry.id} />
+        <TapestryComponent
+          tapestry={version}
+          key={tapestry.id}
+          isIframe={isIframe}
+        />
       )}
     </Fragment>
   );

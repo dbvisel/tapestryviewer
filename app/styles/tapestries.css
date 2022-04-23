@@ -28,6 +28,10 @@
 	z-index: 1;
 }
 
+.tapestrypage main.iframe {
+	--headerHeight: 40px;
+}
+
 
 .tapestrypage .viewport {
 	position: fixed;
@@ -69,6 +73,13 @@
 	box-sizing: border-box;
 	padding: 0 20px;
 	font-size: 28px;
+}
+
+.tapestrypage h1.iframe {
+	background-color: #fff;
+	color: #333;
+	font-size: 24px;
+	padding: 0 10px;
 }
 
 .tapestrypage h2 {

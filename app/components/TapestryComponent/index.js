@@ -49,7 +49,7 @@ const makeLinkList = (items) => {
   return linksList;
 };
 
-const TapestryComponent = ({ tapestry }) => {
+const TapestryComponent = ({ tapestry, isIframe }) => {
   // console.log(tapestry);
   let navigate = useNavigate();
 
@@ -194,7 +194,7 @@ const TapestryComponent = ({ tapestry }) => {
         className="viewport"
         ref={viewportRef}
         style={{
-          padding: "20px",
+          padding: isIframe ? "10px" : "20px",
           boxSizing: "border-box",
           background: tapestry.background,
           backgroundSize: "cover",
