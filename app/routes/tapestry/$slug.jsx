@@ -10,6 +10,33 @@ import { publicationStatus } from "~/utils/utils.mjs";
 import TapestryInfo from "~/components/TapestryInfo";
 import TapestryComponent from "~/components/TapestryComponent";
 
+const goFullScreen = () => {
+  const viewport = document.querySelector("div.viewport");
+  // check if fullscreen mode is available
+  if (viewport) {
+    if (
+      document.fullscreenEnabled ||
+      document.webkitFullscreenEnabled ||
+      document.mozFullScreenEnabled ||
+      document.msFullscreenEnabled
+    ) {
+      // which element will be fullscreen
+      // Do fullscreen
+      if (viewport.requestFullscreen) {
+        viewport.requestFullscreen();
+      } else if (viewport.webkitRequestFullscreen) {
+        viewport.webkitRequestFullscreen();
+      } else if (viewport.mozRequestFullScreen) {
+        viewport.mozRequestFullScreen();
+      } else if (viewport.msRequestFullscreen) {
+        viewport.msRequestFullscreen();
+      }
+    } else {
+      console.log("fullscreen not available");
+    }
+  }
+};
+
 export const loader = async ({ params }) => {
   invariant(params.slug, "expected params.slug");
   const tapestries = await getTapestries();
@@ -84,13 +111,24 @@ export default function TapestryPage() {
     <Fragment>
       <h1 className={isIframe ? "iframe" : ""}>
         {isIframe ? (
-          <a
-            href={`https://tapestryviewer.netlify.app/tapestry/${tapestry.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {tapestry.title}
-          </a>
+          <Fragment>
+            <a
+              href={`https://tapestryviewer.netlify.app/tapestry/${tapestry.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {tapestry.title}
+            </a>{" "}
+            <a
+              href="/#"
+              onClick={(e) => {
+                e.preventDefault();
+                goFullScreen();
+              }}
+            >
+              ↑
+            </a>
+          </Fragment>
         ) : (
           tapestry.title
         )}
