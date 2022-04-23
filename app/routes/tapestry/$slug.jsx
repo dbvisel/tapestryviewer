@@ -61,8 +61,8 @@ export function CatchBoundary() {
 
 export default function TapestryPage() {
   const { tapestry, forkHistory, forkedFromThis } = useLoaderData();
-  console.log(tapestry);
   const { isIframe } = useOutletContext();
+  console.log("insider isIframe", isIframe);
   const [showDetails, setShowDetails] = useState(false);
   const [version, setVersion] = useState(tapestry);
 

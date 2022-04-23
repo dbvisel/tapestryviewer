@@ -19,7 +19,7 @@ function inIframe() {
   }
 }
 
-const TapestryNav = ({ filteredTapesties }) => {
+const TapestryNav = ({ filteredTapestries }) => {
   const [navShown, setNavShown] = useState(false);
   return (
     <nav
@@ -54,12 +54,13 @@ export default function TapestryOverview() {
   const { tapestries } = useOutletContext();
   const filteredTapestries = tapestries.filter((x) => !x.hideOnFront);
   const isIframe = inIframe();
+  console.log("isIframe: ", isIframe);
   return (
     <div className="tapestrypage">
       {isIframe ? null : (
         <TapestryNav filteredTapestries={filteredTapestries} />
       )}
-      <main className={isIframe ? "iframe" : ""}>
+      <main className={isIframe ? "iframe" : "normal"}>
         <Outlet context={{ isIframe: isIframe }} />
       </main>
     </div>
