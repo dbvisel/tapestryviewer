@@ -45,6 +45,12 @@
 	background-size: cover !important;
 }
 
+.tapestrypage .shareicon {
+	position: fixed;
+	left: 10px;
+	bottom: 10px;
+}
+
 .tapestrypage .fullscreen-enabled {
 	--headerHeight: 0px;
 }

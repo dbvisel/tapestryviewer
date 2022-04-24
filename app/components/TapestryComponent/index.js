@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState, useRef } from "react";
 import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { FaShareAlt } from "react-icons/fa";
 import TapestryItem from "~/components/TapestryItem";
 import CommentDrawer from "~/components/CommentDrawer";
 import { useNavigate } from "remix";
@@ -393,6 +394,30 @@ const TapestryComponent = ({
           focused={focused}
           tapestry={tapestry}
         />
+      )}
+      {isIframe ? null : (
+        <a
+          href="/#"
+          className="shareicon"
+          onClick={(e) => {
+            e.preventDefault();
+            const myCode = `<iframe src="https://tapestryviewer.netlify.app/tapestry/${tapestry.slug}" width="1024px" height="768px" allowfullscreen />`;
+            console.log(myCode);
+            navigator.permissions
+              .query({ name: "clipboard-write" })
+              .then((result) => {
+                if (result.state == "granted" || result.state == "prompt") {
+                  navigator.clipboard.writeText(myCode);
+                  // TODO: fix this.
+                  // window.alert(
+                  //   `To embed this tapestry in an iframe, use this:\n\n${myCode}\n\nIt's in your clipboard now.`
+                  // );
+                }
+              });
+          }}
+        >
+          <FaShareAlt style={{ width: "24px", height: "24px" }} />
+        </a>
       )}
     </Xwrapper>
   );

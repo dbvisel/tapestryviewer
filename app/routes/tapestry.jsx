@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Outlet, Link, useOutletContext } from "remix";
-
 import tapestryStyles from "~/styles/tapestries.css";
 import navStyles from "~/styles/tapestrynav.css";
 
