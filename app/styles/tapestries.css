@@ -179,6 +179,7 @@
 	width: 24px;
 	color: rgba(255,255,255,0.5);
 	transition: 0.25s;
+	z-index: 3;
 }
 
 .tapestryItem .itemfullscreen:hover {
@@ -348,6 +349,7 @@
 	transition: 0.25s;
 	font-weight: bold;
 	user-select: none;
+	z-index: 3;
 }
 
 .tapestryIcon:hover, .tapestryIcon.on {
