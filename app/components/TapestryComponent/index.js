@@ -49,7 +49,12 @@ const makeLinkList = (items) => {
   return linksList;
 };
 
-const TapestryComponent = ({ tapestry, isIframe }) => {
+const TapestryComponent = ({
+  tapestry,
+  isIframe,
+  isFullScreen,
+  setFullScreen,
+}) => {
   // console.log(tapestry);
   let navigate = useNavigate();
 
@@ -320,6 +325,14 @@ const TapestryComponent = ({ tapestry, isIframe }) => {
                         })`,
                       }}
                     >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFullScreen(!isFullScreen);
+                        }}
+                      >
+                        {isFullScreen ? "↙" : "↗"}
+                      </button>
                       <button
                         className={focused === -1 ? "disabled" : ""}
                         disabled={focused === -1}

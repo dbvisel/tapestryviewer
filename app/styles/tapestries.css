@@ -45,6 +45,19 @@
 	background-size: cover !important;
 }
 
+.tapestrypage .fullscreen-enabled {
+	--headerHeight: 0;
+}
+
+.fullscreen-enabled .commentdrawer {
+	top: 0;
+	height: 100vh;
+}
+
+.fullscreen-enabled .commentdrawer h2 {
+	top: 100px;
+}
+
 .tapestrypage .viewport:focus, .tapestrypage .viewport:focus-visible {
 	outline: none;
 	border: none;

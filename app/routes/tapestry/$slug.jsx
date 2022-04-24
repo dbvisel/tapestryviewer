@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useCatch, useParams, useLoaderData, useOutletContext } from "remix";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
 import {
@@ -9,33 +10,6 @@ import {
 import { publicationStatus } from "~/utils/utils.mjs";
 import TapestryInfo from "~/components/TapestryInfo";
 import TapestryComponent from "~/components/TapestryComponent";
-
-const goFullScreen = () => {
-  const viewport = document.querySelector("div.viewport");
-  // check if fullscreen mode is available
-  if (viewport) {
-    if (
-      document.fullscreenEnabled ||
-      document.webkitFullscreenEnabled ||
-      document.mozFullScreenEnabled ||
-      document.msFullscreenEnabled
-    ) {
-      // which element will be fullscreen
-      // Do fullscreen
-      if (viewport.requestFullscreen) {
-        viewport.requestFullscreen();
-      } else if (viewport.webkitRequestFullscreen) {
-        viewport.webkitRequestFullscreen();
-      } else if (viewport.mozRequestFullScreen) {
-        viewport.mozRequestFullScreen();
-      } else if (viewport.msRequestFullscreen) {
-        viewport.msRequestFullscreen();
-      }
-    } else {
-      console.log("fullscreen not available");
-    }
-  }
-};
 
 export const loader = async ({ params }) => {
   invariant(params.slug, "expected params.slug");
@@ -89,9 +63,10 @@ export function CatchBoundary() {
 export default function TapestryPage() {
   const { tapestry, forkHistory, forkedFromThis } = useLoaderData();
   const { isIframe } = useOutletContext();
-  console.log("insider isIframe", isIframe);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [version, setVersion] = useState(tapestry);
+  const handle = useFullScreenHandle();
 
   const figureOutVersion = () => {
     for (let i = 0; i < tapestry.history.length; i++) {
@@ -103,67 +78,80 @@ export default function TapestryPage() {
   };
 
   useEffect(() => {
+    // TODO: need to figure out a way to get out of full screen
+    if (isFullScreen) {
+      // console.log("isFullScreen set to true");
+      handle.enter();
+    } else {
+      // console.log("isFullScreen set to false");
+      handle.exit();
+    }
+  }, [isFullScreen]);
+
+  useEffect(() => {
     // console.log("tapestry changed!", tapestry);
     setVersion(tapestry);
   }, [tapestry]);
 
   return (
     <Fragment>
-      <h1 className={isIframe ? "iframe" : ""}>
-        {isIframe ? (
-          <Fragment>
+      {isFullScreen ? null : (
+        <h1 className={isIframe ? "iframe" : ""}>
+          {isIframe ? (
+            <Fragment>
+              <a
+                href={`https://tapestryviewer.netlify.app/tapestry/${tapestry.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {tapestry.title}
+              </a>{" "}
+              <a
+                href="/#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handle.enter();
+                }}
+              >
+                ↗
+              </a>
+            </Fragment>
+          ) : (
+            tapestry.title
+          )}
+          <span
+            style={{
+              marginLeft: "auto",
+              fontWeight: "normal",
+              fontSize: "50%",
+            }}
+          >
+            {showDetails ? (
+              <span>
+                Author: {tapestry.author}
+                <span
+                  style={{
+                    fontStyle: "italic",
+                    marginLeft: "1em",
+                  }}
+                >
+                  {publicationStatus(tapestry.published)}
+                </span>
+              </span>
+            ) : null}
             <a
-              href={`https://tapestryviewer.netlify.app/tapestry/${tapestry.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {tapestry.title}
-            </a>{" "}
-            <a
+              style={{ marginLeft: "1em" }}
               href="/#"
               onClick={(e) => {
                 e.preventDefault();
-                goFullScreen();
+                setShowDetails(!showDetails);
               }}
             >
-              ↑
+              {showDetails ? "Hide" : "Show"} details
             </a>
-          </Fragment>
-        ) : (
-          tapestry.title
-        )}
-        <span
-          style={{
-            marginLeft: "auto",
-            fontWeight: "normal",
-            fontSize: "50%",
-          }}
-        >
-          {showDetails ? (
-            <span>
-              Author: {tapestry.author}
-              <span
-                style={{
-                  fontStyle: "italic",
-                  marginLeft: "1em",
-                }}
-              >
-                {publicationStatus(tapestry.published)}
-              </span>
-            </span>
-          ) : null}
-          <a
-            style={{ marginLeft: "1em" }}
-            href="/#"
-            onClick={(e) => {
-              e.preventDefault();
-              setShowDetails(!showDetails);
-            }}
-          >
-            {showDetails ? "Hide" : "Show"} details
-          </a>
-        </span>
-      </h1>
+          </span>
+        </h1>
+      )}
       {showDetails ? (
         <TapestryInfo
           tapestry={tapestry}
@@ -173,11 +161,15 @@ export default function TapestryPage() {
           setVersion={setVersion}
         />
       ) : (
-        <TapestryComponent
-          tapestry={version}
-          key={tapestry.id}
-          isIframe={isIframe}
-        />
+        <FullScreen handle={handle}>
+          <TapestryComponent
+            tapestry={version}
+            key={tapestry.id}
+            isIframe={isIframe}
+            isFullScreen={isFullScreen}
+            setFullScreen={setIsFullScreen}
+          />
+        </FullScreen>
       )}
     </Fragment>
   );
