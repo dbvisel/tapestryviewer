@@ -1,11 +1,9 @@
-.tapestrypage,.makerpage {
+.tapestrypage, .makerpage {
   display: flex;
-	--headerHeight: 50px;
 	--navWidth: 200px;
 	--commentWidth: 250px;
 	--navGap: 10px;
 	--commentGap: 25px;
-	--borderColor: #ccc;
 	--gridUnitSize: 200px;
 	--gridGap: 20px;
 	--textPadding: 10px;
@@ -17,8 +15,10 @@
 	--tapestryFrameColor: #333;
 	--tapestryFrameBackground: magenta;
 	--focusColor: orange;
+	--borderColor: #ccc;
 	--borderRadius: 4px;
 	--drawerTransition: 0.5s;
+	--itemHeaderHeight: 50px;
 }
 
 .tapestrypage main {
@@ -156,12 +156,12 @@
 	object-fit: contain;
 	object-position: top;
 	width: 100%;
-	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
+	height: calc(100% - calc(var(--itemHeaderHeight) - var(--textPadding)));
 }
 
 .tapestryItemHead {
 	box-sizing: border-box;
-	height: calc(var(--headerHeight) - var(--textPadding));
+	height: calc(var(--itemHeaderHeight) - var(--textPadding));
 	margin: 0;
 	margin-bottom: var(--textPadding);
 	padding: 0 var(--textPadding);
@@ -185,12 +185,12 @@
 }
 
 .textframe.notitle {
-	--headerHeight: 0px;
+	--itemHeaderHeight: 0px;
 }
 
 .textframe > div {
 	box-sizing: border-box;
-	height: calc(100% - var(--headerHeight));
+	height: calc(100% - var(--itemHeaderHeight));
 	padding:  0 var(--textPadding) var(--textPadding) var(--textPadding);
 	width: 100%;
 	overflow-y: auto;
@@ -255,7 +255,7 @@
 
 .bookframe iframe, .imageframe iframe, .videoframe iframe, .webframe > div, .webframe iframe {
 	box-sizing: border-box;
-	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
+	height: calc(100% - calc(var(--itemHeaderHeight) - var(--textPadding)));
 	width: calc(100% - 2px);
 	border: none;
 }
@@ -278,7 +278,7 @@
 .webframe  iframe {
 	z-index: 2;
 	position: absolute; 
-	top: calc(var(--headerHeight) - var(--textPadding));
+	top: calc(var(--itemHeaderHeight) - var(--textPadding));
 }
 
 .webframe.notitle iframe {
@@ -287,7 +287,7 @@
 
 .audioframe > div {
 	box-sizing: border-box;
-	height: calc(100% - calc(var(--headerHeight) - var(--textPadding)));
+	height: calc(100% - calc(var(--itemHeaderHeight) - var(--textPadding)));
 	width: 100%;
 	display: flex;
 	justify-content: center;

@@ -199,7 +199,7 @@ const TapestryComponent = ({
         className="viewport"
         ref={viewportRef}
         style={{
-          padding: isIframe ? "10px" : "20px",
+          padding: isFullScreen ? "0px" : isIframe ? "10px" : "20px",
           boxSizing: "border-box",
           background: tapestry.background,
           backgroundSize: "cover",
