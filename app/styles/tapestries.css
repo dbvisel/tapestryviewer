@@ -55,6 +55,10 @@
 	--headerHeight: 0px;
 }
 
+/* .iframe .commentdrawer {
+	display: none;
+} */
+
 .fullscreen-enabled .commentdrawer {
 	top: 0;
 	height: 100vh;
@@ -145,16 +149,40 @@
 	border-radius: var(--borderRadius);
 }
 
+.tapestryItem .fullscreen-enabled .frame {
+	border: none;
+	border-radius: 0;
+}
 
 
 .tapestryItem.focused {
 	box-shadow: 0 0 20px var(--focusColor);
 }
 
-.tapestryItem > div:not(.tapestryDetails) {
+.tapestryItem > .fullscreen {
+	height: 100%;
+	position: relative;
+	z-index:9;
+}
+
+.tapestryItem > div > div:not(.tapestryDetails) {
 	height: 100%;
 	/* height: calc(100% - var(--headerHeight)); */
 	box-sizing: border-box;
+}
+
+.tapestryItem .fullscreenicon {
+	position: absolute;
+	top: 6px;
+	right: 44px;
+	height: 24px;
+	width: 24px;
+	color: rgba(255,255,255,0.5);
+	transition: 0.25s;
+}
+
+.tapestryItem .itemfullscreen:hover {
+	color: rgb(255,255,255);
 }
 
 .tapestryItem img.thumbnail {

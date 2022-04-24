@@ -12,7 +12,7 @@ const TestPage = () => {
   return (
     <div style={{ margin: "20px", display: "flex", justifyContent: "center" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h1>Tapestry iframe demo page</h1>
+        <h1>Embed a tapestry as an iframe</h1>
         <iframe src={`/tapestry/${slug}`} width={width} height={height} />
         <h2>Choose the tapestry you'd like to include and the size:</h2>
         <p

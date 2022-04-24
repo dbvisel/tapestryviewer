@@ -1,8 +1,9 @@
 import ReactAudioPlayer from "react-audio-player";
 import { Fragment, useState } from "react";
 import { Link } from "remix";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import throbber from "./images/Loading_icon_cropped.gif";
-import { Comment } from "@styled-icons/boxicons-regular";
+import { Comment, Expand } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 
 const hideThumbnail = true;
@@ -275,6 +276,8 @@ const TapestryItem = ({
   preview,
   hideComments,
 }) => {
+  const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
+  const itemHandle = useFullScreenHandle();
   return (
     <section
       id={preview ? `preview_${item.id}` : item.id}
@@ -293,82 +296,105 @@ const TapestryItem = ({
       }
       onClick={setFocus}
     >
-      <TapestryIcon item={item} />
-      {preview || hideComments ? null : (
-        <CommentIcon comments={comments} onClick={openComments}>
-          <Comment />
-        </CommentIcon>
-      )}
-      {item.type === "textFrame" ? (
-        <TextFrame
-          title={item.title}
-          content={item.content}
-          hideTitle={item.hideTitle}
-        />
-      ) : item.type === "tapestry" ? (
-        <TapestryFrame title={item.title} link={item.url} />
-      ) : item.type === "book" ? (
-        <BookFrame
-          title={item.title}
-          url={item.url}
-          thumbnail={item.thumbnail}
-          hideTitle={item.hideTitle}
-        />
-      ) : item.type === "bookimage" ? (
-        <BookImageFrame
-          title={item.title}
-          url={item.url}
-          thumbnail={item.thumbnail}
-          hideTitle={item.hideTitle}
-        />
-      ) : item.type === "image" ? (
-        <ImageFrame
-          title={item.title}
-          url={item.url}
-          hideTitle={item.hideTitle}
-        />
-      ) : item.type === "audio" ? (
-        <AudioFrame
-          title={item.title}
-          url={item.url}
-          hideTitle={item.hideTitle}
-        />
-      ) : item.type === "audiocontroller" ? (
-        <AudioControllerFrame
-          title={item.title}
-          url={item.thumbnail}
-          controlList={item.controlList}
-          hideTitle={item.hideTitle}
-          setFocus={setFocusElsewhere}
-        />
-      ) : item.type === "video" ? (
-        <VideoFrame
-          title={item.title}
-          url={item.url}
-          thumbnail={item.thumbnail}
-          hideTitle={item.hideTitle}
-        />
-      ) : item.type === "web" ? (
-        <WebFrame
-          title={item.title}
-          url={item.url}
-          hideTitle={item.hideTitle}
-        />
-      ) : item.type === "software" ? (
-        <SoftwareFrame
-          title={item.title}
-          url={item.url}
-          hideTitle={item.hideTitle}
-        />
-      ) : item.type === "iaresource" ? (
-        <IaFrame title={item.title} url={item.url} hideTitle={item.hideTitle} />
-      ) : (
-        <p>
-          Unrecognized item type: {item.title}
-          <br />
-          {JSON.stringify(item)}
-        </p>
-      )}
+      <FullScreen handle={itemHandle}>
+        <a
+          href="/#"
+          className="fullscreenicon"
+          onClick={(e) => {
+            e.preventDefault();
+            console.log(e);
+            if (itemIsFullScreen) {
+              itemHandle.exit();
+              setItemIsFullScreen(false);
+            } else {
+              itemHandle.enter();
+              setItemIsFullScreen(true);
+            }
+          }}
+        >
+          <Expand />
+        </a>
+        <TapestryIcon item={item} />
+        {preview || hideComments ? null : (
+          <CommentIcon comments={comments} onClick={openComments}>
+            <Comment />
+          </CommentIcon>
+        )}
+        {item.type === "textFrame" ? (
+          <TextFrame
+            title={item.title}
+            content={item.content}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "tapestry" ? (
+          <TapestryFrame title={item.title} link={item.url} />
+        ) : item.type === "book" ? (
+          <BookFrame
+            title={item.title}
+            url={item.url}
+            thumbnail={item.thumbnail}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "bookimage" ? (
+          <BookImageFrame
+            title={item.title}
+            url={item.url}
+            thumbnail={item.thumbnail}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "image" ? (
+          <ImageFrame
+            title={item.title}
+            url={item.url}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "audio" ? (
+          <AudioFrame
+            title={item.title}
+            url={item.url}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "audiocontroller" ? (
+          <AudioControllerFrame
+            title={item.title}
+            url={item.thumbnail}
+            controlList={item.controlList}
+            hideTitle={item.hideTitle}
+            setFocus={setFocusElsewhere}
+          />
+        ) : item.type === "video" ? (
+          <VideoFrame
+            title={item.title}
+            url={item.url}
+            thumbnail={item.thumbnail}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "web" ? (
+          <WebFrame
+            title={item.title}
+            url={item.url}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "software" ? (
+          <SoftwareFrame
+            title={item.title}
+            url={item.url}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "iaresource" ? (
+          <IaFrame
+            title={item.title}
+            url={item.url}
+            hideTitle={item.hideTitle}
+          />
+        ) : (
+          <p>
+            Unrecognized item type: {item.title}
+            <br />
+            {JSON.stringify(item)}
+          </p>
+        )}
+      </FullScreen>
     </section>
   );
 };
