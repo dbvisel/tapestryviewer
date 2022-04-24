@@ -245,6 +245,7 @@ const TapestryComponent = ({
                     <TransformComponent
                       wrapperStyle={{
                         maxWidth: "100%",
+                        height: isFullScreen ? "100vh" : "fit-content",
                         maxHeight: "calc(100vh - var(--headerHeight))",
                       }}
                     >

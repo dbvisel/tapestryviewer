@@ -46,7 +46,7 @@
 }
 
 .tapestrypage .fullscreen-enabled {
-	--headerHeight: 0;
+	--headerHeight: 0px;
 }
 
 .fullscreen-enabled .commentdrawer {
@@ -185,7 +185,7 @@
 }
 
 .textframe.notitle {
-	--headerHeight: 0;
+	--headerHeight: 0px;
 }
 
 .textframe > div {
