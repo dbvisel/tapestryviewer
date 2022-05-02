@@ -71,10 +71,7 @@ To make a link from one item to another item, put the linked item's ID in the **
 
  - set initial zoom to width of everything
    - ugly padding currently
-   - add in settings for initial viewport: x, y, width, height,
-     - add in checkbox for intitial zoom
  - add in buttons to pan (top center, left center, bottom center, right center)
- - increase text size
 
  - it zooms too much
    - maybe think about using this library: https://github.com/retyui/react-quick-pinch-zoom  

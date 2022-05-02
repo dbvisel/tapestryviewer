@@ -76,6 +76,10 @@ export default function MakerPage() {
       setGridUnitSize(tapestry.gridUnitSize);
       setGridGap(tapestry.gridGap);
       setSegments(tapestry.items);
+      setDefaultZoom(tapestry.defaultZoom);
+      setInitialView(tapestry.initialView);
+      setInitialX(tapestry.initialX);
+      setInitialY(tapestry.initialY);
     }
   };
 
@@ -397,9 +401,7 @@ export default function MakerPage() {
                     type="number"
                     name={"defaultZoom"}
                     value={defaultZoom}
-                    onChange={(e) =>
-                      setDefaultZoom(parseInt(e.target.value, 10))
-                    }
+                    onChange={(e) => setDefaultZoom(parseFloat(e.target.value))}
                   />
                 </label>
               </p>
