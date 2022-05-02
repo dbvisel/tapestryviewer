@@ -152,6 +152,11 @@
 	border-radius: var(--borderRadius);
 }
 
+.tpaestryframe iframe {
+	width: 100%;
+	height: 100%;
+}
+
 .tapestryItem .fullscreen-enabled .frame {
 	border: none;
 	border-radius: 0;

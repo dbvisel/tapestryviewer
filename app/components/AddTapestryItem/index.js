@@ -310,6 +310,7 @@ const AddTapestryItem = ({
             <select value={type} onChange={(e) => setType(e.target.value)}>
               <option value="textFrame">Text frame</option>
               <option value="tapestrylink">Tapestry link</option>
+              <option value="tapestry">Embedded tapestry</option>
               <option value="iaresource">IA resource</option>
               <option value="book">Book</option>
               <option value="video">Video</option>
@@ -356,7 +357,7 @@ const AddTapestryItem = ({
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder={
-                    type === "tapestry"
+                    type === "tapestry" || type === "tapestrylink"
                       ? "Set this to the slug of a defined tapestry"
                       : ""
                   }

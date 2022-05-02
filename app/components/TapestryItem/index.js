@@ -152,6 +152,19 @@ const IaFrame = ({ title, url, hideTitle }) => (
   </div>
 );
 
+const TapestryIframe = ({ title, url }) => (
+  <div className={`${hideTitle ? "notitle" : ""} frame tapestryframe`}>
+    <iframe
+      src={`/tapestry/${url}/`}
+      frameBorder="0"
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowFullScreen
+      loading="lazy"
+    />
+  </div>
+);
+
 const AudioFrame = ({ title, url, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
@@ -390,6 +403,12 @@ const TapestryItem = ({
           />
         ) : item.type === "iaresource" ? (
           <IaFrame
+            title={item.title}
+            url={item.url}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "tapestry" ? (
+          <TapestryIframe
             title={item.title}
             url={item.url}
             hideTitle={item.hideTitle}
