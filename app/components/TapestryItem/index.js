@@ -283,7 +283,7 @@ const TapestryItem = ({
       id={preview ? `preview_${item.id}` : item.id}
       className={`tapestryItem ${focused ? "focused" : ""} ${
         item.type === "tapestry" ? "link" : ""
-      }`}
+      } ${item.hideTitle ? "hidetitle" : ""}`}
       style={
         preview
           ? { gridArea: "initial" }
@@ -299,7 +299,9 @@ const TapestryItem = ({
       <FullScreen handle={itemHandle}>
         <a
           href="/#"
-          className="fullscreenicon"
+          className={`fullscreenicon ${
+            item.type === "textFrame" ? "notapestryicon" : ""
+          }`}
           onClick={(e) => {
             e.preventDefault();
             console.log(e);
@@ -314,7 +316,7 @@ const TapestryItem = ({
         >
           <Expand />
         </a>
-        <TapestryIcon item={item} />
+        {item.type === "textFrame" ? null : <TapestryIcon item={item} />}
         {preview || hideComments ? null : (
           <CommentIcon comments={comments} onClick={openComments}>
             <Comment />

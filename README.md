@@ -69,10 +69,15 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### important
 
- - it zooms too much
-   - maybe think about using this library: https://github.com/retyui/react-quick-pinch-zoom
  - set initial zoom to width of everything
    - ugly padding currently
+   - add in settings for initial viewport: x, y, width, height,
+     - add in checkbox for intitial zoom
+ - add in buttons to pan (top center, left center, bottom center, right center)
+ - increase text size
+
+ - it zooms too much
+   - maybe think about using this library: https://github.com/retyui/react-quick-pinch-zoom  
  - can we visually annotate images of pages of books?
  - make a demo with comments
  - work through mark/jim's comments

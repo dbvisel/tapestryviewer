@@ -15,10 +15,13 @@
 	--tapestryFrameColor: #333;
 	--tapestryFrameBackground: magenta;
 	--focusColor: orange;
+	--iconColor: rgba(255,255,255,0.5);
 	--borderColor: #ccc;
 	--borderRadius: 4px;
 	--drawerTransition: 0.5s;
 	--itemHeaderHeight: 50px;
+	--fontSize: 24px;
+	--lineHeight: 36px;
 }
 
 .tapestrypage main {
@@ -177,13 +180,17 @@
 	right: 44px;
 	height: 24px;
 	width: 24px;
-	color: rgba(255,255,255,0.5);
+	color: var(--iconColor);
 	transition: 0.25s;
 	z-index: 3;
 }
 
-.tapestryItem .itemfullscreen:hover {
-	color: rgb(255,255,255);
+.tapestryItem .fullscreenicon.notapestryicon {
+	right: 8px;
+}
+
+.tapestryItem .fullscreenicon:hover {
+	color: var(--focusColor);
 }
 
 .tapestryItem img.thumbnail {
@@ -198,7 +205,7 @@
 	box-sizing: border-box;
 	height: calc(var(--itemHeaderHeight) - var(--textPadding));
 	margin: 0;
-	margin-bottom: var(--textPadding);
+	margin-bottom: calc(var(--fontSize) / 2);
 	padding: 0 var(--textPadding);
 	display: inline-flex;
 	background-color: var(--headerBackground);
@@ -217,6 +224,7 @@
 	padding-bottom: var(--textPadding);
 	background-color: var(--textFrameBackground);
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	--textPadding: 12px;
 }
 
 .textframe.notitle {
@@ -230,15 +238,33 @@
 	width: 100%;
 	overflow-y: auto;
 	color: var(--textFrameColor);
+	font-size: var(--fontSize);
+	line-height: var(--lineHeight);
 }
 
-.textframe > div h3 {
-	margin: 8px 0;
+.textframe > div:first-child {
+	padding-top: var(--textPadding);
+}
+
+.textframe > div h1, .textframe > div h2, .textframe > div h3 {
+	height: initial;
+	margin: calc(var(--fontSize) / 2) 0;
+	color: var(--black);
+	display: block;
+	padding: 0;
+}
+
+.textframe > div h1:first-child, .textframe > div h2:first-child, .textframe > div h3:first-child {
+	margin-top: 0;
+}
+
+.textframe > div h1 strong, .textframe > div h2 strong, .textframe > div h3 strong {
+	font-weight: normal;
 	color: var(--black);
 }
 
 .textframe > div p {
-	margin-bottom: 8px;
+	margin-bottom: calc(var(--fontSize) / 2);
 }
 
 .textframe > div a {
@@ -334,7 +360,6 @@
 }
 
 .tapestryIcon {
-	--iconColor: rgba(255,255,255,0.5);
 	position: absolute;
 	right: 8px;
 	top: 8px;
@@ -352,8 +377,12 @@
 	z-index: 3;
 }
 
+.hidetitle  {
+	--iconColor: var(--textFrameColor);
+}
+
 .tapestryIcon:hover, .tapestryIcon.on {
-	--iconColor: white;
+	--iconColor: var(--focusColor);
 	text-decoration: none;
 }
 
