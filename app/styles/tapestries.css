@@ -275,6 +275,12 @@
 	color: var(--black);
 }
 
+.fullscreen-enabled .textframe div {
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .tapestryframe {
 	color: var(--tapestryFrameColor);
 	background-color: var(--tapestryFrameBackground);
