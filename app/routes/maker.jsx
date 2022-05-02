@@ -47,6 +47,10 @@ export default function MakerPage() {
   const [focusedItem, setFocusedItem] = useState({});
   const [flag, setFlag] = useState(false);
   const [message, setMessage] = useState("");
+  const [initialView, setInitialView] = useState(false);
+  const [initialX, setInitialX] = useState(0);
+  const [initialY, setInitialY] = useState(0);
+  const [defaultZoom, setDefaultZoom] = useState(1);
   const [existingTapestry, setExistingTapestry] = useState(null);
 
   const handleSetTapestry = (id) => {
@@ -86,6 +90,10 @@ export default function MakerPage() {
       gridUnitSize: gridUnitSize,
       gridGap: gridGap,
       forkable: true,
+      initialView: initialView,
+      initialX: initialX,
+      initialY: initialY,
+      defaultZoom: defaultZoom,
     };
     if (fork) {
       row.title = `${row.title} fork`;
@@ -354,7 +362,48 @@ export default function MakerPage() {
                   onChange={(e) => setGridGap(parseInt(e.target.value, 10))}
                 />
               </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={initialView}
+                  onChange={(e) => setInitialView(e.target.checked)}
+                />
+                Set initial viewport?
+              </label>
             </p>
+            {initialView ? (
+              <p className="twoinputs">
+                <label>
+                  Initial X offset:
+                  <input
+                    type="number"
+                    name={"initialX"}
+                    value={initialX}
+                    onChange={(e) => setInitialX(parseInt(e.target.value, 10))}
+                  />
+                </label>
+                <label>
+                  Initial Y offset:
+                  <input
+                    type="number"
+                    name={"initialY"}
+                    value={initialY}
+                    onChange={(e) => setInitialY(parseInt(e.target.value, 10))}
+                  />
+                </label>
+                <label>
+                  Default zoom:
+                  <input
+                    type="number"
+                    name={"defaultZoom"}
+                    value={defaultZoom}
+                    onChange={(e) =>
+                      setDefaultZoom(parseInt(e.target.value, 10))
+                    }
+                  />
+                </label>
+              </p>
+            ) : null}
             <DemoGrid
               key={`flag_${flag}`}
               items={segments}
@@ -441,6 +490,10 @@ export default function MakerPage() {
               background: background,
               gridGap: gridGap,
               items: segments,
+              initialView: initialView,
+              defaultZoom: defaultZoom,
+              initialX: initialX,
+              initialY: initialY,
             }}
           />
         </div>

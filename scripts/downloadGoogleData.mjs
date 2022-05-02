@@ -53,6 +53,10 @@ const outTapestryRows = tapestryRows.map((x) => {
     gridUnitSize: Number(x.gridUnitSize),
     gridGap: Number(x.gridGap),
     hideOnFront: Boolean(x.hideOnFront),
+    initialView: Boolean(x.initialView),
+    initialX: Number(x.initialX),
+    initialY: Number(x.initialY),
+    defaultZoom: Number(x.defaultZoom) || 1,
   };
 });
 const outItemRows = itemRows.map((x) => {

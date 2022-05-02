@@ -56,7 +56,6 @@ const TapestryComponent = ({
   isFullScreen,
   setFullScreen,
 }) => {
-  // console.log(tapestry);
   let navigate = useNavigate();
 
   const transformerRef = useRef();
@@ -157,6 +156,7 @@ const TapestryComponent = ({
 
   useEffect(() => {
     if (!initialScale && viewportRef.current) {
+      console.log(tapestry.initialView);
       const viewport = viewportRef.current.getBoundingClientRect();
       const viewH = viewport.height;
       const viewW = viewport.width;
@@ -226,9 +226,9 @@ const TapestryComponent = ({
             style={{ padding: 0, margin: 0 }}
           >
             <TransformWrapper
-              initialScale={initialScale}
-              // initialPositionX={25}
-              // initialPositionY={25}
+              initialScale={
+                tapestry.initialView ? tapestry.defaultZoom : initialScale
+              }
               minScale={0.5}
               maxScale={5}
               centerOnInit={false}
@@ -237,6 +237,12 @@ const TapestryComponent = ({
               onZoomStop={updateXarrow}
               onPinchingStop={updateXarrow}
               onWheelStop={updateXarrow}
+              initialPositionX={
+                tapestry.initialView ? 0 - tapestry.initialX : 0
+              }
+              initialPositionY={
+                tapestry.initialView ? 0 - tapestry.initialY : 0
+              }
               ref={transformerRef}
             >
               {({ zoomIn, zoomOut, resetTransform }) => {
@@ -265,7 +271,7 @@ const TapestryComponent = ({
                               focused={
                                 focused === index && tapestry.id !== "preview"
                               }
-                              tabIndex={-1}
+                              tabIndex={-1 * index}
                               comments={commentCounts[index] || 0}
                               hideComments={tapestry.id === "preview"}
                               onKeyPress={(e) => {
@@ -281,7 +287,7 @@ const TapestryComponent = ({
                                 }
                               }}
                               setFocus={(e) => {
-                                if (item.type === "tapestry") {
+                                if (item.type === "tapestrylink") {
                                   navigate(`/tapestry/${item.url}`, {
                                     replace: true,
                                   });
@@ -395,7 +401,7 @@ const TapestryComponent = ({
           tapestry={tapestry}
         />
       )}
-      {isIframe ? null : (
+      {isIframe || true ? null : (
         <a
           href="/#"
           className="shareicon"

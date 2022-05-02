@@ -242,6 +242,10 @@ const getDownloadedGoogleData = async () => {
       items: [],
       googleId: thisTapestryRow.googleId,
       hideOnFront: thisTapestryRow.hideOnFront,
+      initialView: Boolean(thisTapestryRow.initialView),
+      initialX: thisTapestryRow.initialX,
+      initialY: thisTapestryRow.initialY,
+      defaultZoom: thisTapestryRow.defaultZoom,
     });
     const thisId = thisTapestryRow.id;
 

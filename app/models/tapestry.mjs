@@ -19,6 +19,10 @@ class Tapestry {
     gridGap,
     googleId,
     hideOnFront,
+    initialView,
+    initialX,
+    initialY,
+    initialHeight,
   }) {
     const uuid = uuidv4();
     this.id = uuid;
@@ -41,6 +45,9 @@ class Tapestry {
     this.history = [];
     this.googleId = googleId || uuid;
     this.hideOnFront = hideOnFront || false;
+    this.initialView = initialView || false;
+    this.initialX = initialX || 0;
+    this.initialY = initialY || 0;
     this.hash = hashString(`${title || "New Tapestry"}_${author}`);
   }
   createNewVersion = () => {
@@ -73,10 +80,12 @@ class Tapestry {
     // TODO: if a tapestry has been forked, shouldn't it retain a record of where it has been forked to?
 
     if (this.forkable) {
+      const uuid = uuidv4();
       const newTapestry = new Tapestry({
         title: newTitle || this.title + " fork",
         slug: newSlug || this.slug + "_fork",
         icon: this.icon,
+        id: uuid,
         author: newAuthor || this.author,
         background: this.background,
         showTitleOnPage: this.showTitleOnPage,
@@ -86,6 +95,11 @@ class Tapestry {
         published: false,
         forkedFrom: this.id,
         forkable: this.forkable,
+        initialView: this.initialView,
+        initialX: this.initialX,
+        initialY: this.initialY,
+        hideOnFront: this.hideOnFront,
+        googleId: uuid,
         history: [],
       });
       return newTapestry;

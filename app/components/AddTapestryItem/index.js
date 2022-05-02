@@ -309,7 +309,7 @@ const AddTapestryItem = ({
             Type:
             <select value={type} onChange={(e) => setType(e.target.value)}>
               <option value="textFrame">Text frame</option>
-              <option value="tapestry">Tapestry</option>
+              <option value="tapestrylink">Tapestry link</option>
               <option value="iaresource">IA resource</option>
               <option value="book">Book</option>
               <option value="video">Video</option>

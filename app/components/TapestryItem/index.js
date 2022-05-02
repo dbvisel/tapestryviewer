@@ -37,9 +37,9 @@ const TextFrame = ({ title, content, hideTitle }) => (
   </div>
 );
 
-const TapestryFrame = ({ title, link }) => (
+const TapestryLinkFrame = ({ title, link }) => (
   <div
-    className={`frame tapestryframe`}
+    className={`frame tapestrylinkframe`}
     // onClick={() => {
     //   console.log("clicked!");
     // }}
@@ -280,9 +280,10 @@ const TapestryItem = ({
   const itemHandle = useFullScreenHandle();
   return (
     <section
+      tabIndex={-1}
       id={preview ? `preview_${item.id}` : item.id}
       className={`tapestryItem ${focused ? "focused" : ""} ${
-        item.type === "tapestry" ? "link" : ""
+        item.type === "tapestrylink" ? "link" : ""
       } ${item.hideTitle ? "hidetitle" : ""}`}
       style={
         preview
@@ -297,26 +298,30 @@ const TapestryItem = ({
       onClick={setFocus}
     >
       <FullScreen handle={itemHandle}>
-        <a
-          href="/#"
-          className={`fullscreenicon ${
-            item.type === "textFrame" ? "notapestryicon" : ""
-          }`}
-          onClick={(e) => {
-            e.preventDefault();
-            console.log(e);
-            if (itemIsFullScreen) {
-              itemHandle.exit();
-              setItemIsFullScreen(false);
-            } else {
-              itemHandle.enter();
-              setItemIsFullScreen(true);
-            }
-          }}
-        >
-          <Expand />
-        </a>
-        {item.type === "textFrame" ? null : <TapestryIcon item={item} />}
+        {item.type === "tapestrylink" ? null : (
+          <a
+            href="/#"
+            className={`fullscreenicon ${
+              item.type === "textFrame" ? "notapestryicon" : ""
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(e);
+              if (itemIsFullScreen) {
+                itemHandle.exit();
+                setItemIsFullScreen(false);
+              } else {
+                itemHandle.enter();
+                setItemIsFullScreen(true);
+              }
+            }}
+          >
+            <Expand />
+          </a>
+        )}
+        {item.type === "textFrame" || item.type === "tapestrylink" ? null : (
+          <TapestryIcon item={item} />
+        )}
         {preview || hideComments ? null : (
           <CommentIcon comments={comments} onClick={openComments}>
             <Comment />
@@ -328,8 +333,8 @@ const TapestryItem = ({
             content={item.content}
             hideTitle={item.hideTitle}
           />
-        ) : item.type === "tapestry" ? (
-          <TapestryFrame title={item.title} link={item.url} />
+        ) : item.type === "tapestrylink" ? (
+          <TapestryLinkFrame title={item.title} link={item.url} />
         ) : item.type === "book" ? (
           <BookFrame
             title={item.title}
