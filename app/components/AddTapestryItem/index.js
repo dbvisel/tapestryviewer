@@ -140,7 +140,7 @@ const AddTapestryItem = ({
             // const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
             // console.log(theUrl);
             setMessage("Querying Internet Archive . . .");
-            await fetch(`/.netlify/functions/memento`, {
+            await fetch(`/.netlify/functions/memento.cjs`, {
               method: "POST",
               body: JSON.stringify({ url: deslashed }),
             })
