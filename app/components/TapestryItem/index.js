@@ -278,7 +278,7 @@ const WaybackMachineFrame = ({ title, url, hideTitle }) => {
         console.error(e);
       });
   }, []);
-
+  console.log(dates, typeof dates);
   return (
     <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
       {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
