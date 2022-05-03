@@ -1,6 +1,6 @@
 import ReactAudioPlayer from "react-audio-player";
-import { Fragment, useState, useEffect } from "react";
-import { Link } from "remix";
+import { Fragment, useState, useEffect, tch } from "react";
+import { Link, fetch } from "remix";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import throbber from "./images/Loading_icon_cropped.gif";
 import { Comment, Expand } from "@styled-icons/boxicons-regular";
@@ -293,30 +293,32 @@ const WaybackMachineFrame = ({ title, url, hideTitle }) => {
         allowFullScreen
         loading="lazy"
       />
-      <div className="waybackslider">
-        <p>
-          <label>
-            <span style={{ whiteSpace: "nowrap" }}>Version to show: </span>
-            <select
-              value={url.split("web.archive.org/web/")[1].split("/")[0]}
-              onMouseDown={(e) => {
-                e.stopPropagation();
-              }}
-              onChange={(e) => {
-                const theRest = url.replace(/\/\d+\//, `/${e.target.value}/`);
-                // console.log(theRest);
-                setUrl(theRest);
-              }}
-            >
-              {dates.map((date, index) => (
-                <option value={date} key={`${date}_${index}`}>
-                  {humanDate(date)}
-                </option>
-              ))}
-            </select>
-          </label>
-        </p>
-      </div>
+      {dates.length ? (
+        <div className="waybackslider">
+          <p>
+            <label>
+              <span style={{ whiteSpace: "nowrap" }}>Version to show: </span>
+              <select
+                value={url.split("web.archive.org/web/")[1].split("/")[0]}
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                }}
+                onChange={(e) => {
+                  const theRest = url.replace(/\/\d+\//, `/${e.target.value}/`);
+                  // console.log(theRest);
+                  setUrl(theRest);
+                }}
+              >
+                {dates.map((date, index) => (
+                  <option value={date} key={`${date}_${index}`}>
+                    {humanDate(date)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 };
