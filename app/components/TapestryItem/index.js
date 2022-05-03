@@ -152,8 +152,8 @@ const IaFrame = ({ title, url, hideTitle }) => (
   </div>
 );
 
-const TapestryIframe = ({ title, url }) => (
-  <div className={`${hideTitle ? "notitle" : ""} frame tapestryframe`}>
+const TapestryIframe = ({ url }) => (
+  <div className={`notitle frame tapestryframe`}>
     <iframe
       src={`/tapestry/${url}/`}
       frameBorder="0"

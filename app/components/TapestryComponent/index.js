@@ -156,7 +156,6 @@ const TapestryComponent = ({
 
   useEffect(() => {
     if (!initialScale && viewportRef.current) {
-      console.log(tapestry.initialView);
       const viewport = viewportRef.current.getBoundingClientRect();
       const viewH = viewport.height;
       const viewW = viewport.width;

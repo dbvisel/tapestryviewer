@@ -152,7 +152,7 @@
 	border-radius: var(--borderRadius);
 }
 
-.tpaestryframe iframe {
+.tapestryframe iframe {
 	width: 100%;
 	height: 100%;
 }
