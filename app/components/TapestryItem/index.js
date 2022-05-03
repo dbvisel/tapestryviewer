@@ -262,7 +262,7 @@ const WaybackMachineFrame = ({ title, url, hideTitle }) => {
   useEffect(async () => {
     // console.log("querying for dates!");
     // console.log(deslashed);
-    await fetch(`/.netlify/functions/memento.cjs`, {
+    await fetch(`/.netlify/functions/memento`, {
       method: "POST",
       body: JSON.stringify({ url: deslashed }),
     })
