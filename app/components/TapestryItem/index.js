@@ -6,7 +6,6 @@ import throbber from "./images/Loading_icon_cropped.gif";
 import { Comment, Expand } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 import { humanDate } from "~/utils/utils.mjs";
-import fetch from "node-fetch";
 
 const hideThumbnail = true;
 
