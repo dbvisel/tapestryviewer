@@ -2,27 +2,27 @@ import { useEffect, useState } from "react";
 import { json, useLoaderData } from "remix";
 import Comment from "./Comment";
 
-const comments = [
-  {
-    id: 1,
-    author: "Dan",
-    date: "Sun Mar 13 2022 19:40:12 GMT+0800 (Singapore Standard Time)",
-    content: "This is the first comment.",
-  },
-  {
-    id: 2,
-    author: "Dan",
-    date: "Sun Mar 13 2022 21:40:12 GMT+0800 (Singapore Standard Time)",
-    content: "This is the second comment. Comments are plain-text.",
-  },
-  {
-    id: 3,
-    author: "Dan",
-    date: "Sun Mar 13 2022 21:40:12 GMT+0800 (Singapore Standard Time)",
-    content:
-      "This is the third comment. Comments are linear not threaded for now.",
-  },
-];
+// const comments = [
+//   {
+//     id: 1,
+//     author: "Dan",
+//     date: "Sun Mar 13 2022 19:40:12 GMT+0800 (Singapore Standard Time)",
+//     content: "This is the first comment.",
+//   },
+//   {
+//     id: 2,
+//     author: "Dan",
+//     date: "Sun Mar 13 2022 21:40:12 GMT+0800 (Singapore Standard Time)",
+//     content: "This is the second comment. Comments are plain-text.",
+//   },
+//   {
+//     id: 3,
+//     author: "Dan",
+//     date: "Sun Mar 13 2022 21:40:12 GMT+0800 (Singapore Standard Time)",
+//     content:
+//       "This is the third comment. Comments are linear not threaded for now.",
+//   },
+// ];
 
 const CommentDrawer = ({
   commentShown,
@@ -85,7 +85,11 @@ const CommentDrawer = ({
         setLoading(false);
       })
       .catch((e) => {
-        setMessage("There was an error.");
+        // console.log("here");
+        console.log(`There was an error with item: ${hash}`);
+      })
+      .catch((e) => {
+        console.log("secondary error.");
       });
   };
 

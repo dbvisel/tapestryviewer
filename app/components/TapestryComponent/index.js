@@ -71,30 +71,32 @@ const TapestryComponent = ({
   // make sure no items overlap?
 
   const getComments = async (hashList) => {
-    console.log("Loading comments for items on the tapestry.");
-    let outList = [];
-    await fetch("/.netlify/functions/comment", {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then(async (serverComments) => {
-        // console.log(serverComments, hashList);
-        if (serverComments.length) {
-          for (let i = 0; i < hashList.length; i++)
-            outList[i] = serverComments.filter(
-              (x) => parseInt(x.referent, 10) === hashList[i]
-            ).length;
-        }
-        setCommentCounts(outList);
-        setFlag("2");
-        setLoading(false);
-        return outList;
+    if (useComments) {
+      console.log("Loading comments for items on the tapestry.");
+      let outList = [];
+      await fetch("/.netlify/functions/comment", {
+        method: "GET",
       })
-      .catch((e) => {
-        console.log("There was an error:", e);
-        setLoading(false);
-        return [];
-      });
+        .then((res) => res.json())
+        .then(async (serverComments) => {
+          // console.log(serverComments, hashList);
+          if (serverComments.length) {
+            for (let i = 0; i < hashList.length; i++)
+              outList[i] = serverComments.filter(
+                (x) => parseInt(x.referent, 10) === hashList[i]
+              ).length;
+          }
+          setCommentCounts(outList);
+          setFlag("2");
+          setLoading(false);
+          return outList;
+        })
+        .catch((e) => {
+          console.log("There was an error:", e);
+          setLoading(false);
+          return [];
+        });
+    }
   };
 
   const linksList = makeLinkList(tapestry.items);
@@ -278,6 +280,7 @@ const TapestryComponent = ({
                                 console.log("firing on item!");
                                 keyDownHandler(e);
                               }}
+                              useComments={useComments}
                               openComments={(e) => {
                                 e.stopPropagation();
                                 if (!tapestry.id !== "preview") {

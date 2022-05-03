@@ -288,6 +288,7 @@ const TapestryItem = ({
   openComments,
   preview,
   hideComments,
+  useComments,
 }) => {
   const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
   const itemHandle = useFullScreenHandle();
@@ -425,4 +426,4 @@ const TapestryItem = ({
   );
 };
 
-export default TapestryItem;
+export default React.memo(TapestryItem);
