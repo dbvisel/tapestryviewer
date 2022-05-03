@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 exports.handler = async (event, context) => {
   const url = JSON.parse(event.body).url;
   const theUrl = `http://web.archive.org/web/timemap/json/${url}`;
