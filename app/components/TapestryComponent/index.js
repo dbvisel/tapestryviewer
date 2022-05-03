@@ -55,6 +55,7 @@ const TapestryComponent = ({
   isIframe,
   isFullScreen,
   setFullScreen,
+  noComments,
 }) => {
   let navigate = useNavigate();
 
@@ -399,7 +400,7 @@ const TapestryComponent = ({
           </div>
         )}
       </div>
-      {tapestry.id === "preview" ? null : (
+      {tapestry.id === "preview" || noComments ? null : (
         <CommentDrawer
           commentShown={commentShown}
           setCommentShown={setCommentShown}

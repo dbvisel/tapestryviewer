@@ -36,7 +36,9 @@ export default function MainIndex() {
       </ul>
       <p>
         You can also try the <Link to="/maker">tapestry maker</Link>, which
-        should let you edit any of the above tapestries.
+        should let you edit any of the above tapestries.{" "}
+        <Link to="/test">This page</Link> will generate the code for an iframe
+        which can be embedded elsewhere.
       </p>
       <p>
         Model reference is{" "}

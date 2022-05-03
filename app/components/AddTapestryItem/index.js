@@ -327,6 +327,24 @@ const AddTapestryItem = ({
             </select>
           </label>
         </p>
+        {type === "tapestry" ? (
+          <p className="twoinputs">
+            <label>
+              <input
+                type="checkbox"
+                checked={url.indexOf("?nocomments") > -1}
+                onChange={(e) => {
+                  setUrl(
+                    e.target.checked
+                      ? url + "?nocomments"
+                      : url.replace("?nocomments", "")
+                  );
+                }}
+              />
+              Hide the comments drawer in the embedded tapestry?
+            </label>
+          </p>
+        ) : null}
         {type === "textFrame" ? (
           <div className="twoinputs">
             <div
