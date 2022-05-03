@@ -358,6 +358,13 @@
 	top: 0;
 }
 
+.webframe > div.waybackslider {
+	position: relative;
+	height: 50px;
+	background: var(--headerBackground);
+	color: var(--headerColor);
+}
+
 .audioframe > div {
 	box-sizing: border-box;
 	height: calc(100% - calc(var(--itemHeaderHeight) - var(--textPadding)));

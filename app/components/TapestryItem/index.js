@@ -1,10 +1,11 @@
 import ReactAudioPlayer from "react-audio-player";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Link } from "remix";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import throbber from "./images/Loading_icon_cropped.gif";
 import { Comment, Expand } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
+import { humanDate } from "~/utils/utils.mjs";
 
 const hideThumbnail = true;
 
@@ -76,7 +77,7 @@ const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
 };
 
 const BookImageFrame = ({ title, url, thumbnail, hideTitle }) => {
-  console.log(url, thumbnail);
+  // console.log(url, thumbnail);
   return (
     <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
       {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
@@ -245,6 +246,73 @@ const WebFrame = ({ title, url, hideTitle }) => (
   </div>
 );
 
+const WaybackMachineFrame = ({ title, url, hideTitle }) => {
+  const [dates, setDates] = useState([]);
+  const [thisUrl, setUrl] = useState(url);
+  const deslashed = url
+    .split("/web.archive.org/web")[1]
+    .split(/\/\d+\//)
+    .join("");
+
+  useEffect(async () => {
+    // console.log("querying for dates!");
+    // console.log(deslashed);
+    await fetch(`/.netlify/functions/memento`, {
+      method: "POST",
+      body: JSON.stringify({ url: deslashed }),
+    })
+      .then((res) => res.json())
+      .then(async (r) => {
+        // r is an array of dates
+        // console.log(r);
+        setDates(r);
+        // console.log(r);
+      })
+      .catch((e) => {
+        console.log("Can't find dates.");
+        console.error(e);
+      });
+  }, []);
+
+  return (
+    <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
+      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+      <div>
+        <img src={throbber} />
+      </div>
+      <iframe
+        src={thisUrl}
+        frameBorder="0"
+        webkitallowfullscreen="true"
+        mozallowfullscreen="true"
+        allowFullScreen
+        loading="lazy"
+      />
+      <div className="waybackslider">
+        <p>
+          <label>
+            <span style={{ whiteSpace: "nowrap" }}>Version to show: </span>
+            <select
+              value={url.split("web.archive.org/web/")[1].split("/")[0]}
+              onChange={(e) => {
+                const theRest = url.replace(/\/\d+\//, `/${e.target.value}/`);
+                // console.log(theRest);
+                setUrl(theRest);
+              }}
+            >
+              {dates.map((date) => (
+                <option value={date} key={date}>
+                  {humanDate(date)}
+                </option>
+              ))}
+            </select>
+          </label>
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const TapestryIcon = ({ item }) => {
   const [shown, setShown] = useState(false);
   return (
@@ -392,6 +460,12 @@ const TapestryItem = ({
           />
         ) : item.type === "web" ? (
           <WebFrame
+            title={item.title}
+            url={item.url}
+            hideTitle={item.hideTitle}
+          />
+        ) : item.type === "waybackmachine" ? (
+          <WaybackMachineFrame
             title={item.title}
             url={item.url}
             hideTitle={item.hideTitle}

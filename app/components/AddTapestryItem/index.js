@@ -155,7 +155,7 @@ const AddTapestryItem = ({
                 console.error(e);
               });
 
-            setType("web"); // this could be a special type?
+            setType("waybackmachine"); // this could be a special type?
           } else {
             console.error("Weird Wayback Machine URL: ", url);
             setType("web");
@@ -317,6 +317,9 @@ const AddTapestryItem = ({
               <option value="image">Image</option>
               <option value="audio">Audio</option>
               <option value="web">Web page</option>
+              <option value="waybackmachine" hidden>
+                Wayback Machine page
+              </option>
               <option value="software">Software</option>
               <option value="bookimage" hidden>
                 Book image
