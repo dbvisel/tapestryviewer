@@ -359,10 +359,17 @@
 }
 
 .webframe > div.waybackslider {
-	position: relative;
+	position: absolute;
+	bottom: 0;
+	z-index: 9;
 	height: 50px;
 	background: var(--headerBackground);
 	color: var(--headerColor);
+	user-select: initial !important;
+}
+
+.webframe > div.waybackslider select {
+	display: inline-block;
 }
 
 .audioframe > div {

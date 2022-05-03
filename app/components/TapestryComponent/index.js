@@ -246,6 +246,11 @@ const TapestryComponent = ({
                 tapestry.initialView ? 0 - tapestry.initialY : 0
               }
               ref={transformerRef}
+              // panning={{ disabled: focused !== -1, velocityDisabled: true }}
+              // panning={{
+              //   disabled: true,
+              //   disableOnTarget: [".textframe", "select", "waybackslider"],
+              // }}
             >
               {({ zoomIn, zoomOut, resetTransform }) => {
                 // console.log(focused);

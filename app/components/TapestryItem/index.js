@@ -34,7 +34,12 @@ const CommentIcon = styled.span`
 const TextFrame = ({ title, content, hideTitle }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame textframe`}>
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <div dangerouslySetInnerHTML={{ __html: content }} />
+    <div
+      dangerouslySetInnerHTML={{ __html: content }}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+      }}
+    />
   </div>
 );
 
@@ -294,14 +299,17 @@ const WaybackMachineFrame = ({ title, url, hideTitle }) => {
             <span style={{ whiteSpace: "nowrap" }}>Version to show: </span>
             <select
               value={url.split("web.archive.org/web/")[1].split("/")[0]}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
               onChange={(e) => {
                 const theRest = url.replace(/\/\d+\//, `/${e.target.value}/`);
                 // console.log(theRest);
                 setUrl(theRest);
               }}
             >
-              {dates.map((date) => (
-                <option value={date} key={date}>
+              {dates.map((date, index) => (
+                <option value={date} key={`${date}_${index}`}>
                   {humanDate(date)}
                 </option>
               ))}
@@ -362,7 +370,6 @@ const TapestryItem = ({
   const itemHandle = useFullScreenHandle();
   return (
     <section
-      tabIndex={-1}
       id={preview ? `preview_${item.id}` : item.id}
       className={`tapestryItem ${focused ? "focused" : ""} ${
         item.type === "tapestrylink" ? "link" : ""
