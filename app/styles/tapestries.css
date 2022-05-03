@@ -245,6 +245,7 @@
 	color: var(--textFrameColor);
 	font-size: var(--fontSize);
 	line-height: var(--lineHeight);
+	user-select: initial !important;
 }
 
 .textframe > div:first-child {

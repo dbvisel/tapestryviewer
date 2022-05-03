@@ -343,26 +343,30 @@ const TapestryComponent = ({
                       >
                         {isFullScreen ? "↙" : "↗"}
                       </button>
-                      <button
-                        className={focused === -1 ? "disabled" : ""}
-                        disabled={focused === -1}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setFocused(goPrev());
-                        }}
-                      >
-                        ←
-                      </button>
-                      <button
-                        className={focused === -1 ? "disabled" : ""}
-                        disabled={focused === -1}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setFocused(goNext());
-                        }}
-                      >
-                        →
-                      </button>
+                      {focused === -1 ? null : (
+                        <Fragment>
+                          <button
+                            className={focused === -1 ? "disabled" : ""}
+                            disabled={focused === -1}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setFocused(goPrev());
+                            }}
+                          >
+                            ←
+                          </button>
+                          <button
+                            className={focused === -1 ? "disabled" : ""}
+                            disabled={focused === -1}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setFocused(goNext());
+                            }}
+                          >
+                            →
+                          </button>
+                        </Fragment>
+                      )}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
