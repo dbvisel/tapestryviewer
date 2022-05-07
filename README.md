@@ -72,10 +72,14 @@ To make a link from one item to another item, put the linked item's ID in the **
  - set initial zoom to width of everything
    - ugly padding currently
  - add in buttons to pan (top center, left center, bottom center, right center)
+ - deal with collections – a different kind of module in maker
+   - step + repeat making of items
  - move preview to iframe? Can we do this?
  - BUG: why can't we scroll text fields?
    - this is connected to the zoom component
+   - maybe add more onMouseDown things?
  - take out arrows if focused item doesn't have connections?
+ - fix the arrows
 
  - it zooms too much
    - maybe think about using this library: https://github.com/retyui/react-quick-pinch-zoom  
@@ -89,8 +93,6 @@ To make a link from one item to another item, put the linked item's ID in the **
    - could maybe get this to work inside of the maker preview
      - can we get the preview changes to 
  - move settings to drawer rather than header
- - get data from internet archive api in maker
-   - from a collection, make a bunch of items?
  - deletion seems to be inconsistent
 
 ### think about
