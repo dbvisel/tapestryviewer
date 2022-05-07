@@ -69,13 +69,10 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### important
 
- - check the metadata fetch! It needs to be a function
-
+ - deal with collections – a different kind of module in maker
  - set initial zoom to width of everything
    - ugly padding currently
  - add in buttons to pan (top center, left center, bottom center, right center)
- - deal with collections – a different kind of module in maker
-   - step + repeat making of items
  - move preview to iframe? Can we do this?
  - BUG: why can't we scroll text fields?
    - this is connected to the zoom component

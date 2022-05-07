@@ -637,7 +637,7 @@ const AddTapestryItem = ({
             {message ? <p>{message}</p> : null}
           </Fragment>
         )}
-        <p className="twoinputs">
+        <div className="twoinputs">
           <div
             style={{
               display: "flex",
@@ -651,7 +651,7 @@ const AddTapestryItem = ({
               <input
                 type="number"
                 value={x}
-                onChange={(e) => setX(parseInt(e.target.value, 10))}
+                onChange={(e) => setX(parseInt(e.target.value, 10) || 0)}
               />
             </label>
             <label style={{ marginLeft: 0 }}>
@@ -659,7 +659,7 @@ const AddTapestryItem = ({
               <input
                 type="number"
                 value={y}
-                onChange={(e) => setY(parseInt(e.target.value, 10))}
+                onChange={(e) => setY(parseInt(e.target.value, 10) || 0)}
               />
             </label>
           </div>
@@ -676,7 +676,7 @@ const AddTapestryItem = ({
               <input
                 type="number"
                 value={width}
-                onChange={(e) => setWidth(parseInt(e.target.value, 10))}
+                onChange={(e) => setWidth(parseInt(e.target.value, 10) || 0)}
               />
             </label>{" "}
             <label style={{ marginLeft: 0 }}>
@@ -684,7 +684,7 @@ const AddTapestryItem = ({
               <input
                 type="number"
                 value={height}
-                onChange={(e) => setHeight(parseInt(e.target.value, 10))}
+                onChange={(e) => setHeight(parseInt(e.target.value, 10) || 0)}
               />
             </label>
           </div>
@@ -722,7 +722,7 @@ const AddTapestryItem = ({
                 ))}
             </select>
           </label>
-        </p>
+        </div>
         <hr style={{ width: "50%", marginLeft: "25%" }} />
       </div>
       <div

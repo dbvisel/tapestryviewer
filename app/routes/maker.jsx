@@ -3,6 +3,7 @@ import { Link, useLoaderData, useOutletContext } from "remix";
 import { v4 as uuidv4 } from "uuid";
 import { slugify, getColor } from "~/utils/utils.mjs";
 import AddTapestryItem from "~/components/AddTapestryItem";
+import AddItems from "~/components/AddItems";
 import DemoGrid from "~/components/DemoGrid";
 import TapestryComponent from "~/components/TapestryComponent";
 import makerStyles from "~/styles/maker.css";
@@ -52,6 +53,7 @@ export default function MakerPage() {
   const [initialY, setInitialY] = useState(0);
   const [defaultZoom, setDefaultZoom] = useState(1);
   const [existingTapestry, setExistingTapestry] = useState(null);
+  const [addItems, setAddItems] = useState("");
 
   const handleSetTapestry = (id) => {
     if (id === "0" || id === 0) {
@@ -253,6 +255,10 @@ export default function MakerPage() {
     setSegments([...segments, thisItem]);
   };
 
+  const addMultipleItems = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="makerpage">
       <h3>
@@ -353,7 +359,7 @@ export default function MakerPage() {
                   name={"gridUnitSize"}
                   value={gridUnitSize}
                   onChange={(e) =>
-                    setGridUnitSize(parseInt(e.target.value, 10))
+                    setGridUnitSize(parseInt(e.target.value, 10) || 0)
                   }
                 />
               </label>
@@ -363,7 +369,9 @@ export default function MakerPage() {
                   type="number"
                   name={"gridGap"}
                   value={gridGap}
-                  onChange={(e) => setGridGap(parseInt(e.target.value, 10))}
+                  onChange={(e) =>
+                    setGridGap(parseInt(e.target.value, 10) || 0)
+                  }
                 />
               </label>
               <label>
@@ -383,7 +391,9 @@ export default function MakerPage() {
                     type="number"
                     name={"initialX"}
                     value={initialX}
-                    onChange={(e) => setInitialX(parseInt(e.target.value, 10))}
+                    onChange={(e) =>
+                      setInitialX(parseInt(e.target.value, 10) || 0)
+                    }
                   />
                 </label>
                 <label>
@@ -392,7 +402,9 @@ export default function MakerPage() {
                     type="number"
                     name={"initialY"}
                     value={initialY}
-                    onChange={(e) => setInitialY(parseInt(e.target.value, 10))}
+                    onChange={(e) =>
+                      setInitialY(parseInt(e.target.value, 10) || 0)
+                    }
                   />
                 </label>
                 <label>
@@ -445,7 +457,25 @@ export default function MakerPage() {
               <button style={{ marginTop: "20px" }} onClick={addSegment}>
                 Add new item
               </button>
+              <button
+                style={{ marginTop: "20px" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log("Adding multiple items mode!");
+                  setAddItems(uuidv4());
+                }}
+              >
+                Add multiple items
+              </button>
             </div>
+            {addItems ? (
+              <AddItems
+                setAddItems={setAddItems}
+                segments={segments}
+                setSegments={setSegments}
+                id={addItems}
+              />
+            ) : null}
             <hr style={{ marginTop: "2em" }} />
             {message ? (
               <p
