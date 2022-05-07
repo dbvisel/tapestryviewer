@@ -14,7 +14,10 @@ exports.handler = async (event, context) => {
       .then((res) => res.json())
       .then(async (r) => {
         if (r.archived_snapshots?.closest?.available) {
-          outUrl = r.archived_snapshots.closest.url;
+          outUrl = r.archived_snapshots.closest.url.replace(
+            "http://",
+            "https://"
+          );
         }
       })
       .catch((e) => {
