@@ -269,16 +269,15 @@ const AddTapestryItem = ({
           const urlReplaced = url
             .replace("https://", "")
             .replace("http://", "");
-          const urlToCheck = `http://archive.org/wayback/available?url=${urlReplaced}`;
-          await fetch(urlToCheck, {
-            method: "GET",
+          await fetch(`/.netlify/functions/checkwayback`, {
+            method: "POST",
+            body: JSON.stringify({ url: urlReplaced }),
           })
             .then((res) => res.json())
             .then(async (r) => {
-              if (r.archived_snapshots?.closest?.available) {
-                console.log("Found Wayback Machine URL:");
-                console.log(r.archived_snapshots.closest.url);
-                setUrl(r.archived_snapshots.closest.url);
+              if (r.indexOf("web.archive.org") > -1) {
+                console.log("repsonse!", r);
+                setUrl(r);
                 setType("waybackmachine");
                 setMessage(
                   "This is on the Internet Archive. Querying Internet Archive . . ."
@@ -298,6 +297,7 @@ const AddTapestryItem = ({
                   });
               }
               console.log("No Wayback Machine URL found.");
+              setType("web");
               console.log(r);
             })
             .catch((e) => {
@@ -558,8 +558,8 @@ const AddTapestryItem = ({
                       setUrl(theRest);
                     }}
                   >
-                    {dates.map((date) => (
-                      <option value={date} key={date}>
+                    {dates.map((date, i) => (
+                      <option value={date} key={`${date}_${i}`}>
                         {humanDate(date)}
                       </option>
                     ))}
