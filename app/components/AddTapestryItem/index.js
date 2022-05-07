@@ -295,10 +295,10 @@ const AddTapestryItem = ({
                   .catch((e) => {
                     console.error("Error fetching dates: ", e);
                   });
+              } else {
+                console.log("No Wayback Machine URL found.");
+                setType("web");
               }
-              console.log("No Wayback Machine URL found.");
-              setType("web");
-              console.log(r);
             })
             .catch((e) => {
               console.error("Error querying Wayback Machine: ", e);
