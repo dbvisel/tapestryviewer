@@ -130,17 +130,25 @@ const AddTapestryItem = ({
   useEffect(async () => {
     if (type === "iaresource" && url) {
       // We could be doing this for any website? pulling in the closest Wayback Machine URL?
-      if (url.includes("https://archive.org/")) {
-        const newUrl = url.replace(
-          "archive.org/details/",
-          "archive.org/embed/"
-        );
+      if (
+        url.includes("https://archive.org/") ||
+        url.includes("http://archive.org/") ||
+        url.includes("https://www.archive.org/") ||
+        url.includes("http://www.archive.org")
+      ) {
+        console.log("in this loop");
+        const newUrl = url
+          .replace("archive.org/details/", "archive.org/embed/")
+          .replace("archive.org/stream/", "archive.org/embed/")
+          .replace("http://", "https://")
+          .replace("www.archive.org", "archive.org");
         const splitUrl = newUrl.split("/embed/");
         const metadataUrl =
           splitUrl[0] + "/metadata/" + splitUrl[1].split("/")[0];
         setMessage("Querying Internet Archive . . .");
         // console.log(newUrl, metadataUrl);
         setUrl(newUrl);
+        // TODO: This is probably not working in production!
         await fetch(metadataUrl, {
           method: "GET",
         })
@@ -223,33 +231,40 @@ const AddTapestryItem = ({
             setMessage("There was an error, check the log");
             console.error(e);
           });
-      }
-      if (url.includes("https://web.archive.org/web")) {
-        const siteToSearch = url.split("/web.archive.org/web")[1];
-        if (siteToSearch) {
-          const deslashed = siteToSearch.split(/\/\d+\//).join(""); //.split("/").filter(Boolean).join("/"); // this removes trailing slashes
-          // console.log(deslashed);
-          if (deslashed) {
-            // const theUrl = `http://web.archive.org/web/timemap/json/${deslashed}`;
-            // const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
-            // console.log(theUrl);
-            setMessage("Querying Internet Archive . . .");
-            await fetch(`/.netlify/functions/memento`, {
-              method: "POST",
-              body: JSON.stringify({ url: deslashed }),
-            })
-              .then((res) => res.json())
-              .then(async (r) => {
-                // r is an array of dates
-                // console.log(r);
-                setDates(r);
-                // console.log(r);
+      } else {
+        console.log("this is not archive.org media");
+        if (url.includes("https://web.archive.org/web")) {
+          const siteToSearch = url.split("/web.archive.org/web")[1];
+          if (siteToSearch) {
+            const deslashed = siteToSearch.split(/\/\d+\//).join(""); //.split("/").filter(Boolean).join("/"); // this removes trailing slashes
+            // console.log(deslashed);
+            if (deslashed) {
+              // const theUrl = `http://web.archive.org/web/timemap/json/${deslashed}`;
+              // const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
+              // console.log(theUrl);
+              setMessage("Querying Internet Archive . . .");
+              await fetch(`/.netlify/functions/memento`, {
+                method: "POST",
+                body: JSON.stringify({ url: deslashed }),
               })
-              .catch((e) => {
-                console.error(e);
-              });
+                .then((res) => res.json())
+                .then(async (r) => {
+                  // r is an array of dates
+                  // console.log(r);
+                  setDates(r);
+                  // console.log(r);
+                })
+                .catch((e) => {
+                  console.error(e);
+                });
 
-            setType("waybackmachine"); // this could be a special type?
+              setType("waybackmachine"); // this could be a special type?
+            } else {
+              console.error("Weird Wayback Machine URL: ", url);
+              setType("web");
+              // if we get here, there's something off about the URL
+              return;
+            }
           } else {
             console.error("Weird Wayback Machine URL: ", url);
             setType("web");
@@ -257,53 +272,48 @@ const AddTapestryItem = ({
             return;
           }
         } else {
-          console.error("Weird Wayback Machine URL: ", url);
-          setType("web");
-          // if we get here, there's something off about the URL
-          return;
-        }
-      } else {
-        if (url.indexOf("web.archive.org") < 0) {
-          console.log(`this is not a wayback machine url: ${url}`);
-          console.log("Querying the Wayback Machine . . .");
-          const urlReplaced = url
-            .replace("https://", "")
-            .replace("http://", "");
-          await fetch(`/.netlify/functions/checkwayback`, {
-            method: "POST",
-            body: JSON.stringify({ url: urlReplaced }),
-          })
-            .then((res) => res.json())
-            .then(async (r) => {
-              if (r.indexOf("web.archive.org") > -1) {
-                console.log("repsonse!", r);
-                setUrl(r);
-                setType("waybackmachine");
-                setMessage(
-                  "This is on the Internet Archive. Querying Internet Archive . . ."
-                );
-                await fetch(`/.netlify/functions/memento`, {
-                  method: "POST",
-                  body: JSON.stringify({ url: urlReplaced }),
-                })
-                  .then((res) => res.json())
-                  .then(async (r) => {
-                    // r is an array of dates
-                    setDates(r);
-                    // console.log(r);
-                  })
-                  .catch((e) => {
-                    console.error("Error fetching dates: ", e);
-                  });
-              } else {
-                console.log("No Wayback Machine URL found.");
-                setType("web");
-              }
+          if (url.indexOf("web.archive.org") < 0) {
+            console.log(`this is not a wayback machine url: ${url}`);
+            console.log("Querying the Wayback Machine . . .");
+            const urlReplaced = url
+              .replace("https://", "")
+              .replace("http://", "");
+            await fetch(`/.netlify/functions/checkwayback`, {
+              method: "POST",
+              body: JSON.stringify({ url: urlReplaced }),
             })
-            .catch((e) => {
-              console.error("Error querying Wayback Machine: ", e);
-              console.log("URL: ", urlToCheck);
-            });
+              .then((res) => res.json())
+              .then(async (r) => {
+                if (r.indexOf("web.archive.org") > -1) {
+                  console.log("repsonse!", r);
+                  setUrl(r);
+                  setType("waybackmachine");
+                  setMessage(
+                    "This is on the Internet Archive. Querying Internet Archive . . ."
+                  );
+                  await fetch(`/.netlify/functions/memento`, {
+                    method: "POST",
+                    body: JSON.stringify({ url: urlReplaced }),
+                  })
+                    .then((res) => res.json())
+                    .then(async (r) => {
+                      // r is an array of dates
+                      setDates(r);
+                      // console.log(r);
+                    })
+                    .catch((e) => {
+                      console.error("Error fetching dates: ", e);
+                    });
+                } else {
+                  console.log("No Wayback Machine URL found.");
+                  setType("web");
+                }
+              })
+              .catch((e) => {
+                console.error("Error querying Wayback Machine: ", e);
+                console.log("URL: ", urlToCheck);
+              });
+          }
         }
       }
     } else {
