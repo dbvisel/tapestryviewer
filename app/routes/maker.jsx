@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { slugify, getColor } from "~/utils/utils.mjs";
 import AddTapestryItem from "~/components/AddTapestryItem";
 import AddItems from "~/components/AddItems";
+import AddCollection from "~/components/AddCollection";
 import DemoGrid from "~/components/DemoGrid";
 import TapestryComponent from "~/components/TapestryComponent";
 import makerStyles from "~/styles/maker.css";
@@ -54,6 +55,7 @@ export default function MakerPage() {
   const [defaultZoom, setDefaultZoom] = useState(1);
   const [existingTapestry, setExistingTapestry] = useState(null);
   const [addItems, setAddItems] = useState("");
+  const [addCollection, setAddCollection] = useState("");
 
   const handleSetTapestry = (id) => {
     if (id === "0" || id === 0) {
@@ -467,13 +469,31 @@ export default function MakerPage() {
               >
                 Add multiple items
               </button>
+              <button
+                style={{ marginTop: "20px" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log("Add collection mode!");
+                  setAddCollection(uuidv4());
+                }}
+              >
+                Add IA collection
+              </button>
             </div>
+            {addCollection ? (
+              <AddCollection
+                setAddCollection={setAddCollection}
+                segments={segments}
+                setSegments={setSegments}
+                id={addItems}
+              />
+            ) : null}
             {addItems ? (
               <AddItems
                 setAddItems={setAddItems}
                 segments={segments}
                 setSegments={setSegments}
-                id={addItems}
+                id={addCollection}
               />
             ) : null}
             <hr style={{ marginTop: "2em" }} />
