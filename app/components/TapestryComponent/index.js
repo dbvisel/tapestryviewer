@@ -7,6 +7,7 @@ import CommentDrawer from "~/components/CommentDrawer";
 import { useNavigate } from "remix";
 
 const useComments = false;
+const zoomingMode = true;
 
 const calculateTapestrySize = (items) => {
   // this isn't currently used!
@@ -191,10 +192,16 @@ const TapestryComponent = ({
   }, []);
 
   useEffect(() => {
-    if (transformerRef.current && focused > -1 && !tapestry.id === "preview") {
+    if (
+      transformerRef.current &&
+      focused > -1 &&
+      tapestry.id !== "preview" &&
+      zoomingMode
+    ) {
       transformerRef.current.zoomToElement(tapestry.items[focused].id); // maybe zoom level should be set based on item height?
     }
   }, [focused]);
+
   return (
     <Xwrapper>
       <div
@@ -202,7 +209,8 @@ const TapestryComponent = ({
         className="viewport"
         ref={viewportRef}
         style={{
-          padding: isFullScreen ? "0px" : isIframe ? "10px" : "20px",
+          padding:
+            isFullScreen || zoomingMode ? "0px" : isIframe ? "10px" : "20px",
           boxSizing: "border-box",
           background: tapestry.background,
           backgroundSize: "cover",

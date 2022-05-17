@@ -2,6 +2,8 @@ import { useState, useEffect, memo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { slugify } from "~/utils/utils.mjs";
 
+// TOOO: would probably be useful to limit this in some way?
+
 const AddCollection = ({ setAddCollection, segments, setSegments, id }) => {
   const [url, setUrl] = useState(""); // e.g. "https://archive.org/details/3dworldmagazine"
   const [itemList, setItemList] = useState([]);
@@ -46,7 +48,7 @@ const AddCollection = ({ setAddCollection, segments, setSegments, id }) => {
     }
   }, [url]);
 
-  console.log(itemList);
+  // console.log(itemList);
 
   return (
     <div className="item" style={{ marginTop: "2em" }}>

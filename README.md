@@ -1,6 +1,6 @@
 # tapestryviewer
 
-This site is made using [Remix](https://remix.run) and React. It's set up fordeployment on Netlify, and you can find one  [there](https://tapestryviewer.netlify.app).
+This site is made using [Remix](https://remix.run) and React. It's set up fordeployment on Netlify, and you can find one [there](https://tapestryviewer.netlify.app).
 
 To build, run:
 
@@ -69,7 +69,7 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### important
 
- - deal with collections – a different kind of module in maker
+ - make zoom to object on focus
  - set initial zoom to width of everything
    - ugly padding currently
  - add in buttons to pan (top center, left center, bottom center, right center)
