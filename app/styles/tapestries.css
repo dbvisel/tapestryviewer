@@ -181,7 +181,7 @@
 
 .tapestryItem .windowicon {
 	position: absolute;
-	top: 5px;
+	top: 6px;
 	right: 76px;
 	width: 28px;
 	height: 28px;
@@ -247,9 +247,10 @@
 	--textPadding: 12px;
 }
 
-.textframe.notitle {
-	--itemHeaderHeight: 0px;
+.textframe.notitle, .audioframe.notitle {
+		--itemHeaderHeight: 0px;
 }
+
 
 .textframe > div {
 	box-sizing: border-box;
