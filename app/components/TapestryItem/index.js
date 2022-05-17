@@ -3,7 +3,12 @@ import { Fragment, useState, useEffect } from "react";
 import { Link } from "remix";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import throbber from "./images/Loading_icon_cropped.gif";
-import { Comment, Expand } from "@styled-icons/boxicons-regular";
+import {
+  Comment,
+  Expand,
+  WindowOpen,
+  WindowClose,
+} from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 import { humanDate } from "~/utils/utils.mjs";
 
@@ -385,8 +390,24 @@ const TapestryItem = ({
               gridRowEnd: item.y + item.height,
             }
       }
-      onClick={setFocus}
+      onClick={(e) => {
+        setFocus(e);
+      }}
     >
+      <a
+        href="/#"
+        className={`windowicon`}
+        onClick={(e) => {
+          e.preventDefault();
+          if (focused) {
+            setFocusElsewhere(e);
+          } else {
+            setFocus(e);
+          }
+        }}
+      >
+        {focused ? <WindowClose /> : <WindowOpen />}
+      </a>
       <FullScreen handle={itemHandle}>
         {item.type === "tapestrylink" ? null : (
           <a

@@ -179,6 +179,21 @@
 	box-sizing: border-box;
 }
 
+.tapestryItem .windowicon {
+	position: absolute;
+	top: 5px;
+	right: 76px;
+	width: 28px;
+	height: 28px;
+	color: var(--iconColor);
+	transition: 0.25s;
+	z-index: 10;
+}
+
+.tapestryItem .windowicon:hover {
+	color: var(--focusColor);
+}
+
 .tapestryItem .fullscreenicon {
 	position: absolute;
 	top: 6px;

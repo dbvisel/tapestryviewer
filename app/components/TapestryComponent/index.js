@@ -320,6 +320,10 @@ const TapestryComponent = ({
                                 );
                                 if (newFocused > -1) {
                                   setFocused(newFocused);
+                                } else {
+                                  // if we're here, we're resetting focus
+                                  setFocused(-1);
+                                  resetTransform();
                                 }
                               }}
                             />
