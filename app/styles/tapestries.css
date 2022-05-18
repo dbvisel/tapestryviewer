@@ -198,8 +198,12 @@
 	right: 36px;
 }
 
-.tapestryItem .windowicon:hover {
+/* .tapestryItem .windowicon:hover {
 	color: var(--focusColor);
+} */
+
+.tapestryItem:hover {
+	--iconColor: var(--focusColor);
 }
 
 .tapestryItem .fullscreenicon {
@@ -217,9 +221,9 @@
 	right: 8px;
 }
 
-.tapestryItem .fullscreenicon:hover {
+/* .tapestryItem .fullscreenicon:hover {
 	color: var(--focusColor);
-}
+} */
 
 .tapestryItem img.thumbnail {
 	cursor: pointer;
