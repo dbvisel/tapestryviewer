@@ -1,8 +1,5 @@
-import ReactAudioPlayer from "react-audio-player";
-import { Fragment, useState, useEffect } from "react";
-import { Link } from "remix";
+import { Fragment, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import throbber from "./images/Loading_icon_cropped.gif";
 import {
   Comment,
   Expand,
@@ -10,7 +7,19 @@ import {
   WindowClose,
 } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
-import { humanDate } from "~/utils/utils.mjs";
+import BookFrame from "./BookFrame";
+import TextFrame from "./TextFrame";
+import WaybackMachineFrame from "./WaybackMachineFrame";
+import WebFrame from "./WebFrame";
+import BookImageFrame from "./BookImageFrame";
+import TapestryLinkFrame from "./TapestryLinkFrame";
+import AudioControllerFrame from "./AudioControllerFrame";
+import SoftwareFrame from "./SoftwareFrame";
+import ImageFrame from "./ImageFrame";
+import AudioFrame from "./AudioFrame";
+import VideoFrame from "./VideoFrame";
+import TapestryIframe from "./TapestryIframe";
+import IaFrame from "./IaFrame";
 
 const hideThumbnail = true;
 
@@ -35,297 +44,6 @@ const CommentIcon = styled.span`
     opacity: 1;
   }
 `;
-
-const TextFrame = ({ title, content, hideTitle }) => (
-  <div className={`${hideTitle ? "notitle" : ""} frame textframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <div
-      dangerouslySetInnerHTML={{ __html: content }}
-      onMouseDown={(e) => {
-        e.stopPropagation();
-      }}
-    />
-  </div>
-);
-
-const TapestryLinkFrame = ({ title, link }) => (
-  <div
-    className={`frame tapestrylinkframe`}
-    // onClick={() => {
-    //   console.log("clicked!");
-    // }}
-  >
-    <Link to={`/tapestry/${link}`} tabIndex={-1}>
-      {title}
-    </Link>
-  </div>
-);
-
-const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
-  const [clicked, setClicked] = React.useState(false);
-  return (
-    <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
-      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-      {clicked || !thumbnail || hideThumbnail ? (
-        <iframe
-          src={url}
-          frameBorder="0"
-          webkitallowfullscreen="true"
-          mozallowfullscreen="true"
-          allowFullScreen
-          loading="lazy"
-        />
-      ) : (
-        <img
-          src={thumbnail}
-          className="thumbnail"
-          onClick={() => setClicked(true)}
-        />
-      )}
-    </div>
-  );
-};
-
-const BookImageFrame = ({ title, url, thumbnail, hideTitle }) => {
-  // console.log(url, thumbnail);
-  return (
-    <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
-      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-      <img src={thumbnail} className="thumbnail" />
-    </div>
-  );
-};
-
-const ImageFrame = ({ title, url, hideTitle }) => (
-  <div className={`${hideTitle ? "notitle" : ""} frame imageframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <iframe
-      src={url}
-      frameBorder="0"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allowFullScreen
-      loading="lazy"
-    />
-  </div>
-);
-
-const VideoFrame = ({ title, url, thumbnail, hideTitle }) => {
-  const [clicked, setClicked] = React.useState(false);
-  return (
-    <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
-      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-      {clicked || !thumbnail || hideThumbnail ? (
-        <iframe
-          src={url}
-          frameBorder="0"
-          webkitallowfullscreen="true"
-          mozallowfullscreen="true"
-          allowFullScreen
-          loading="lazy"
-        />
-      ) : (
-        <img
-          src={thumbnail}
-          className="thumbnail"
-          onClick={() => setClicked(true)}
-        />
-      )}
-    </div>
-  );
-};
-
-const SoftwareFrame = ({ title, url, hideTitle }) => (
-  <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <iframe
-      src={url}
-      frameBorder="0"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allowFullScreen
-      loading="lazy"
-    />
-  </div>
-);
-
-const IaFrame = ({ title, url, hideTitle }) => (
-  <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <iframe
-      src={url}
-      frameBorder="0"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allowFullScreen
-      loading="lazy"
-    />
-  </div>
-);
-
-const TapestryIframe = ({ url }) => (
-  <div className={`notitle frame tapestryframe`}>
-    <iframe
-      src={`/tapestry/${url}/`}
-      frameBorder="0"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allowFullScreen
-      loading="lazy"
-    />
-  </div>
-);
-
-const AudioFrame = ({ title, url, hideTitle }) => (
-  <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <div>
-      <iframe
-        src={url}
-        height={url.indexOf(`/embed/`) > -1 ? 36 : "100%"}
-        width={"100%"}
-        frameBorder="0"
-        webkitallowfullscreen="true"
-        mozallowfullscreen="true"
-        allowFullScreen
-        loading="lazy"
-      />
-    </div>
-  </div>
-);
-
-const AudioControllerFrame = ({
-  title,
-  url,
-  hideTitle,
-  controlList,
-  setFocus,
-}) => {
-  const [currentId, setCurrentId] = useState("");
-  const sortedControlList = controlList.sort((a, b) => {
-    if (a.time > b.time) return 1;
-    if (a.time < b.time) return -1;
-    return 0;
-  });
-  return (
-    <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
-      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-      <div>
-        <ReactAudioPlayer
-          src={url}
-          crossOrigin
-          controls
-          listenInterval={500}
-          onListen={(e) => {
-            const currentTime = e * 1000;
-
-            if (currentTime < sortedControlList[0].time) return;
-
-            for (
-              let i = sortedControlList.length - 1;
-              i < sortedControlList.length;
-              i--
-            ) {
-              if (currentTime > sortedControlList[i].time) {
-                setCurrentId(sortedControlList[i].id);
-                setFocus(sortedControlList[i].id);
-                break;
-              }
-            }
-          }}
-        />
-      </div>
-    </div>
-  );
-};
-
-const WebFrame = ({ title, url, hideTitle }) => (
-  <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-    <div>
-      <img src={throbber} />
-    </div>
-    <iframe
-      src={url}
-      frameBorder="0"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allowFullScreen
-      loading="lazy"
-    />
-  </div>
-);
-
-const WaybackMachineFrame = ({ title, url, hideTitle }) => {
-  const [dates, setDates] = useState([]);
-  const [thisUrl, setUrl] = useState(url);
-  const deslashed = url
-    .split("/web.archive.org/web")[1]
-    .split(/\/\d+\//)
-    .join("");
-
-  useEffect(async () => {
-    // console.log("querying for dates!");
-    // console.log(deslashed);
-    await fetch(`/.netlify/functions/memento`, {
-      method: "POST",
-      body: JSON.stringify({ url: deslashed }),
-    })
-      .then((res) => res.json())
-      .then(async (r) => {
-        // r is an array of dates
-        // console.log(r);
-        setDates(r);
-        // console.log(r);
-      })
-      .catch((e) => {
-        console.log("Can't find dates.");
-        console.error(e);
-      });
-  }, []);
-  return (
-    <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
-      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
-      <div>
-        <img src={throbber} />
-      </div>
-      <iframe
-        src={thisUrl}
-        frameBorder="0"
-        webkitallowfullscreen="true"
-        mozallowfullscreen="true"
-        allowFullScreen
-        loading="lazy"
-      />
-      {dates.length ? (
-        <div className="waybackslider">
-          <p>
-            <label>
-              <span style={{ whiteSpace: "nowrap" }}>Version to show: </span>
-              <select
-                value={url.split("web.archive.org/web/")[1].split("/")[0]}
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                }}
-                onChange={(e) => {
-                  const theRest = url.replace(/\/\d+\//, `/${e.target.value}/`);
-                  // console.log(theRest);
-                  setUrl(theRest);
-                }}
-              >
-                {dates.map((date, index) => (
-                  <option value={date} key={`${date}_${index}`}>
-                    {humanDate(date)}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </p>
-        </div>
-      ) : null}
-    </div>
-  );
-};
 
 const TapestryIcon = ({ item }) => {
   const [shown, setShown] = useState(false);
@@ -371,6 +89,7 @@ const TapestryItem = ({
   preview,
   hideComments,
   useComments,
+  zoomingMode,
 }) => {
   const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
   const itemHandle = useFullScreenHandle();
@@ -394,20 +113,22 @@ const TapestryItem = ({
         setFocus(e);
       }}
     >
-      <a
-        href="/#"
-        className={`windowicon`}
-        onClick={(e) => {
-          e.preventDefault();
-          if (focused) {
-            setFocusElsewhere(e);
-          } else {
-            setFocus(e);
-          }
-        }}
-      >
-        {focused ? <WindowClose /> : <WindowOpen />}
-      </a>
+      {zoomingMode && item.type !== "tapestrylink" ? (
+        <a
+          href="/#"
+          className={`windowicon`}
+          onClick={(e) => {
+            e.preventDefault();
+            if (focused) {
+              setFocusElsewhere(e);
+            } else {
+              setFocus(e);
+            }
+          }}
+        >
+          {focused ? <WindowClose /> : <WindowOpen />}
+        </a>
+      ) : null}
       <FullScreen handle={itemHandle}>
         {item.type === "tapestrylink" ? null : (
           <a
@@ -452,6 +173,7 @@ const TapestryItem = ({
             url={item.url}
             thumbnail={item.thumbnail}
             hideTitle={item.hideTitle}
+            hideThumbnail={hideThumbnail}
           />
         ) : item.type === "bookimage" ? (
           <BookImageFrame
@@ -486,6 +208,7 @@ const TapestryItem = ({
             url={item.url}
             thumbnail={item.thumbnail}
             hideTitle={item.hideTitle}
+            hideThumbnail={hideThumbnail}
           />
         ) : item.type === "web" ? (
           <WebFrame
