@@ -8,10 +8,9 @@ import { useNavigate } from "remix";
 
 const useComments = false;
 const zoomingMode = true;
-const zoomWholeTapestry = true;
+const zoomWholeTapestry = false;
 
 const calculateTapestrySize = (items) => {
-  // this isn't currently used!
   let minX = 0;
   let minY = 0;
   let maxX = 0;
@@ -75,9 +74,6 @@ const TapestryComponent = ({
     width: "initial",
     height: "initial",
   });
-  // get tapestry size.
-  // console.log(calculateTapestrySize(tapestry.items));
-  // make sure no items overlap?
 
   const getComments = async (hashList) => {
     if (useComments) {
