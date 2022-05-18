@@ -90,6 +90,7 @@ const TapestryItem = ({
   hideComments,
   useComments,
   zoomingMode,
+  style,
 }) => {
   const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
   const itemHandle = useFullScreenHandle();
@@ -101,22 +102,27 @@ const TapestryItem = ({
       } ${item.hideTitle ? "hidetitle" : ""}`}
       style={
         preview
-          ? { gridArea: "initial" }
+          ? { gridArea: "initial", ...style }
           : {
               gridColumnStart: item.x,
               gridColumnEnd: item.x + item.width,
               gridRowStart: item.y,
               gridRowEnd: item.y + item.height,
+              ...style,
             }
       }
       onClick={(e) => {
-        setFocus(e);
+        if (!zoomingMode) {
+          setFocus(e);
+        }
       }}
     >
       {zoomingMode && item.type !== "tapestrylink" ? (
         <a
           href="/#"
-          className={`windowicon`}
+          className={`windowicon ${
+            item.type === "textFrame" ? "notapestryicon" : ""
+          }`}
           onClick={(e) => {
             e.preventDefault();
             if (focused) {

@@ -69,6 +69,12 @@ const TapestryComponent = ({
   const [flag, setFlag] = useState("1");
   const [loading, setLoading] = useState(useComments);
   const [initialScale, setInitialScale] = useState(0);
+  const [itemStyle, setItemStyle] = useState({
+    top: "initial",
+    left: "initial",
+    width: "initial",
+    height: "initial",
+  });
   // get tapestry size.
   // console.log(calculateTapestrySize(tapestry.items));
   // make sure no items overlap?
@@ -199,7 +205,41 @@ const TapestryComponent = ({
       tapestry.id !== "preview" &&
       zoomingMode
     ) {
-      transformerRef.current.zoomToElement(tapestry.items[focused].id); // maybe zoom level should be set based on item height?
+      if (zoomWholeTapestry) {
+        transformerRef.current.zoomToElement(tapestry.items[focused].id); // maybe zoom level should be set based on item height?
+      } else {
+        console.log("need to go full screen here!");
+        const transformedStyle = viewportRef.current.querySelector(
+          ".react-transform-component"
+        ).style.transform;
+        const transforms = transformedStyle
+          .split("translate3d(")[1]
+          .split(")")[0]
+          .split("px, ")
+          .map((x) => parseFloat(x));
+        const zoom = Number(transformedStyle.split("scale(")[1].split(")")[0]);
+        console.log(transforms, zoom);
+        const newStyle = {
+          position: "fixed",
+          top: `calc(calc(0px - ${transforms[1]}px) * calc(1 / ${zoom}))`,
+          left: `calc(calc(0px - ${transforms[0]}px) * calc(1 / ${zoom}))`,
+          height: /*`calc(100vh - var(--headerHeight))`, //*/ `calc(100% * calc(1 / ${zoom}))`,
+          width: /*"100vw", */ `calc(100% * calc(1 / ${zoom}))`,
+          // maxHeight: `calc(100vh - var(--headerHeight))`,
+          // maxWidth: `100vw`,
+          // transform: `scale(${1 / zoom})`,
+          zIndex: 999,
+          width: `calc(100vw * ${1 / zoom})`,
+          height: `calc(calc(100vh * ${1 / zoom}) - var(--headerHeight))`,
+        };
+        setItemStyle(newStyle);
+        // console.log(newStyle);
+
+        // top: calc( calc(0px - y) * calc(1 / zoom))
+        // left: calc( calc(0px - x) * calc(1 / zoom))
+        // height: calc(100% * calc (1 / zoom))
+        // width: calc(100% * calc (1 / zoom))
+      }
     }
   }, [focused]);
 
@@ -324,10 +364,23 @@ const TapestryComponent = ({
                                 } else {
                                   // if we're here, we're resetting focus
                                   setFocused(-1);
-                                  resetTransform();
+                                  if (zoomWholeTapestry) {
+                                    resetTransform();
+                                  } else {
+                                    console.log("need to unzoom this item!");
+                                    setItemStyle({});
+                                  }
                                 }
                               }}
                               zoomingMode={zoomingMode}
+                              style={
+                                focused === index &&
+                                tapestry.id !== "preview" &&
+                                zoomingMode &&
+                                !zoomWholeTapestry
+                                  ? itemStyle
+                                  : null
+                              }
                             />
                           ))
                         ) : (

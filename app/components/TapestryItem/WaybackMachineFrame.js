@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { humanDate } from "~/utils/utils.mjs";
+import throbber from "./images/Loading_icon_cropped.gif";
 
 const WaybackMachineFrame = ({ title, url, hideTitle }) => {
   const [dates, setDates] = useState([]);

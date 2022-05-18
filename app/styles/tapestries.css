@@ -88,6 +88,10 @@
 	margin-right: var(--navGap);
 }
 
+.scroller > div:not(.react-transform-wrapper) {
+	z-index: -1 !important;
+}
+
 
 .tapestrypage h1 {
 	height: var(--headerHeight);
@@ -188,6 +192,10 @@
 	color: var(--iconColor);
 	transition: 0.25s;
 	z-index: 10;
+}
+
+.tapestryItem .windowicon.notapestryicon {
+	right: 36px;
 }
 
 .tapestryItem .windowicon:hover {
