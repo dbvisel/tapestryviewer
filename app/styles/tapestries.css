@@ -88,7 +88,7 @@
 	margin-right: var(--navGap);
 }
 
-.scroller > div:not(.react-transform-wrapper) {
+.scroller > div:not(.react-transform-wrapper,.tools) {
 	z-index: -1 !important;
 }
 
