@@ -8,7 +8,7 @@ import { useNavigate } from "remix";
 
 const useComments = false;
 const zoomingMode = true;
-const zoomWholeTapestry = true;
+const zoomWholeTapestry = false;
 
 const calculateTapestrySize = (items) => {
   // this isn't currently used!
