@@ -217,6 +217,7 @@ const TapestryComponent = ({
         console.log(transforms, zoom);
         const newStyle = {
           position: "fixed",
+          zoom: `${1 / zoom}`,
           top: `calc(calc(0px - ${transforms[1]}px) * calc(1 / ${zoom}))`,
           left: `calc(calc(0px - ${transforms[0]}px) * calc(1 / ${zoom}))`,
           height: /*`calc(100vh - var(--headerHeight))`, //*/ `calc(100% * calc(1 / ${zoom}))`,
@@ -224,9 +225,13 @@ const TapestryComponent = ({
           // maxHeight: `calc(100vh - var(--headerHeight))`,
           // maxWidth: `100vw`,
           // transform: `scale(${1 / zoom})`,
-          zIndex: 999,
           width: `calc(100vw * ${1 / zoom})`,
           height: `calc(calc(100vh * ${1 / zoom}) - var(--headerHeight))`,
+          zIndex: 999,
+          top: `calc(calc(0px - ${transforms[1]}px) * 1)`,
+          left: `calc(calc(0px - ${transforms[0]}px) * 1)`,
+          width: `calc(100vw * ${1})`,
+          height: `calc(calc(100vh * ${1}) - var(--headerHeight))`,
         };
         setItemStyle(newStyle);
         // console.log(newStyle);
