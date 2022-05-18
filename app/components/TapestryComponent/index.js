@@ -8,7 +8,17 @@ import { useNavigate } from "remix";
 
 const useComments = false;
 const zoomingMode = true;
-const zoomWholeTapestry = false;
+const zoomWholeTapestry = true;
+
+const getTransformSetting = (transformedStyle) => {
+  const transforms = transformedStyle
+    .split("translate3d(")[1]
+    .split(")")[0]
+    .split("px, ")
+    .map((x) => parseFloat(x));
+  const zoom = Number(transformedStyle.split("scale(")[1].split(")")[0]);
+  return [transforms[0], transforms[1], zoom];
+};
 
 const calculateTapestrySize = (items) => {
   let minX = 0;
@@ -74,6 +84,7 @@ const TapestryComponent = ({
     width: "initial",
     height: "initial",
   });
+  const [transformStyle, setTransformStyle] = useState("");
 
   const getComments = async (hashList) => {
     if (useComments) {
@@ -202,9 +213,15 @@ const TapestryComponent = ({
       zoomingMode
     ) {
       if (zoomWholeTapestry) {
+        const transformedStyle = viewportRef.current.querySelector(
+          ".react-transform-component"
+        ).style.transform;
+        setTransformStyle(transformedStyle);
+        // console.log(transform);
+        // console.log(transformedStyle);
         transformerRef.current.zoomToElement(tapestry.items[focused].id); // maybe zoom level should be set based on item height?
       } else {
-        console.log("need to go full screen here!");
+        // console.log("need to go full screen here!");
         const transformedStyle = viewportRef.current.querySelector(
           ".react-transform-component"
         ).style.transform;
@@ -214,7 +231,7 @@ const TapestryComponent = ({
           .split("px, ")
           .map((x) => parseFloat(x));
         const zoom = Number(transformedStyle.split("scale(")[1].split(")")[0]);
-        console.log(transforms, zoom);
+        // console.log(transforms, zoom);
         const newStyle = {
           position: "fixed",
           zoom: `${1 / zoom}`,
@@ -302,8 +319,7 @@ const TapestryComponent = ({
               //   disableOnTarget: [".textframe", "select", "waybackslider"],
               // }}
             >
-              {({ zoomIn, zoomOut, resetTransform }) => {
-                // console.log(focused);
+              {({ zoomIn, zoomOut, resetTransform, setTransform }) => {
                 return (
                   <Fragment>
                     <TransformComponent
@@ -366,9 +382,16 @@ const TapestryComponent = ({
                                   // if we're here, we're resetting focus
                                   setFocused(-1);
                                   if (zoomWholeTapestry) {
-                                    resetTransform();
+                                    // TODO: break this down into x, y, and zoom
+                                    const values =
+                                      getTransformSetting(transformStyle);
+                                    setTransform(
+                                      values[0],
+                                      values[1],
+                                      values[2]
+                                    );
+                                    // resetTransform();
                                   } else {
-                                    console.log("need to unzoom this item!");
                                     setItemStyle({});
                                   }
                                 }
