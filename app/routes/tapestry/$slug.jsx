@@ -14,7 +14,7 @@ import TapestryComponent from "~/components/TapestryComponent";
 export const loader = async ({ params, request }) => {
   invariant(params.slug, "expected params.slug");
   const url = new URL(request.url);
-  const noComments = url.search.indexOf("nocomments") > -1; // this is not working for iframes
+  const noCommentDrawer = url.search.indexOf("nocomments") > -1; // this is not working for iframes
   const tapestries = await getTapestries();
   const tapestry = await getTapestryFromSlug(params.slug);
 
@@ -28,7 +28,7 @@ export const loader = async ({ params, request }) => {
       tapestry: tapestry,
       forkHistory: forkHistory,
       forkedFromThis: forkedFromThis,
-      noComments: noComments,
+      noCommentDrawer: noCommentDrawer,
     };
   } else {
     console.log("tapestry not found");
@@ -64,7 +64,8 @@ export function CatchBoundary() {
 }
 
 export default function TapestryPage() {
-  const { tapestry, forkHistory, forkedFromThis, noComments } = useLoaderData();
+  const { tapestry, forkHistory, forkedFromThis, noCommentDrawer } =
+    useLoaderData();
   const { isIframe } = useOutletContext();
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -172,7 +173,7 @@ export default function TapestryPage() {
             isIframe={isIframe}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
-            noComments={noComments}
+            noCommentDrawer={noCommentDrawer}
           />
         </FullScreen>
       )}

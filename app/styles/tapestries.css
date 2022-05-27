@@ -93,11 +93,6 @@
 	z-index: -1 !important;
 }
 
-.react-transform-component {
-	/* transition: 0.5s; */
-}
-
-
 .tapestrypage h1 {
 	height: var(--headerHeight);
 	display: flex;

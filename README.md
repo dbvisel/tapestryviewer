@@ -71,19 +71,11 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 
  - click on item to focus on it, which brings it to full-screen; object is inert until fullscreen.
-
  - extract links from Wikipedia page, make items out of it?
-
  - layers
-
  - shift-clicking to click through? 
+ - resize in viewer?
 
- - 
-
- - make zoom to object on focus
- - set initial zoom to width of everything
-   - ugly padding currently
- - add in buttons to pan (top center, left center, bottom center, right center)
  - move preview to iframe? Can we do this?
  - BUG: why can't we scroll text fields?
    - this is connected to the zoom component

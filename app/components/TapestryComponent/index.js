@@ -24,7 +24,7 @@ const TapestryComponent = ({
   isIframe,
   isFullScreen,
   setFullScreen,
-  noComments,
+  noCommentDrawer,
 }) => {
   let navigate = useNavigate();
 
@@ -334,6 +334,7 @@ const TapestryComponent = ({
                       viewportRef={viewportRef}
                       updateXarrow={updateXarrow}
                       items={tapestry.items}
+                      setTransform={setTransform}
                     />
                   </Fragment>
                 );
@@ -342,7 +343,7 @@ const TapestryComponent = ({
           </div>
         )}
       </div>
-      {tapestry.id === "preview" || noComments ? null : (
+      {tapestry.id === "preview" || noCommentDrawer ? null : (
         <CommentDrawer
           commentShown={commentShown}
           setCommentShown={setCommentShown}

@@ -14,6 +14,7 @@ const TapestryTools = ({
   viewportRef,
   updateXarrow,
   items,
+  setTransform,
 }) => {
   const goPrev = () => {
     if (focused > -1) {
@@ -88,22 +89,19 @@ const TapestryTools = ({
           }
           if (event.code === "Space") {
             // this resets it.
-            currentTransform[0] = tapestry.initialView
-              ? 0 - tapestry.initialX
-              : 0;
-            currentTransform[1] = tapestry.initialView
-              ? 0 - tapestry.initialY
-              : 0;
-            currentTransform[2] = tapestry.initialView
-              ? tapestry.defaultZoom
-              : initialScale;
+            resetTransform();
+            updateXarrow();
+            return;
           }
-          // TODO: this doesn't stick if someone clicks on the tapestry. Why?
-          // Can I wrap this in a component (nav) and stick it inside the tapestry?
 
-          viewportRef.current.querySelector(
-            ".react-transform-component"
-          ).style.transform = `translate3d(${currentTransform[0]}px, ${currentTransform[1]}px, 0px) scale(${currentTransform[2]})`;
+          setTransform(
+            currentTransform[0],
+            currentTransform[1],
+            currentTransform[2]
+          );
+          // viewportRef.current.querySelector(
+          //   ".react-transform-component"
+          // ).style.transform = `translate3d(${currentTransform[0]}px, ${currentTransform[1]}px, 0px) scale(${currentTransform[2]})`;
           updateXarrow();
         }
       }
