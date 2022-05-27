@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import useKeypress from "react-use-keypress";
 import { FaShareAlt } from "react-icons/fa";
 import TapestryItem from "~/components/TapestryItem";
 import CommentDrawer from "~/components/CommentDrawer";
+import TapestryTools from "./TapestryTools";
 import { useNavigate } from "remix";
 import Config from "~/config";
 import {
@@ -46,71 +46,6 @@ const TapestryComponent = ({
 
   const updateXarrow = useXarrow();
 
-  useKeypress(
-    ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "Shift", "Enter"],
-    (event) => {
-      if (focused > -1) {
-        event.preventDefault();
-        if (event.code === "ArrowUp" || event.code === "ArrowLeft") {
-          goPrev();
-        }
-
-        if (event.code === "ArrowDown" || event.code === "ArrowRight") {
-          // maybe preventDefault if it's arrow down? Arrowing down currently pans
-          goNext();
-        }
-      } else {
-        const move = 200; // what should this be?
-        if (viewportRef && viewportRef.current) {
-          const currentTransform = getTransformSetting(
-            viewportRef.current.querySelector(".react-transform-component")
-              .style.transform
-          );
-          viewportRef.current.querySelector(
-            ".react-transform-component"
-          ).style.transition = 0.5;
-          if (event.code === "ArrowUp") {
-            currentTransform[1] = currentTransform[1] + move;
-          }
-          if (event.code === "ArrowDown") {
-            currentTransform[1] = currentTransform[1] - move;
-          }
-          if (event.code === "ArrowLeft") {
-            currentTransform[0] = currentTransform[0] + move;
-          }
-          if (event.code === "ArrowRight") {
-            currentTransform[0] = currentTransform[0] - move;
-          }
-          if (event.code === "ShiftLeft") {
-            currentTransform[2] = currentTransform[2] / 1.25;
-          }
-          if (event.code === "ShiftRight") {
-            currentTransform[2] = currentTransform[2] * 1.25;
-          }
-          if (event.code === "Space") {
-            // this resets it.
-            currentTransform[0] = tapestry.initialView
-              ? 0 - tapestry.initialX
-              : 0;
-            currentTransform[1] = tapestry.initialView
-              ? 0 - tapestry.initialY
-              : 0;
-            currentTransform[2] = tapestry.initialView
-              ? tapestry.defaultZoom
-              : initialScale;
-          }
-          // TODO: this doesn't stick if someone clicks on the tapestry. Why?
-          // Can I wrap this in a component (nav) and stick it inside the tapestry?
-
-          viewportRef.current.querySelector(
-            ".react-transform-component"
-          ).style.transform = `translate3d(${currentTransform[0]}px, ${currentTransform[1]}px, 0px) scale(${currentTransform[2]})`;
-          updateXarrow();
-        }
-      }
-    }
-  );
-
   const getComments = async (hashList) => {
     if (useComments) {
       console.log("Loading comments for items on the tapestry.");
@@ -142,39 +77,6 @@ const TapestryComponent = ({
 
   const linksList = makeLinkList(tapestry.items);
   // console.log(linksList);
-
-  const goPrev = () => {
-    if (focused > -1) {
-      const currentId = tapestry.items[focused].id;
-      for (let i = 0; i < tapestry.items.length; i++) {
-        if (
-          tapestry.items[i].linksTo &&
-          tapestry.items[i].linksTo.length &&
-          tapestry.items[i].linksTo[0] === currentId
-        ) {
-          // note that this goes to the first LinkTo that points to the current focused ID
-          return setFocused(i);
-        }
-      }
-    }
-    return null;
-  };
-
-  const goNext = () => {
-    if (focused > -1) {
-      if (
-        tapestry.items[focused].linksTo &&
-        tapestry.items[focused].linksTo.length
-      ) {
-        // Known issue: if this links to more than one thing, it's only taking the first.
-        const nextId = tapestry.items[focused].linksTo[0];
-        const nextItem = tapestry.items.find((item) => item.id === nextId);
-        const nextItemIndex = tapestry.items.indexOf(nextItem);
-        return setFocused(nextItemIndex);
-      }
-    }
-    return null;
-  };
 
   useEffect(() => {
     // console.log("tapestryID changed!");
@@ -420,73 +322,19 @@ const TapestryComponent = ({
                         />
                       ) : null
                     )}
-                    <div
-                      className="tools"
-                      style={{
-                        transform: `translateX(${
-                          commentShown
-                            ? "calc(0px - var(--commentWidth))"
-                            : "0px"
-                        })`,
-                      }}
-                    >
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setFullScreen(!isFullScreen);
-                        }}
-                      >
-                        {isFullScreen ? "↙" : "↗"}
-                      </button>
-                      {focused === -1 ? null : (
-                        <Fragment>
-                          <button
-                            className={focused === -1 ? "disabled" : ""}
-                            disabled={focused === -1}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              goPrev();
-                            }}
-                          >
-                            ←
-                          </button>
-                          <button
-                            className={focused === -1 ? "disabled" : ""}
-                            disabled={focused === -1}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              goNext();
-                            }}
-                          >
-                            →
-                          </button>
-                        </Fragment>
-                      )}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          zoomIn();
-                        }}
-                      >
-                        +
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          zoomOut();
-                        }}
-                      >
-                        -
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          resetTransform();
-                        }}
-                      >
-                        Reset
-                      </button>
-                    </div>
+                    <TapestryTools
+                      focused={focused}
+                      setFocused={setFocused}
+                      isFullScreen={isFullScreen}
+                      setFullScreen={setFullScreen}
+                      commentShown={commentShown}
+                      zoomIn={zoomIn}
+                      zoomOut={zoomOut}
+                      resetTransform={resetTransform}
+                      viewportRef={viewportRef}
+                      updateXarrow={updateXarrow}
+                      items={tapestry.items}
+                    />
                   </Fragment>
                 );
               }}

@@ -1,14 +1,115 @@
+import { Fragment } from "react";
+import useKeypress from "react-use-keypress";
+import { getTransformSetting } from "~/utils/tapestryUtils";
+
 const TapestryTools = ({
   focused,
+  setFocused,
   isFullScreen,
   setFullScreen,
   commentShown,
-  goPrev,
-  goNext,
   zoomIn,
   zoomOut,
   resetTransform,
+  viewportRef,
+  updateXarrow,
+  items,
 }) => {
+  const goPrev = () => {
+    if (focused > -1) {
+      const currentId = items[focused].id;
+      for (let i = 0; i < items.length; i++) {
+        if (
+          items[i].linksTo &&
+          items[i].linksTo.length &&
+          items[i].linksTo[0] === currentId
+        ) {
+          // note that this goes to the first LinkTo that points to the current focused ID
+          return setFocused(i);
+        }
+      }
+    }
+    return null;
+  };
+
+  const goNext = () => {
+    if (focused > -1) {
+      if (items[focused].linksTo && items[focused].linksTo.length) {
+        // Known issue: if this links to more than one thing, it's only taking the first.
+        const nextId = items[focused].linksTo[0];
+        const nextItem = items.find((item) => item.id === nextId);
+        const nextItemIndex = items.indexOf(nextItem);
+        return setFocused(nextItemIndex);
+      }
+    }
+    return null;
+  };
+
+  useKeypress(
+    ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "Shift", "Enter"],
+    (event) => {
+      if (focused > -1) {
+        event.preventDefault();
+        if (event.code === "ArrowUp" || event.code === "ArrowLeft") {
+          goPrev();
+        }
+
+        if (event.code === "ArrowDown" || event.code === "ArrowRight") {
+          // maybe preventDefault if it's arrow down? Arrowing down currently pans
+          goNext();
+        }
+      } else {
+        const move = 200; // what should this be?
+        if (viewportRef && viewportRef.current) {
+          const currentTransform = getTransformSetting(
+            viewportRef.current.querySelector(".react-transform-component")
+              .style.transform
+          );
+          viewportRef.current.querySelector(
+            ".react-transform-component"
+          ).style.transition = 0.5;
+          if (event.code === "ArrowUp") {
+            currentTransform[1] = currentTransform[1] + move;
+          }
+          if (event.code === "ArrowDown") {
+            currentTransform[1] = currentTransform[1] - move;
+          }
+          if (event.code === "ArrowLeft") {
+            currentTransform[0] = currentTransform[0] + move;
+          }
+          if (event.code === "ArrowRight") {
+            currentTransform[0] = currentTransform[0] - move;
+          }
+          if (event.code === "ShiftLeft") {
+            currentTransform[2] = currentTransform[2] / 1.25;
+          }
+          if (event.code === "ShiftRight") {
+            currentTransform[2] = currentTransform[2] * 1.25;
+          }
+          if (event.code === "Space") {
+            // this resets it.
+            currentTransform[0] = tapestry.initialView
+              ? 0 - tapestry.initialX
+              : 0;
+            currentTransform[1] = tapestry.initialView
+              ? 0 - tapestry.initialY
+              : 0;
+            currentTransform[2] = tapestry.initialView
+              ? tapestry.defaultZoom
+              : initialScale;
+          }
+          // TODO: this doesn't stick if someone clicks on the tapestry. Why?
+          // Can I wrap this in a component (nav) and stick it inside the tapestry?
+
+          viewportRef.current.querySelector(
+            ".react-transform-component"
+          ).style.transform = `translate3d(${currentTransform[0]}px, ${currentTransform[1]}px, 0px) scale(${currentTransform[2]})`;
+          updateXarrow();
+        }
+      }
+    }
+  );
+
   return (
     <div
       className="tools"
