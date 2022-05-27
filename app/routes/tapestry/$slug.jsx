@@ -127,6 +127,7 @@ export default function TapestryPage() {
               marginLeft: "auto",
               fontWeight: "normal",
               fontSize: "50%",
+              userSelect: "none",
             }}
           >
             {showDetails ? (

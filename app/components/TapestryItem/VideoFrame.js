@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { hideThumbnail } from "~/config";
+import Config from "~/config";
+const { hideThumbnail } = Config;
 
 const VideoFrame = ({ title, url, thumbnail, hideTitle }) => {
   const [clicked, setClicked] = useState(false);

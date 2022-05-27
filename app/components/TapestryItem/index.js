@@ -21,6 +21,7 @@ import VideoFrame from "./VideoFrame";
 import TapestryIframe from "./TapestryIframe";
 import IaFrame from "./IaFrame";
 import TapestryIcon from "./TapestryIcon";
+// import { useComments } from "~/config";
 
 const TapestryItem = ({
   item,
@@ -29,22 +30,22 @@ const TapestryItem = ({
   setFocusElsewhere,
   comments,
   openComments,
-  preview,
-  hideComments,
-  useComments,
+  isPreview,
+  isPreviewItem,
   zoomingMode,
   style,
+  onKeyPress,
 }) => {
   const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
   const itemHandle = useFullScreenHandle();
   return (
     <section
-      id={preview ? `preview_${item.id}` : item.id}
+      id={isPreviewItem ? `preview_${item.id}` : item.id}
       className={`tapestryItem ${focused ? "focused" : ""} ${
         item.type === "tapestrylink" ? "link" : ""
       } ${item.hideTitle ? "hidetitle" : ""}`}
       style={
-        preview
+        isPreviewItem
           ? { gridArea: "initial", ...style }
           : {
               gridColumnStart: item.x,
@@ -87,7 +88,6 @@ const TapestryItem = ({
             }`}
             onClick={(e) => {
               e.preventDefault();
-              console.log(e);
               if (itemIsFullScreen) {
                 itemHandle.exit();
                 setItemIsFullScreen(false);
@@ -103,7 +103,7 @@ const TapestryItem = ({
         {item.type === "textFrame" || item.type === "tapestrylink" ? null : (
           <TapestryIcon item={item} />
         )}
-        {preview || hideComments ? null : (
+        {isPreviewItem || isPreview ? null : (
           <CommentIcon comments={comments} onClick={openComments}>
             <Comment />
           </CommentIcon>

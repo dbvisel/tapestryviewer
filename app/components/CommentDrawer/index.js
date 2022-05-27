@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 // import { json, useLoaderData } from "remix";
 import Comment from "./Comment";
+import Config from "~/config";
+
+const { useComments } = Config;
 
 // const comments = [
 //   {
@@ -95,8 +98,10 @@ const CommentDrawer = ({
 
   useEffect(() => {
     // TODO: get all the comments for that referent.
-    setLoading(true);
-    getComments(referent.hash);
+    if (useComments) {
+      setLoading(true);
+      getComments(referent.hash);
+    }
   }, [referent]);
 
   return (
@@ -113,7 +118,9 @@ const CommentDrawer = ({
       </h2>
       <h3>Comments for {referent.title}</h3>
       <div>
-        {loading ? (
+        {!useComments ? (
+          <p>Comments are turned off.</p>
+        ) : loading ? (
           <p>Loading comments...</p>
         ) : comments.length ? (
           comments.map((comment, index) => (
@@ -146,6 +153,7 @@ const CommentDrawer = ({
         ) : (
           <button
             onClick={() => {
+              if (!useComments) return;
               setAddingComment(true);
             }}
           >

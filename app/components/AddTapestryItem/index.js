@@ -696,7 +696,7 @@ const AddTapestryItem = ({
           gridTemplateRows: `${height * gridUnitSize}px`,
         }}
       >
-        <TapestryItem item={itemData} preview />
+        <TapestryItem item={itemData} isPreviewItem />
         <input
           type="button"
           value="←"
