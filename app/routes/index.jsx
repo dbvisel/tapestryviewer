@@ -35,6 +35,12 @@ export default function MainIndex() {
         ))}
       </ul>
       <p>
+        There are now keyboard controls: on a tapestry, you can use the arrow
+        keys to pan, and the left and right shift keys to zoom in and out. The
+        space bar resets the view. If you have an item selected that links to
+        another item, arrow keys will follow links.
+      </p>
+      <p>
         You can also try the <Link to="/maker">tapestry maker</Link>, which
         should let you edit any of the above tapestries.{" "}
         <Link to="/test">This page</Link> will generate the code for an iframe

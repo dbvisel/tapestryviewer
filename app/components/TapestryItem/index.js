@@ -34,7 +34,6 @@ const TapestryItem = ({
   isPreviewItem,
   zoomingMode,
   style,
-  onKeyPress,
 }) => {
   const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
   const itemHandle = useFullScreenHandle();

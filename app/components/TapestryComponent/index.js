@@ -19,6 +19,16 @@ if (typeof document === "undefined") {
   React.useLayoutEffect = React.useEffect;
 }
 
+const defocus = () => {
+  if (document) {
+    if (document.activeElement === document.getElementsByTagName("iframe")[0]) {
+      // if we are an iframe, blur
+      document.activeElement.blur();
+    }
+  }
+  return null;
+};
+
 const TapestryComponent = ({
   tapestry,
   isIframe,
@@ -189,6 +199,7 @@ const TapestryComponent = ({
         }} // "cover" isn't firing sometimes!
         onClick={(e) => {
           e.stopPropagation();
+          defocus();
           setFocused(-1);
         }}
       >
@@ -280,6 +291,7 @@ const TapestryComponent = ({
                                   setFocused(newFocused);
                                 } else {
                                   // if we're here, we're resetting focus
+                                  defocus();
                                   setFocused(-1);
                                   if (zoomWholeTapestry) {
                                     // TODO: break this down into x, y, and zoom
