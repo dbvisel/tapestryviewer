@@ -44,6 +44,8 @@ const TapestryComponent = ({
   });
   const [transformStyle, setTransformStyle] = useState("");
 
+  const updateXarrow = useXarrow();
+
   useKeypress(
     ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "Shift", "Enter"],
     (event) => {
@@ -58,7 +60,7 @@ const TapestryComponent = ({
           goNext();
         }
       } else {
-        const move = 200;
+        const move = 200; // what should this be?
         if (viewportRef && viewportRef.current) {
           const currentTransform = getTransformSetting(
             viewportRef.current.querySelector(".react-transform-component")
@@ -85,22 +87,25 @@ const TapestryComponent = ({
           if (event.code === "ShiftRight") {
             currentTransform[2] = currentTransform[2] * 1.25;
           }
-          // if (event.code === "Space") {
-          //   // this resets it.
-          //   currentTransform[0] = tapestry.initialView
-          //     ? 0 - tapestry.initialX
-          //     : 0;
-          //   currentTransform[1] = tapestry.initialView
-          //     ? 0 - tapestry.initialY
-          //     : 0;
-          //   currentTransform[2] = tapestry.initialView
-          //     ? tapestry.defaultZoom
-          //     : initialScale;
-          // }
+          if (event.code === "Space") {
+            // this resets it.
+            currentTransform[0] = tapestry.initialView
+              ? 0 - tapestry.initialX
+              : 0;
+            currentTransform[1] = tapestry.initialView
+              ? 0 - tapestry.initialY
+              : 0;
+            currentTransform[2] = tapestry.initialView
+              ? tapestry.defaultZoom
+              : initialScale;
+          }
+          // TODO: this doesn't stick if someone clicks on the tapestry. Why?
+          // Can I wrap this in a component (nav) and stick it inside the tapestry?
+
           viewportRef.current.querySelector(
             ".react-transform-component"
           ).style.transform = `translate3d(${currentTransform[0]}px, ${currentTransform[1]}px, 0px) scale(${currentTransform[2]})`;
-          // TODO: This should pan for arrow keys!
+          updateXarrow();
         }
       }
     }
@@ -137,7 +142,6 @@ const TapestryComponent = ({
 
   const linksList = makeLinkList(tapestry.items);
   // console.log(linksList);
-  const updateXarrow = useXarrow();
 
   const goPrev = () => {
     if (focused > -1) {
