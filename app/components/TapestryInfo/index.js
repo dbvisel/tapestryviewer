@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "remix";
 import { diffJson } from "diff";
-
 import { cleanDate } from "~/utils/utils.mjs";
 
 const TapestryInfo = ({

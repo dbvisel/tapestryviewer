@@ -2,21 +2,13 @@ import React, { useState } from "react";
 import { Outlet, Link, useOutletContext } from "remix";
 import tapestryStyles from "~/styles/tapestries.css";
 import navStyles from "~/styles/tapestrynav.css";
+import { inIframe } from "~/utils/utils.mjs";
 
 export const links = () => {
   return [
     { rel: "stylesheet", href: navStyles },
     { rel: "stylesheet", href: tapestryStyles },
   ];
-};
-
-const inIframe = () => {
-  try {
-    return window.self !== window.top;
-  } catch (e) {
-    console.log("this is an iframe");
-    return true;
-  }
 };
 
 const TapestryNav = ({ filteredTapestries }) => {

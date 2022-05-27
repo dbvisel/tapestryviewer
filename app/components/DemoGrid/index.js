@@ -1,6 +1,4 @@
-import { getColor } from "~/utils/utils.mjs";
-
-const deNaN = (x) => (isNaN(x) ? 1 : parseInt(x, 10));
+import { getColor, deNaN } from "~/utils/utils.mjs";
 
 const DemoGrid = ({ items, focused, gridGap, gridUnitSize, background }) =>
   items.length ? (

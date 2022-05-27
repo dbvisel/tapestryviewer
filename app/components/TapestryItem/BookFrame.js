@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { hideThumbnail } from "~/config";
 
-const BookFrame = ({ title, url, thumbnail, hideTitle, hideThumbnail }) => {
+const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
   const [clicked, setClicked] = useState(false);
   return (
     <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>

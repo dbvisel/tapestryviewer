@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import {
   Comment,
@@ -6,7 +6,7 @@ import {
   WindowOpen,
   WindowClose,
 } from "@styled-icons/boxicons-regular";
-import styled from "styled-components";
+import { CommentIcon } from "./elements";
 import BookFrame from "./BookFrame";
 import TextFrame from "./TextFrame";
 import WaybackMachineFrame from "./WaybackMachineFrame";
@@ -20,64 +20,7 @@ import AudioFrame from "./AudioFrame";
 import VideoFrame from "./VideoFrame";
 import TapestryIframe from "./TapestryIframe";
 import IaFrame from "./IaFrame";
-
-const hideThumbnail = true;
-
-const CommentIcon = styled.span`
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: -35px;
-  top: 6px;
-  fill: black;
-  cursor: pointer;
-  user-select: none;
-  opacity: ${(props) => (props.comments ? 1 : 0.25)};
-  transition: 0.25s;
-  &:after {
-    content: "${(props) => (props.comments ? props.comments : "")}";
-    top: -30px;
-    left: 35px;
-    position: relative;
-  }
-  &:hover {
-    opacity: 1;
-  }
-`;
-
-const TapestryIcon = ({ item }) => {
-  const [shown, setShown] = useState(false);
-  return (
-    <Fragment>
-      <a
-        href="/#"
-        className={`tapestryIcon ${shown ? "on" : ""}`}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setShown(!shown);
-        }}
-      >
-        i
-      </a>
-      {shown ? (
-        <div
-          className="tapestryDetails"
-          onClick={(e) => {
-            e.stopPropagation();
-            setShown(false);
-          }}
-        >
-          <h3>Details</h3>
-          <p>
-            <strong>Source: </strong>{" "}
-            {item.url ? <a href={item.url}>{item.url}</a> : item.content}
-          </p>
-        </div>
-      ) : null}
-    </Fragment>
-  );
-};
+import TapestryIcon from "./TapestryIcon";
 
 const TapestryItem = ({
   item,
@@ -179,7 +122,6 @@ const TapestryItem = ({
             url={item.url}
             thumbnail={item.thumbnail}
             hideTitle={item.hideTitle}
-            hideThumbnail={hideThumbnail}
           />
         ) : item.type === "bookimage" ? (
           <BookImageFrame
@@ -214,7 +156,6 @@ const TapestryItem = ({
             url={item.url}
             thumbnail={item.thumbnail}
             hideTitle={item.hideTitle}
-            hideThumbnail={hideThumbnail}
           />
         ) : item.type === "web" ? (
           <WebFrame

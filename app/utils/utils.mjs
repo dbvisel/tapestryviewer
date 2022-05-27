@@ -97,3 +97,14 @@ export const humanDate = (e) => {
     12
   )}:${f.substring(12, 14)}`;
 };
+
+export const deNaN = (x) => (isNaN(x) ? 1 : parseInt(x, 10));
+
+export const inIframe = () => {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    console.log("this is an iframe");
+    return true;
+  }
+};

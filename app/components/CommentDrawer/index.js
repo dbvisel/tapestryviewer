@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { json, useLoaderData } from "remix";
+// import { json, useLoaderData } from "remix";
 import Comment from "./Comment";
 
 // const comments = [

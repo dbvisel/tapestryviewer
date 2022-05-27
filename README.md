@@ -69,6 +69,17 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### important
 
+
+ - click on item to focus on it, which brings it to full-screen; object is inert until fullscreen.
+
+ - extract links from Wikipedia page, make items out of it?
+
+ - layers
+
+ - shift-clicking to click through? 
+
+ - 
+
  - make zoom to object on focus
  - set initial zoom to width of everything
    - ugly padding currently
