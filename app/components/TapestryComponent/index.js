@@ -128,8 +128,8 @@ const TapestryComponent = ({
 
   useEffect(() => {
     if (
-      transformerRef.current &&
       focused > -1 &&
+      transformerRef.current &&
       tapestry.id !== "preview" &&
       zoomingMode
     ) {
@@ -309,7 +309,7 @@ const TapestryComponent = ({
                                   }
                                 }
                               }}
-                              zoomingMode={zoomingMode}
+                              currentZoom={1}
                               style={
                                 focused === index &&
                                 tapestry.id !== "preview" &&

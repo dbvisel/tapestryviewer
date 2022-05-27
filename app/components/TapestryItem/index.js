@@ -21,7 +21,9 @@ import VideoFrame from "./VideoFrame";
 import TapestryIframe from "./TapestryIframe";
 import IaFrame from "./IaFrame";
 import TapestryIcon from "./TapestryIcon";
-// import { useComments } from "~/config";
+import Config from "~/config";
+
+const { zoomingMode } = Config;
 
 const TapestryItem = ({
   item,
@@ -32,7 +34,6 @@ const TapestryItem = ({
   openComments,
   isPreview,
   isPreviewItem,
-  zoomingMode,
   style,
 }) => {
   const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
@@ -41,7 +42,11 @@ const TapestryItem = ({
     <section
       id={isPreviewItem ? `preview_${item.id}` : item.id}
       className={`tapestryItem ${focused ? "focused" : ""} ${
-        item.type === "tapestrylink" ? "link" : ""
+        item.type === "tapestrylink"
+          ? "link"
+          : item.type === "tapestry"
+          ? "tapestryTapestryItem"
+          : ""
       } ${item.hideTitle ? "hidetitle" : ""}`}
       style={
         isPreviewItem

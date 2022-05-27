@@ -190,6 +190,11 @@
 	box-sizing: border-box;
 }
 
+
+.tapestryTapestryItem  {
+	--iconColor: var(--links)
+}
+
 .tapestryItem .windowicon {
 	position: absolute;
 	top: 6px;
