@@ -200,6 +200,7 @@ const TapestryComponent = ({
         onClick={(e) => {
           e.stopPropagation();
           defocus();
+          // TODO: this should set the zoom center to mouse X, mouse Y. Maybe that should happen in controls?
           setFocused(-1);
         }}
       >

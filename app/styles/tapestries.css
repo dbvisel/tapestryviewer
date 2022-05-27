@@ -22,7 +22,7 @@
 	--itemHeaderHeight: 50px;
 	--fontSize: 24px;
 	--lineHeight: 36px;
-	--iconWidth: 2rem;
+	--iconWidth: 2vw;
 }
 
 .tapestrypage main {
@@ -47,6 +47,7 @@
 	overflow: hidden;
 	padding: 0;
 	background-size: cover !important;
+	cursor: grab;
 }
 
 .tapestrypage .shareicon {
@@ -103,6 +104,7 @@
 	box-sizing: border-box;
 	padding: 0 20px;
 	font-size: 28px;
+	border-bottom:1px solid black;
 }
 
 .tapestrypage h1.iframe {
@@ -110,6 +112,10 @@
 	color: #333;
 	font-size: 24px;
 	padding: 0 10px;
+}
+
+.tapestrypage h1.iframe span {
+	margin-right: 100px;
 }
 
 .tapestrypage h2 {
@@ -144,6 +150,7 @@
 	box-sizing: border-box;
 	border-radius: var(--borderRadius);
 	position: relative;
+	cursor: pointer;
 }
 
 .tapestryItem.link {
@@ -187,7 +194,7 @@
 	position: absolute;
 	top: 6px;
 	right: 76px;
-	width: 28px;
+	width: 28px; 
 	height: 28px;
 	color: var(--iconColor);
 	transition: 0.25s;
