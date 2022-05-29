@@ -83,6 +83,7 @@
 	padding: 0 20px;
 	font-size: 28px;
 	border-bottom:1px solid black;
+	white-space: nowrap;
 }
 
 .tapestrypage h1.iframe {
@@ -90,7 +91,6 @@
 	color: #333;
 	font-size: 24px;
 	padding: 0 10px;
-	white-space: nowrap;
 }
 
 .tapestrypage h1.iframe span {
