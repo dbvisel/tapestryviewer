@@ -1,7 +1,10 @@
 import { Fragment } from "react";
 import useKeypress from "react-use-keypress";
-import { ZoomOut, ZoomIn } from "@styled-icons/boxicons-regular";
+import { ZoomOut, ZoomIn, Share } from "@styled-icons/boxicons-regular";
 import { getTransformSetting } from "~/utils/tapestryUtils";
+import Config from "~/config";
+
+const { useShareIcon, baseUrl } = Config;
 
 const TapestryTools = ({
   focused,
@@ -16,6 +19,8 @@ const TapestryTools = ({
   updateXarrow,
   items,
   setTransform,
+  slug,
+  isIframe,
 }) => {
   const goPrev = () => {
     if (focused > -1) {
@@ -47,6 +52,38 @@ const TapestryTools = ({
     return null;
   };
 
+  const panTapestry = (dx = 0, dy = 0, dz = 0) => {
+    const move = 200; // what should this be?
+    const zoomSetting = 1.25;
+    if (viewportRef && viewportRef.current) {
+      const currentTransform = getTransformSetting(
+        viewportRef.current.querySelector(".react-transform-component").style
+          .transform
+      );
+      viewportRef.current.querySelector(
+        ".react-transform-component"
+      ).style.transition = 0.5;
+      currentTransform[1] = currentTransform[1] + dy * move;
+      currentTransform[0] = currentTransform[0] + dx * move;
+      if (dz !== 0) {
+        if (dz > 0) {
+          currentTransform[2] = currentTransform[2] * zoomSetting;
+        } else {
+          currentTransform[2] = currentTransform[2] / zoomSetting;
+        }
+      }
+      setTransform(
+        currentTransform[0],
+        currentTransform[1],
+        currentTransform[2]
+      );
+      // viewportRef.current.querySelector(
+      //   ".react-transform-component"
+      // ).style.transform = `translate3d(${currentTransform[0]}px, ${currentTransform[1]}px, 0px) scale(${currentTransform[2]})`;
+      updateXarrow();
+    }
+  };
+
   useKeypress(
     ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "Shift", "Enter"],
     (event) => {
@@ -61,120 +98,166 @@ const TapestryTools = ({
           goNext();
         }
       } else {
-        const move = 200; // what should this be?
-        if (viewportRef && viewportRef.current) {
-          const currentTransform = getTransformSetting(
-            viewportRef.current.querySelector(".react-transform-component")
-              .style.transform
-          );
-          viewportRef.current.querySelector(
-            ".react-transform-component"
-          ).style.transition = 0.5;
-          if (event.code === "ArrowUp") {
-            currentTransform[1] = currentTransform[1] + move;
-          }
-          if (event.code === "ArrowDown") {
-            currentTransform[1] = currentTransform[1] - move;
-          }
-          if (event.code === "ArrowLeft") {
-            currentTransform[0] = currentTransform[0] + move;
-          }
-          if (event.code === "ArrowRight") {
-            currentTransform[0] = currentTransform[0] - move;
-          }
-          if (event.code === "ShiftLeft") {
-            currentTransform[2] = currentTransform[2] / 1.25;
-          }
-          if (event.code === "ShiftRight") {
-            currentTransform[2] = currentTransform[2] * 1.25;
-          }
-          if (event.code === "Space") {
-            // this resets it.
-            resetTransform();
-            updateXarrow();
-            return;
-          }
-
-          setTransform(
-            currentTransform[0],
-            currentTransform[1],
-            currentTransform[2]
-          );
-          // viewportRef.current.querySelector(
-          //   ".react-transform-component"
-          // ).style.transform = `translate3d(${currentTransform[0]}px, ${currentTransform[1]}px, 0px) scale(${currentTransform[2]})`;
+        if (event.code === "ArrowUp") {
+          panTapestry(0, 1, 0);
+        }
+        if (event.code === "ArrowDown") {
+          panTapestry(0, -1, 0);
+        }
+        if (event.code === "ArrowLeft") {
+          panTapestry(1, 0, 0);
+        }
+        if (event.code === "ArrowRight") {
+          panTapestry(-1, 0, 0);
+        }
+        if (event.code === "ShiftLeft") {
+          panTapestry(0, 0, -1);
+        }
+        if (event.code === "ShiftRight") {
+          panTapestry(0, 0, 1);
+        }
+        if (event.code === "Space") {
+          // this resets it.
+          resetTransform();
           updateXarrow();
+          return;
         }
       }
     }
   );
 
   return (
-    <div
-      className="tools"
-      style={{
-        transform: `translateX(${
-          commentShown ? "calc(0px - var(--commentWidth))" : "0px"
-        })`,
-      }}
-    >
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setFullScreen(!isFullScreen);
+    <Fragment>
+      <div className="panbuttons">
+        <button
+          className="up"
+          onClick={(e) => {
+            e.stopPropagation();
+            panTapestry(0, 1, 0);
+          }}
+        >
+          ↑
+        </button>
+        <button
+          className="left"
+          onClick={(e) => {
+            e.stopPropagation();
+            panTapestry(1, 0, 0);
+          }}
+        >
+          ←
+        </button>
+        <button
+          className="right"
+          onClick={(e) => {
+            e.stopPropagation();
+            panTapestry(-1, 0, 0);
+          }}
+        >
+          →
+        </button>
+        <button
+          className="down"
+          onClick={(e) => {
+            e.stopPropagation();
+            panTapestry(0, -1, 0);
+          }}
+        >
+          ↓
+        </button>
+        <button
+          className="fullscreen"
+          onClick={(e) => {
+            e.stopPropagation();
+            setFullScreen(!isFullScreen);
+          }}
+        >
+          {isFullScreen ? "↙" : "↗"}
+        </button>
+      </div>
+      <div
+        className="tools"
+        style={{
+          transform: `translateX(${
+            commentShown ? "calc(0px - var(--commentWidth))" : "0px"
+          })`,
         }}
       >
-        {isFullScreen ? "↙" : "↗"}
-      </button>
-      {focused === -1 ? null : (
-        <Fragment>
-          <button
-            className={focused === -1 ? "disabled" : ""}
-            disabled={focused === -1}
-            onClick={(e) => {
-              e.stopPropagation();
-              goPrev();
-            }}
-          >
-            ←
-          </button>
-          <button
-            className={focused === -1 ? "disabled" : ""}
-            disabled={focused === -1}
-            onClick={(e) => {
-              e.stopPropagation();
-              goNext();
-            }}
-          >
-            →
-          </button>
-        </Fragment>
+        {focused === -1 ? null : (
+          <Fragment>
+            <button
+              className={focused === -1 ? "disabled" : ""}
+              disabled={focused === -1}
+              onClick={(e) => {
+                e.stopPropagation();
+                goPrev();
+              }}
+            >
+              ←
+            </button>
+            <button
+              className={focused === -1 ? "disabled" : ""}
+              disabled={focused === -1}
+              onClick={(e) => {
+                e.stopPropagation();
+                goNext();
+              }}
+            >
+              →
+            </button>
+          </Fragment>
+        )}
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            zoomOut();
+          }}
+        >
+          <ZoomOut />
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            resetTransform();
+          }}
+        >
+          Reset
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            zoomIn();
+          }}
+        >
+          <ZoomIn />
+        </button>
+      </div>
+      {isIframe || !useShareIcon ? null : (
+        <a
+          href="/#"
+          className="shareicon"
+          onClick={(e) => {
+            e.preventDefault();
+            const myCode = `<iframe src="${baseUrl}/tapestry/${slug}" width="1024px" height="768px" allowfullscreen />`;
+            console.log(myCode);
+            navigator.permissions
+              .query({ name: "clipboard-write" })
+              .then((result) => {
+                if (result.state == "granted" || result.state == "prompt") {
+                  navigator.clipboard.writeText(myCode);
+                  // TODO: fix this.
+                  // window.alert(
+                  //   `To embed this tapestry in an iframe, use this:\n\n${myCode}\n\nIt's in your clipboard now.`
+                  // );
+                }
+              });
+          }}
+        >
+          <Share style={{ width: "24px", height: "24px" }} />
+        </a>
       )}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          zoomIn();
-        }}
-      >
-        <ZoomIn />
-      </button>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          zoomOut();
-        }}
-      >
-        <ZoomOut />
-      </button>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          resetTransform();
-        }}
-      >
-        Reset
-      </button>
-    </div>
+    </Fragment>
   );
 };
 

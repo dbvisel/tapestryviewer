@@ -10,6 +10,9 @@ import {
 import { publicationStatus } from "~/utils/utils.mjs";
 import TapestryInfo from "~/components/TapestryInfo";
 import TapestryComponent from "~/components/TapestryComponent";
+import Config from "~/config.js";
+
+const { baseUrl } = Config;
 
 export const loader = async ({ params, request }) => {
   invariant(params.slug, "expected params.slug");
@@ -104,7 +107,7 @@ export default function TapestryPage() {
           {isIframe ? (
             <Fragment>
               <a
-                href={`https://tapestryviewer.netlify.app/tapestry/${tapestry.slug}`}
+                href={`${baseUrl}/tapestry/${tapestry.slug}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >

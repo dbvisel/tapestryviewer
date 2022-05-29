@@ -1,28 +1,5 @@
 .tapestrypage, .makerpage {
   display: flex;
-	--navWidth: 200px;
-	--commentWidth: 250px;
-	--navGap: 10px;
-	--commentGap: 25px;
-	--gridUnitSize: 200px;
-	--gridGap: 20px;
-	--textPadding: 10px;
-	--headerHeight: 50px;
-	--headerBackground: #333;
-	--headerColor: #ccc;
-	--textFrameColor: #333;
-	--textFrameBackground: #ccc;
-	--tapestryLinkFrameColor: #333;
-	--tapestryLinkFrameBackground: magenta;
-	--focusColor: orange;
-	--iconColor: rgba(255,255,255,0.5);
-	--borderColor: #ccc;
-	--borderRadius: 4px;
-	--drawerTransition: 0.5s;
-	--itemHeaderHeight: 50px;
-	--fontSize: 24px;
-	--lineHeight: 36px;
-	--iconWidth: 2vw;
 }
 
 .tapestrypage main {
@@ -90,11 +67,12 @@
 	margin-right: var(--navGap);
 }
 
-.scroller > div:not(.react-transform-wrapper,.tools) {
+.scroller > div:not(.react-transform-wrapper,.tools,.panbuttons) {
 	z-index: -1 !important;
 }
 
 .tapestrypage h1 {
+	background-color: var(--background-body);
 	height: var(--headerHeight);
 	display: flex;
 	flex-direction: row;
@@ -601,4 +579,50 @@ nav.commentdrawer > div > button, nav.commentdrawer > div > form {
 	text-align: center;
 	font-size: 200%;
 	margin:  100px auto;
+}
+
+/* pan buttons */
+
+.panbuttons {
+	position: fixed;
+	left: 10px;
+	bottom: 0;
+	display: grid;
+}
+
+.panbuttons > button {
+	z-index:1 !important;
+	padding: 10px;
+	min-width: 38px;
+	border-radius: 19px;
+	transition: 0.25s;
+}
+
+.panbuttons .up, .panbuttons .down {
+	grid-column: 2;
+}
+
+.panbuttons .left {
+	grid-column: 1;
+}
+
+.panbuttons .right {
+	grid-column: 3;
+}
+
+.panbuttons .fullscreen {
+	grid-column: 2;
+	grid-row: 2;
+}
+
+.panbuttons button:focus {
+	box-shadow: none;
+}
+
+.panbuttons button.disabled, .panbuttons button.disabled:hover {
+	color: gray;
+}
+
+.panbuttons button:hover {
+	color: var(--focusColor);
 }

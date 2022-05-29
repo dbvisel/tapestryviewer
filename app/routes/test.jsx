@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useOutletContext } from "remix";
+import Config from "~/config.js";
+
+const { baseUrl } = Config;
 
 const TestPage = () => {
   const { tapestries } = useOutletContext();
@@ -81,7 +84,7 @@ const TestPage = () => {
             fontSize: "20px",
             borderRadius: "5px",
           }}
-        >{`<iframe src="https://tapestryviewer.netlify.app/tapestry/${slug}" width="${width}px" height="${height}px" allowfullscreen />`}</p>
+        >{`<iframe src="${baseUrl}/tapestry/${slug}" width="${width}px" height="${height}px" allowfullscreen />`}</p>
       </div>
     </div>
   );

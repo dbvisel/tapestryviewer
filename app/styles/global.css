@@ -1,7 +1,36 @@
-body { 
+:root {
+	--black: #111;
+	--navWidth: 200px;
+	--commentWidth: 250px;
+	--navGap: 10px;
+	--commentGap: 25px;
+	--gridUnitSize: 200px;
+	--gridGap: 20px;
+	--textPadding: 10px;
+	--headerHeight: 50px;
+	--headerBackground: #333;
+	--headerColor: #ccc;
+	--textFrameColor: #333;
+	--textFrameBackground: #ccc;
+	--tapestryLinkFrameColor: #333;
+	--tapestryLinkFrameBackground: magenta;
+	--focusColor: orange;
+	--iconColor: rgba(255,255,255,0.5);
+	--borderColor: #ccc;
+	--borderRadius: 4px;
+	--drawerTransition: 0.5s;
+	--itemHeaderHeight: 50px;
+	--fontSize: 24px;
+	--lineHeight: 36px;
+	--iconWidth: 2vw;
 	--outsideMargin: 10px;
+	--button-base: #202b38;
+}
+
+body { 
 	max-width: 100%;
 	line-height: 1.5;
 	margin: 0;
 	padding: 0;
+	background-color: var(--black);
 }

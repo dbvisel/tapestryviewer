@@ -347,7 +347,9 @@ const TapestryComponent = ({
                       viewportRef={viewportRef}
                       updateXarrow={updateXarrow}
                       items={tapestry.items}
+                      slug={tapestry.slug}
                       setTransform={setTransform}
+                      isIframe={isIframe}
                     />
                   </Fragment>
                 );
@@ -363,30 +365,6 @@ const TapestryComponent = ({
           focused={focused}
           tapestry={tapestry}
         />
-      )}
-      {isIframe || !useShareIcon ? null : (
-        <a
-          href="/#"
-          className="shareicon"
-          onClick={(e) => {
-            e.preventDefault();
-            const myCode = `<iframe src="https://tapestryviewer.netlify.app/tapestry/${tapestry.slug}" width="1024px" height="768px" allowfullscreen />`;
-            console.log(myCode);
-            navigator.permissions
-              .query({ name: "clipboard-write" })
-              .then((result) => {
-                if (result.state == "granted" || result.state == "prompt") {
-                  navigator.clipboard.writeText(myCode);
-                  // TODO: fix this.
-                  // window.alert(
-                  //   `To embed this tapestry in an iframe, use this:\n\n${myCode}\n\nIt's in your clipboard now.`
-                  // );
-                }
-              });
-          }}
-        >
-          <Share style={{ width: "24px", height: "24px" }} />
-        </a>
       )}
     </Xwrapper>
   );
