@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import useKeypress from "react-use-keypress";
+import { ZoomOut, ZoomIn } from "@styled-icons/boxicons-regular";
 import { getTransformSetting } from "~/utils/tapestryUtils";
 
 const TapestryTools = ({
@@ -155,7 +156,7 @@ const TapestryTools = ({
           zoomIn();
         }}
       >
-        +
+        <ZoomIn />
       </button>
       <button
         onClick={(e) => {
@@ -163,7 +164,7 @@ const TapestryTools = ({
           zoomOut();
         }}
       >
-        -
+        <ZoomOut />
       </button>
       <button
         onClick={(e) => {

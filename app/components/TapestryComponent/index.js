@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { FaShareAlt } from "react-icons/fa";
+import { Share } from "@styled-icons/boxicons-regular";
 import TapestryItem from "~/components/TapestryItem";
 import CommentDrawer from "~/components/CommentDrawer";
 import TapestryTools from "./TapestryTools";
@@ -13,7 +13,7 @@ import {
   getTransformSetting,
 } from "~/utils/tapestryUtils";
 
-const { useComments, zoomingMode, zoomWholeTapestry } = Config;
+const { useComments, zoomingMode, zoomWholeTapestry, useShareIcon } = Config;
 
 if (typeof document === "undefined") {
   React.useLayoutEffect = React.useEffect;
@@ -364,7 +364,7 @@ const TapestryComponent = ({
           tapestry={tapestry}
         />
       )}
-      {isIframe || true ? null : (
+      {isIframe || !useShareIcon ? null : (
         <a
           href="/#"
           className="shareicon"
@@ -385,7 +385,7 @@ const TapestryComponent = ({
               });
           }}
         >
-          <FaShareAlt style={{ width: "24px", height: "24px" }} />
+          <Share style={{ width: "24px", height: "24px" }} />
         </a>
       )}
     </Xwrapper>

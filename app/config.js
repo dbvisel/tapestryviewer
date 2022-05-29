@@ -3,6 +3,7 @@ const Config = {
   zoomingMode: true,
   zoomWholeTapestry: true,
   hideThumbnail: true,
+  useShareIcon: false,
 };
 
 export default Config;
