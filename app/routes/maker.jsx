@@ -547,6 +547,7 @@ export default function MakerPage() {
               initialX: initialX,
               initialY: initialY,
             }}
+            setTitle={() => {}}
           />
         </div>
       ) : null}

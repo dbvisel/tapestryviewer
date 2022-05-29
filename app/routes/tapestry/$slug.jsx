@@ -74,6 +74,7 @@ export default function TapestryPage() {
   const [showDetails, setShowDetails] = useState(false);
   const [version, setVersion] = useState(tapestry);
   const handle = useFullScreenHandle();
+  const [title, setTitle] = useState("");
 
   const figureOutVersion = () => {
     for (let i = 0; i < tapestry.history.length; i++) {
@@ -99,7 +100,7 @@ export default function TapestryPage() {
     // console.log("tapestry changed!", tapestry);
     setVersion(tapestry);
   }, [tapestry]);
-
+  console.log(title);
   return (
     <Fragment>
       {isFullScreen ? null : (
@@ -112,6 +113,13 @@ export default function TapestryPage() {
                 rel="noopener noreferrer"
               >
                 {tapestry.title}
+                {title ? (
+                  <span style={{ fontWeight: "normal", fontStyle: "italic" }}>
+                    : {title}
+                  </span>
+                ) : (
+                  ""
+                )}
               </a>{" "}
               <a
                 href="/#"
@@ -124,7 +132,16 @@ export default function TapestryPage() {
               </a>
             </Fragment>
           ) : (
-            tapestry.title
+            <Fragment>
+              {tapestry.title}
+              {title ? (
+                <span style={{ fontWeight: "normal", fontStyle: "italic" }}>
+                  : {title}
+                </span>
+              ) : (
+                ""
+              )}
+            </Fragment>
           )}
           <span
             style={{
@@ -177,6 +194,7 @@ export default function TapestryPage() {
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
             noCommentDrawer={noCommentDrawer}
+            setTitle={setTitle}
           />
         </FullScreen>
       )}

@@ -35,6 +35,7 @@ const TapestryComponent = ({
   isFullScreen,
   setFullScreen,
   noCommentDrawer,
+  setTitle,
 }) => {
   let navigate = useNavigate();
 
@@ -127,6 +128,12 @@ const TapestryComponent = ({
   }, []);
 
   useEffect(() => {
+    if (focused > -1) {
+      console.log(tapestry.items[focused].title);
+      setTitle(tapestry.items[focused].title);
+    } else {
+      setTitle("");
+    }
     if (
       focused > -1 &&
       transformerRef.current &&

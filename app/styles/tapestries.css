@@ -90,6 +90,7 @@
 	color: #333;
 	font-size: 24px;
 	padding: 0 10px;
+	white-space: nowrap;
 }
 
 .tapestrypage h1.iframe span {
