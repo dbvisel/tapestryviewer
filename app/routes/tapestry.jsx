@@ -61,7 +61,7 @@ export default function TapestryOverview() {
       </main>
     </div>
   ) : (
-    <div className="tapestrypage"></div>
+    <div className="tapestrypage">
       {useTapestrySelector ? (
         <TapestryNav filteredTapestries={filteredTapestries} />
       ) : null}
