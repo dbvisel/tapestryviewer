@@ -4,7 +4,7 @@ import { ZoomOut, ZoomIn, Share } from "@styled-icons/boxicons-regular";
 import { getTransformSetting } from "~/utils/tapestryUtils";
 import Config from "~/config";
 
-const { useShareIcon, baseUrl } = Config;
+const { useShareIcon, baseUrl, usePanButtons } = Config;
 
 const TapestryTools = ({
   focused,
@@ -128,53 +128,55 @@ const TapestryTools = ({
 
   return (
     <Fragment>
-      <div className="panbuttons">
-        <button
-          className="up"
-          onClick={(e) => {
-            e.stopPropagation();
-            panTapestry(0, 1, 0);
-          }}
-        >
-          ↑
-        </button>
-        <button
-          className="left"
-          onClick={(e) => {
-            e.stopPropagation();
-            panTapestry(1, 0, 0);
-          }}
-        >
-          ←
-        </button>
-        <button
-          className="right"
-          onClick={(e) => {
-            e.stopPropagation();
-            panTapestry(-1, 0, 0);
-          }}
-        >
-          →
-        </button>
-        <button
-          className="down"
-          onClick={(e) => {
-            e.stopPropagation();
-            panTapestry(0, -1, 0);
-          }}
-        >
-          ↓
-        </button>
-        <button
-          className="fullscreen"
-          onClick={(e) => {
-            e.stopPropagation();
-            setFullScreen(!isFullScreen);
-          }}
-        >
-          {isFullScreen ? "↙" : "↗"}
-        </button>
-      </div>
+      {usePanButtons ? (
+        <div className="panbuttons">
+          <button
+            className="up"
+            onClick={(e) => {
+              e.stopPropagation();
+              panTapestry(0, 1, 0);
+            }}
+          >
+            ↑
+          </button>
+          <button
+            className="left"
+            onClick={(e) => {
+              e.stopPropagation();
+              panTapestry(1, 0, 0);
+            }}
+          >
+            ←
+          </button>
+          <button
+            className="right"
+            onClick={(e) => {
+              e.stopPropagation();
+              panTapestry(-1, 0, 0);
+            }}
+          >
+            →
+          </button>
+          <button
+            className="down"
+            onClick={(e) => {
+              e.stopPropagation();
+              panTapestry(0, -1, 0);
+            }}
+          >
+            ↓
+          </button>
+          <button
+            className="fullscreen"
+            onClick={(e) => {
+              e.stopPropagation();
+              setFullScreen(!isFullScreen);
+            }}
+          >
+            {isFullScreen ? "↙" : "↗"}
+          </button>
+        </div>
+      ) : null}
       <div
         className="tools"
         style={{
@@ -183,6 +185,17 @@ const TapestryTools = ({
           })`,
         }}
       >
+        {usePanButtons ? null : (
+          <button
+            className="fullscreen"
+            onClick={(e) => {
+              e.stopPropagation();
+              setFullScreen(!isFullScreen);
+            }}
+          >
+            {isFullScreen ? "↙" : "↗"}
+          </button>
+        )}
         {focused === -1 ? null : (
           <Fragment>
             <button

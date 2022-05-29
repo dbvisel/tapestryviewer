@@ -3,6 +3,9 @@ import { Outlet, Link, useOutletContext } from "remix";
 import tapestryStyles from "~/styles/tapestries.css";
 import navStyles from "~/styles/tapestrynav.css";
 import { inIframe } from "~/utils/utils.mjs";
+import Config from "~/config.js";
+
+const { useTapestrySelector } = Config;
 
 export const links = () => {
   return [
@@ -58,8 +61,10 @@ export default function TapestryOverview() {
       </main>
     </div>
   ) : (
-    <div className="tapestrypage">
-      <TapestryNav filteredTapestries={filteredTapestries} />
+    <div className="tapestrypage"></div>
+      {useTapestrySelector ? (
+        <TapestryNav filteredTapestries={filteredTapestries} />
+      ) : null}
       <main>
         <Outlet context={{ isIframe: false }} />
       </main>
