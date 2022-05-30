@@ -10,32 +10,37 @@ const WaybackMachineFrame = ({ title, url, hideTitle }) => {
     .split(/\/\d+\//)
     .join("");
 
-  useEffect(async () => {
-    // console.log("querying for dates!");
-    // console.log(deslashed);
-    await fetch(`/.netlify/functions/memento`, {
-      method: "POST",
-      body: JSON.stringify({ url: deslashed }),
-    })
-      .then((res) => res.json())
-      .then(async (r) => {
-        // r is an array of dates
-        // console.log(r);
-        setDates(r);
-        // console.log(r);
+  useEffect(() => {
+    const getDates = async () => {
+      // console.log("querying for dates!");
+      // console.log(deslashed);
+      await fetch(`/.netlify/functions/memento`, {
+        method: "POST",
+        body: JSON.stringify({ url: deslashed }),
       })
-      .catch((e) => {
-        console.log("Can't find dates.");
-        console.error(e);
-      });
-  }, []);
+        .then((res) => res.json())
+        .then(async (r) => {
+          // r is an array of dates
+          // console.log(r);
+          setDates(r);
+          // console.log(r);
+        })
+        .catch((e) => {
+          console.log("Can't find dates.");
+          console.error(e);
+        });
+    };
+    getDates();
+  }, [deslashed]);
+
   return (
     <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
       {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
       <div>
-        <img src={throbber} />
+        <img src={throbber} alt={"Loading..."} />
       </div>
       <iframe
+        title={title}
         src={thisUrl}
         frameBorder="0"
         webkitallowfullscreen="true"

@@ -3,6 +3,7 @@ const ImageFrame = ({ title, url, hideTitle }) => (
     {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
     <iframe
       src={url}
+      title={title}
       frameBorder="0"
       webkitallowfullscreen="true"
       mozallowfullscreen="true"

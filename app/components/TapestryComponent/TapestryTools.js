@@ -20,7 +20,7 @@ const TapestryTools = ({
   items,
   setTransform,
   slug,
-  isIframe,
+  isIframe, // would be nice to reduce these props!
 }) => {
   const goPrev = () => {
     if (focused > -1) {

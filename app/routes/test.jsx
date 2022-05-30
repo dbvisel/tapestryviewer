@@ -4,7 +4,7 @@ import Config from "~/config.js";
 
 const { baseUrl } = Config;
 
-const TestPage = () => {
+const EmbedPage = () => {
   const { tapestries } = useOutletContext();
   const filteredTapestries = tapestries.filter((x) => !x.hideOnFront);
   const [width, setWidth] = useState(1024);
@@ -16,7 +16,12 @@ const TestPage = () => {
     <div style={{ margin: "20px", display: "flex", justifyContent: "center" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <h1>Embed a tapestry as an iframe</h1>
-        <iframe src={`/tapestry/${slug}`} width={width} height={height} />
+        <iframe
+          title={slug}
+          src={`/tapestry/${slug}`}
+          width={width}
+          height={height}
+        />
         <h2>Choose the tapestry you'd like to include and the size:</h2>
         <p
           style={{
@@ -84,9 +89,9 @@ const TestPage = () => {
             fontSize: "20px",
             borderRadius: "5px",
           }}
-        >{`<iframe src="${baseUrl}/tapestry/${slug}" width="${width}px" height="${height}px" allowfullscreen />`}</p>
+        >{`<iframe title="${slug}" src="${baseUrl}/tapestry/${slug}" width="${width}px" height="${height}px" allowfullscreen />`}</p>
       </div>
     </div>
   );
 };
-export default TestPage;
+export default EmbedPage;

@@ -7,6 +7,7 @@ const TapestryIframe = ({ url }) => (
       mozallowfullscreen="true"
       allowFullScreen
       loading="lazy"
+      title={url}
     />
   </div>
 );

@@ -14,6 +14,7 @@ const AudioControllerFrame = ({
     if (a.time < b.time) return -1;
     return 0;
   });
+  console.log("Going to: ", currentId);
   return (
     <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
       {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}

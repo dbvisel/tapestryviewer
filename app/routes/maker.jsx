@@ -257,10 +257,6 @@ export default function MakerPage() {
     setSegments([...segments, thisItem]);
   };
 
-  const addMultipleItems = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <div className="makerpage">
       <h3>

@@ -94,7 +94,7 @@ export default function TapestryPage() {
       // console.log("isFullScreen set to false");
       handle.exit();
     }
-  }, [isFullScreen]);
+  }, [isFullScreen, handle]);
 
   useEffect(() => {
     // console.log("tapestry changed!", tapestry);

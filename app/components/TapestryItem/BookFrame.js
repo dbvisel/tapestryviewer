@@ -10,6 +10,7 @@ const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
       {clicked || !thumbnail || hideThumbnail ? (
         <iframe
           src={url}
+          title={title}
           frameBorder="0"
           webkitallowfullscreen="true"
           mozallowfullscreen="true"
@@ -19,6 +20,7 @@ const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
       ) : (
         <img
           src={thumbnail}
+          alt={title}
           className="thumbnail"
           onClick={() => setClicked(true)}
         />

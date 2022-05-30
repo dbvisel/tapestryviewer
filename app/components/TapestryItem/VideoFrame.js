@@ -15,10 +15,12 @@ const VideoFrame = ({ title, url, thumbnail, hideTitle }) => {
           mozallowfullscreen="true"
           allowFullScreen
           loading="lazy"
+          title={title}
         />
       ) : (
         <img
           src={thumbnail}
+          alt={title}
           className="thumbnail"
           onClick={() => setClicked(true)}
         />

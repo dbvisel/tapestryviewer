@@ -16,36 +16,42 @@ const AddCollection = ({ setAddCollection, segments, setSegments, id }) => {
   const [itemYOffset, setItemYOffset] = useState(0);
   const initialSegments = segments.filter((x) => x.recent !== id);
 
-  useEffect(async () => {
-    if (url) {
-      // TODO: query IA to get URL, if there are results, set itemList to URLs
-      if (url.indexOf("archive.org") < 0 || url.split("/details/").length < 2) {
-        setMessage("This is not a valid collection link!");
-      } else {
-        const collectionId = url.split("/details/")[1].split("/")[0];
-        // NOTE: this only finds collection IDs in the form "archive.org/details/collectionId/"
-        // If there are other types, it won't find them!
-        setMessage(`Looking for a collection named "${collectionId}"...`);
-        await fetch(`/.netlify/functions/getcollection`, {
-          method: "POST",
-          body: JSON.stringify({ url: collectionId }),
-        })
-          .then((res) => res.json())
-          .then(async (r) => {
-            if (r.length) {
-              setItemList(r.map((x) => `https://archive.org/embed/${x}`));
-              setMessage(`Found ${r.length} item${r.length > 1 ? "s" : ""}!`);
-            } else {
-              setMessage("No results!");
-            }
+  useEffect(() => {
+    const checkIaResource = async () => {
+      if (url) {
+        // TODO: query IA to get URL, if there are results, set itemList to URLs
+        if (
+          url.indexOf("archive.org") < 0 ||
+          url.split("/details/").length < 2
+        ) {
+          setMessage("This is not a valid collection link!");
+        } else {
+          const collectionId = url.split("/details/")[1].split("/")[0];
+          // NOTE: this only finds collection IDs in the form "archive.org/details/collectionId/"
+          // If there are other types, it won't find them!
+          setMessage(`Looking for a collection named "${collectionId}"...`);
+          await fetch(`/.netlify/functions/getcollection`, {
+            method: "POST",
+            body: JSON.stringify({ url: collectionId }),
           })
-          .catch((e) => {
-            console.error("Error querying Internet Archive: ", e);
-            console.log("URL: ", theUrl);
-            setMessage("Error querying Internet Archive!");
-          });
+            .then((res) => res.json())
+            .then(async (r) => {
+              if (r.length) {
+                setItemList(r.map((x) => `https://archive.org/embed/${x}`));
+                setMessage(`Found ${r.length} item${r.length > 1 ? "s" : ""}!`);
+              } else {
+                setMessage("No results!");
+              }
+            })
+            .catch((e) => {
+              console.error("Error querying Internet Archive: ", e);
+              console.log("URL: ", url);
+              setMessage("Error querying Internet Archive!");
+            });
+        }
       }
-    }
+    };
+    checkIaResource();
   }, [url]);
 
   // console.log(itemList);

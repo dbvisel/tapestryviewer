@@ -1,6 +1,6 @@
 # tapestryviewer
 
-This site is made using [Remix](https://remix.run) and React. It's set up fordeployment on Netlify, and you can find one [there](https://tapestryviewer.netlify.app).
+This site is made using [Remix](https://remix.run) and React. It's set up for deployment on Netlify, and you can find one [there](https://tapestryviewer.netlify.app). Other deployments are possible!
 
 To build, run:
 
@@ -52,12 +52,13 @@ For items, **type** can currently be:
  - **video**, an Internet Archive video; if this is chosen, set _url_ to the video's URL. The form _https://archive.org/embed/xxxxxxxx_ works pretty well.
  - **tapestry**, another tapestry; if this is chosen, set _url_ to the slug of another tapestry, making sure that that slug is unique.
  - **web**, a Wayback Machine embed; if this is chosen, set _url_ to the Wayback Machine URL. The form _https://web.archive.org/web/datestamp/url_ works pretty well.
+ - [TODO: there are more types! Fill this out.]
 
 ### Grids
 
 Items are laid out by grids. The grid is made of squares and gaps between the squares. By default, each item is 1 unit wide and 1 unit high; the default start point is (1,1). The grid does not currently attempt to deal with overlaps, which are a possiblity when adding with a Google Sheet. The default grid is 200px x 200px, with a gap of 20px between squares. To change this, set **gridUnitSize** and **gridGap** to something different for the tapestry.
 
-If a tapestry's grid is larger than the viewport, it grows scrollbars. Because of the way CSS grids work, you can't currently have negative _x_ and _y_ values (though this could theoretically be accommodated).
+Because of the way CSS grids work, you can't currently have negative _x_ and _y_ values (though this could theoretically be accommodated).
 
 To put an item at a specific point in the grid, set _x_ and _y_ to the desired values; the default for both is 1. If _width_ and _height_ are not set, they also default to 1.
 
@@ -65,29 +66,36 @@ To put an item at a specific point in the grid, set _x_ and _y_ to the desired v
 
 To make a link from one item to another item, put the linked item's ID in the **linksTo** field of the linking item. You can link to multiple items; separate them with commas: _item1,item2_.
 
+## Deployment
+
+There are some configuration settings in `config.js` – base URL is most important for deployment, but also some flags that can change behavior.
+
 ## TODO:
 
 ### important
 
 
  - click on item to focus on it, which brings it to full-screen; object is inert until fullscreen.
- - extract links from Wikipedia page, make items out of it?
+   - do this as a mode? Bob likes clicking through to play movies
+   - shift-clicking to click through? 
  - layers
- - shift-clicking to click through? 
  - resize in viewer?
+   - can't really do this inside of grid context?
 
  - move preview to iframe? Can we do this?
  - BUG: why can't we scroll text fields?
-   - this is connected to the zoom component
-   - maybe add more onMouseDown things?
- - take out arrows if focused item doesn't have connections?
- - fix the arrows
+ - take out arrow buttons if focused item doesn't have connections?
 
  - it zooms too much
    - maybe think about using this library: https://github.com/retyui/react-quick-pinch-zoom  
  - can we visually annotate images of pages of books?
  - make a demo with comments
  - work through mark/jim's comments
+
+### new potential content types
+ - flickr image frame
+ - extract links from Wikipedia page, make items out of it?
+ - video frame + caption, image + caption
 
 ### mildly important
 
@@ -99,6 +107,7 @@ To make a link from one item to another item, put the linked item's ID in the **
 
 ### think about
 
+ - make a version of this which works with SQLite rather than Google Sheets
  - rich text editor: maybe Lexical: https://lexical.dev (though that's still new!)
  - tv archive: right now I can't get captions because they're set to private
  - tree navigation

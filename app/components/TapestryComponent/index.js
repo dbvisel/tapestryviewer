@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { Share } from "@styled-icons/boxicons-regular";
 import TapestryItem from "~/components/TapestryItem";
 import CommentDrawer from "~/components/CommentDrawer";
 import TapestryTools from "./TapestryTools";
@@ -13,7 +12,7 @@ import {
   getTransformSetting,
 } from "~/utils/tapestryUtils";
 
-const { useComments, zoomingMode, zoomWholeTapestry, useShareIcon } = Config;
+const { useComments, zoomingMode, zoomWholeTapestry } = Config;
 
 if (typeof document === "undefined") {
   React.useLayoutEffect = React.useEffect;
@@ -114,18 +113,23 @@ const TapestryComponent = ({
       // console.log("scale: ", scale);
       setInitialScale(scale);
     }
-  }, [initialScale]);
+  }, [initialScale, tapestry]);
 
-  useEffect(async () => {
-    // console.log("Building comment count!");
-    if (tapestry.id === "preview") {
-      setLoading(false);
-      return;
+  useEffect(() => {
+    const buildCommentCount = async () => {
+      // console.log("Building comment count!");
+      if (tapestry.id === "preview") {
+        setLoading(false);
+        return;
+      }
+      const hashList = tapestry.items.map((item) => item.hash);
+      await getComments(hashList);
+      // await updateXarrow();
+    };
+    if (useComments) {
+      buildCommentCount();
     }
-    const hashList = tapestry.items.map((item) => item.hash);
-    await getComments(hashList);
-    // await updateXarrow();
-  }, []);
+  }, [tapestry, setTitle]);
 
   useEffect(() => {
     if (focused > -1) {
@@ -187,7 +191,7 @@ const TapestryComponent = ({
         // width: calc(100% * calc (1 / zoom))
       }
     }
-  }, [focused]);
+  }, [focused, setTitle, tapestry]);
 
   return (
     <Xwrapper>

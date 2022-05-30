@@ -52,7 +52,7 @@ export default function TapestryOverview() {
 
   React.useEffect(() => {
     setIsIframe(inIframe());
-  });
+  }, [setIsIframe]);
 
   return isIframe ? (
     <div className="tapestrypage">

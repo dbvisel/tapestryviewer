@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import {
   Comment,
@@ -203,4 +203,4 @@ const TapestryItem = ({
   );
 };
 
-export default React.memo(TapestryItem);
+export default memo(TapestryItem);

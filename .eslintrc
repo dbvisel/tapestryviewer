@@ -1,0 +1,7 @@
+{
+	"env": {
+		"node": true,
+		"commonjs": true
+},
+"extends": "@remix-run/eslint-config"
+}

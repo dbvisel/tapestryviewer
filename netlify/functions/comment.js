@@ -180,6 +180,7 @@ exports.handler = async (event, context) => {
     let temp = {};
     sheet.headerValues.map((header) => {
       temp[header] = row[header];
+      return null;
     });
     return temp;
   }

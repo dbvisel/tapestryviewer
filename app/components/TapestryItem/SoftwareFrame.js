@@ -8,6 +8,7 @@ const SoftwareFrame = ({ title, url, hideTitle }) => (
       mozallowfullscreen="true"
       allowFullScreen
       loading="lazy"
+      title={title}
     />
   </div>
 );

@@ -251,8 +251,9 @@ exports.handler = async (event, context) => {
    */
   function serializeRow(row) {
     let temp = {};
-    sheet.headerValues.map((header) => {
+    tapestrySheet.headerValues.map((header) => {
       temp[header] = row[header];
+      return null;
     });
     return temp;
   }

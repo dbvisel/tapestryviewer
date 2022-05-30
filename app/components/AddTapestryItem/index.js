@@ -89,140 +89,149 @@ const AddTapestryItem = ({
     hideTitle,
     thumbnail,
     controlList,
+    itemData,
+    setItemData,
   ]);
 
-  useEffect(async () => {
-    if (type === "iaresource" && url) {
-      // We could be doing this for any website? pulling in the closest Wayback Machine URL?
-      if (
-        url.includes("https://archive.org/") ||
-        url.includes("http://archive.org/") ||
-        url.includes("https://www.archive.org/") ||
-        url.includes("http://www.archive.org")
-      ) {
-        console.log("in this loop");
-        const newUrl = url
-          .replace("archive.org/details/", "archive.org/embed/")
-          .replace("archive.org/stream/", "archive.org/embed/")
-          .replace("http://", "https://")
-          .replace("www.archive.org", "archive.org");
-        const splitUrl = newUrl.split("/embed/");
-        const metadataUrl =
-          splitUrl[0] + "/metadata/" + splitUrl[1].split("/")[0];
-        setMessage("Querying Internet Archive . . .");
-        // console.log(newUrl, metadataUrl);
-        setUrl(newUrl);
-        // TODO: This is probably not working in production!
-        await fetch(metadataUrl, {
-          method: "GET",
-        })
-          .then((res) => res.json())
-          .then(async (r) => {
-            console.log(r);
-            console.log(r.files.filter((x) => !x.private));
-            if (r.metadata.title) {
-              setTitle(r.metadata.title);
-            }
-            if (r.metadata.mediatype === "audio") {
-              const mp3List = r.files.filter(
-                (x) => x.name.indexOf(".mp3") > -1
-              );
-              if (mp3List.length) {
-                const firstMp3 = mp3List[0];
-                setDirectAudioUrl(`https://${r.d1}${r.dir}/${firstMp3.name}`);
-                setThumbnail(`https://${r.d1}${r.dir}/${firstMp3.name}`);
-              }
-              setType("audio");
-            }
-            if (r.metadata.mediatype === "movies") {
-              // const captionFile = r.files.filter(
-              //   (x) => x.format === "Closed Caption Text" && !x.private
-              // );
-              // // TODO: this doesn't work because of CORS!
-              // if (captionFile.length) {
-              //   // TODO: fetch caption file
-              //   console.log(
-              //     `Fetching https://${r.d1}${r.dir}/${captionFile[0].name}`
-              //   );
-              //   await fetch(`https://${r.d1}${r.dir}/${captionFile[0].name}`, {
-              //     method: "GET",
-              //     mode: "cors",
-              //   })
-              //     .then(async (r) => {
-              //       console.log(r);
-              //       setContent(r);
-              //     })
-              //     .catch((e) => {
-              //       setMessage("There was an error, check the log");
-              //       console.error(e);
-              //     });
-              // }
-
-              // Could take this as a thumbnail (does this always work?):
-              // though to do this we would need to make sure this works for everything.
-              // and we would need to have a "thumbnail" as part of the itemData.
-
-              const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
-              // (this is wrong for tv archive)
-              setThumbnail(thumbnail);
-              console.log("Possible thumbnail: ", thumbnail);
-              // this fails for TV archive clips.
-              setMaxLength(r.files[1]?.length || 0);
-              console.log("Possible maxLength: ", maxLength);
-              setType("video");
-            }
-            if (r.metadata.mediatype === "texts") {
-              const pageCount = parseInt(r.metadata.imagecount, 10);
-              setMaxPageCount(pageCount);
-              const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
-              setThumbnail(thumbnail);
-              const page = getPage(newUrl);
-              const mode = getMode(newUrl);
-              console.log(thumbnail, page, pageCount, mode);
-
-              // in URL, there's /page/n1/mode/1up
-
-              setType("book");
-            }
-            if (r.metadata.mediatype === "image") {
-              setType("image");
-            }
-            if (r.metadata.mediatype === "software") {
-              setType("software");
-            }
+  useEffect(() => {
+    const checkIaResource = async () => {
+      if (type === "iaresource" && url) {
+        // We could be doing this for any website? pulling in the closest Wayback Machine URL?
+        if (
+          url.includes("https://archive.org/") ||
+          url.includes("http://archive.org/") ||
+          url.includes("https://www.archive.org/") ||
+          url.includes("http://www.archive.org")
+        ) {
+          console.log("in this loop");
+          const newUrl = url
+            .replace("archive.org/details/", "archive.org/embed/")
+            .replace("archive.org/stream/", "archive.org/embed/")
+            .replace("http://", "https://")
+            .replace("www.archive.org", "archive.org");
+          const splitUrl = newUrl.split("/embed/");
+          const metadataUrl =
+            splitUrl[0] + "/metadata/" + splitUrl[1].split("/")[0];
+          setMessage("Querying Internet Archive . . .");
+          // console.log(newUrl, metadataUrl);
+          setUrl(newUrl);
+          // TODO: This is probably not working in production!
+          await fetch(metadataUrl, {
+            method: "GET",
           })
-          .catch((e) => {
-            setMessage("There was an error, check the log");
-            console.error(e);
-          });
-      } else {
-        console.log("this is not archive.org media");
-        if (url.includes("https://web.archive.org/web")) {
-          const siteToSearch = url.split("/web.archive.org/web")[1];
-          if (siteToSearch) {
-            const deslashed = siteToSearch.split(/\/\d+\//).join(""); //.split("/").filter(Boolean).join("/"); // this removes trailing slashes
-            // console.log(deslashed);
-            if (deslashed) {
-              // const theUrl = `http://web.archive.org/web/timemap/json/${deslashed}`;
-              // const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
-              // console.log(theUrl);
-              setMessage("Querying Internet Archive . . .");
-              await fetch(`/.netlify/functions/memento`, {
-                method: "POST",
-                body: JSON.stringify({ url: deslashed }),
-              })
-                .then((res) => res.json())
-                .then(async (r) => {
-                  // r is an array of dates
-                  // console.log(r);
-                  setDates(r);
-                  // console.log(r);
-                })
-                .catch((e) => {
-                  console.error(e);
-                });
+            .then((res) => res.json())
+            .then(async (r) => {
+              console.log(r);
+              console.log(r.files.filter((x) => !x.private));
+              if (r.metadata.title) {
+                setTitle(r.metadata.title);
+              }
+              if (r.metadata.mediatype === "audio") {
+                const mp3List = r.files.filter(
+                  (x) => x.name.indexOf(".mp3") > -1
+                );
+                if (mp3List.length) {
+                  const firstMp3 = mp3List[0];
+                  setDirectAudioUrl(`https://${r.d1}${r.dir}/${firstMp3.name}`);
+                  setThumbnail(`https://${r.d1}${r.dir}/${firstMp3.name}`);
+                }
+                setType("audio");
+              }
+              if (r.metadata.mediatype === "movies") {
+                // const captionFile = r.files.filter(
+                //   (x) => x.format === "Closed Caption Text" && !x.private
+                // );
+                // // TODO: this doesn't work because of CORS!
+                // if (captionFile.length) {
+                //   // TODO: fetch caption file
+                //   console.log(
+                //     `Fetching https://${r.d1}${r.dir}/${captionFile[0].name}`
+                //   );
+                //   await fetch(`https://${r.d1}${r.dir}/${captionFile[0].name}`, {
+                //     method: "GET",
+                //     mode: "cors",
+                //   })
+                //     .then(async (r) => {
+                //       console.log(r);
+                //       setContent(r);
+                //     })
+                //     .catch((e) => {
+                //       setMessage("There was an error, check the log");
+                //       console.error(e);
+                //     });
+                // }
 
-              setType("waybackmachine"); // this could be a special type?
+                // Could take this as a thumbnail (does this always work?):
+                // though to do this we would need to make sure this works for everything.
+                // and we would need to have a "thumbnail" as part of the itemData.
+
+                const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
+                // (this is wrong for tv archive)
+                setThumbnail(thumbnail);
+                console.log("Possible thumbnail: ", thumbnail);
+                // this fails for TV archive clips.
+                setMaxLength(r.files[1]?.length || 0);
+                console.log("Possible maxLength: ", maxLength);
+                setType("video");
+              }
+              if (r.metadata.mediatype === "texts") {
+                const pageCount = parseInt(r.metadata.imagecount, 10);
+                setMaxPageCount(pageCount);
+                const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
+                setThumbnail(thumbnail);
+                const page = getPage(newUrl);
+                const mode = getMode(newUrl);
+                console.log(thumbnail, page, pageCount, mode);
+
+                // in URL, there's /page/n1/mode/1up
+
+                setType("book");
+              }
+              if (r.metadata.mediatype === "image") {
+                setType("image");
+              }
+              if (r.metadata.mediatype === "software") {
+                setType("software");
+              }
+            })
+            .catch((e) => {
+              setMessage("There was an error, check the log");
+              console.error(e);
+            });
+        } else {
+          console.log("this is not archive.org media");
+          if (url.includes("https://web.archive.org/web")) {
+            const siteToSearch = url.split("/web.archive.org/web")[1];
+            if (siteToSearch) {
+              const deslashed = siteToSearch.split(/\/\d+\//).join(""); //.split("/").filter(Boolean).join("/"); // this removes trailing slashes
+              // console.log(deslashed);
+              if (deslashed) {
+                // const theUrl = `http://web.archive.org/web/timemap/json/${deslashed}`;
+                // const theUrl = `http://archive.org/wayback/available?url=${deslashed}`;
+                // console.log(theUrl);
+                setMessage("Querying Internet Archive . . .");
+                await fetch(`/.netlify/functions/memento`, {
+                  method: "POST",
+                  body: JSON.stringify({ url: deslashed }),
+                })
+                  .then((res) => res.json())
+                  .then(async (r) => {
+                    // r is an array of dates
+                    // console.log(r);
+                    setDates(r);
+                    // console.log(r);
+                  })
+                  .catch((e) => {
+                    console.error(e);
+                  });
+
+                setType("waybackmachine"); // this could be a special type?
+              } else {
+                console.error("Weird Wayback Machine URL: ", url);
+                setType("web");
+                // if we get here, there's something off about the URL
+                return;
+              }
             } else {
               console.error("Weird Wayback Machine URL: ", url);
               setType("web");
@@ -230,60 +239,58 @@ const AddTapestryItem = ({
               return;
             }
           } else {
-            console.error("Weird Wayback Machine URL: ", url);
-            setType("web");
-            // if we get here, there's something off about the URL
-            return;
-          }
-        } else {
-          if (url.indexOf("web.archive.org") < 0) {
-            console.log(`this is not a wayback machine url: ${url}`);
-            console.log("Querying the Wayback Machine . . .");
-            const urlReplaced = url
-              .replace("https://", "")
-              .replace("http://", "");
-            await fetch(`/.netlify/functions/checkwayback`, {
-              method: "POST",
-              body: JSON.stringify({ url: urlReplaced }),
-            })
-              .then((res) => res.json())
-              .then(async (r) => {
-                if (r.indexOf("web.archive.org") > -1) {
-                  console.log("repsonse!", r);
-                  setUrl(r);
-                  setType("waybackmachine");
-                  setMessage(
-                    "This is on the Internet Archive. Querying Internet Archive . . ."
-                  );
-                  await fetch(`/.netlify/functions/memento`, {
-                    method: "POST",
-                    body: JSON.stringify({ url: urlReplaced }),
-                  })
-                    .then((res) => res.json())
-                    .then(async (r) => {
-                      // r is an array of dates
-                      setDates(r);
-                      // console.log(r);
-                    })
-                    .catch((e) => {
-                      console.error("Error fetching dates: ", e);
-                    });
-                } else {
-                  console.log("No Wayback Machine URL found.");
-                  setType("web");
-                }
+            if (url.indexOf("web.archive.org") < 0) {
+              console.log(`this is not a wayback machine url: ${url}`);
+              console.log("Querying the Wayback Machine . . .");
+              const urlReplaced = url
+                .replace("https://", "")
+                .replace("http://", "");
+              await fetch(`/.netlify/functions/checkwayback`, {
+                method: "POST",
+                body: JSON.stringify({ url: urlReplaced }),
               })
-              .catch((e) => {
-                console.error("Error querying Wayback Machine: ", e);
-                console.log("URL: ", urlToCheck);
-              });
+                .then((res) => res.json())
+                .then(async (r) => {
+                  if (r.indexOf("web.archive.org") > -1) {
+                    console.log("repsonse!", r);
+                    setUrl(r);
+                    setType("waybackmachine");
+                    setMessage(
+                      "This is on the Internet Archive. Querying Internet Archive . . ."
+                    );
+                    await fetch(`/.netlify/functions/memento`, {
+                      method: "POST",
+                      body: JSON.stringify({ url: urlReplaced }),
+                    })
+                      .then((res) => res.json())
+                      .then(async (r) => {
+                        // r is an array of dates
+                        setDates(r);
+                        // console.log(r);
+                      })
+                      .catch((e) => {
+                        console.error("Error fetching dates: ", e);
+                      });
+                  } else {
+                    console.log("No Wayback Machine URL found.");
+                    setType("web");
+                  }
+                })
+                .catch((e) => {
+                  console.error("Error querying Wayback Machine: ", e);
+                  console.log("URL: ", urlReplaced);
+                });
+            }
           }
         }
+      } else {
+        setMessage("");
       }
-    } else {
-      setMessage("");
-    }
-  }, [type, url]);
+    };
+
+    checkIaResource();
+  }, [type, url, maxLength]);
+
   return (
     <div
       style={{
@@ -451,7 +458,7 @@ const AddTapestryItem = ({
                 {useAudioController ? (
                   <div>
                     {controlList.map((controlPoint, index) => (
-                      <div className="twoinputs">
+                      <div className="twoinputs" key={index}>
                         <label style={{ flex: 2 }}>
                           Focus on:
                           <select
