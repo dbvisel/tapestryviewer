@@ -37,7 +37,9 @@ export default function MainIndex() {
         There are now keyboard controls: on a tapestry, you can use the arrow
         keys to pan, and the left and right shift keys to zoom in and out. The
         space bar resets the view. If you have an item selected that links to
-        another item, arrow keys will follow links.
+        another item, arrow keys will follow links. If you mouse over an item,
+        you can press RETURN to focus the item; RETURN again will defocus the
+        item. This might run into some trouble on iframes that grab the cursor!
       </p>
       <p>
         You can also try the <Link to="/maker">tapestry maker</Link>, which

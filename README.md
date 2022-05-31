@@ -74,10 +74,6 @@ There are some configuration settings in `config.js` – base URL is most import
 
 ### important
 
-
- - click on item to focus on it, which brings it to full-screen; object is inert until fullscreen.
-   - do this as a mode? Bob likes clicking through to play movies
-   - shift-clicking to click through? 
  - layers
  - resize in viewer?
    - can't really do this inside of grid context?
