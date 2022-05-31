@@ -134,7 +134,7 @@ const TapestryComponent = ({
 
   useEffect(() => {
     if (focused > -1) {
-      console.log(tapestry.items[focused].title);
+      // console.log(tapestry.items[focused].title);
       setTitle(tapestry.items[focused].title);
     } else {
       setTitle("");
