@@ -35,11 +35,15 @@ const TapestryItem = ({
   isPreview,
   isPreviewItem,
   style,
+  onMouseEnter,
+  onMouseLeave,
 }) => {
   const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
   const itemHandle = useFullScreenHandle();
   return (
     <section
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       id={isPreviewItem ? `preview_${item.id}` : item.id}
       className={`tapestryItem ${focused ? "focused" : ""} ${
         item.type === "tapestrylink"

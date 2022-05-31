@@ -1,5 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
-import { useCatch, useParams, useLoaderData, useOutletContext } from "remix";
+import {
+  useCatch,
+  useParams,
+  useLoaderData,
+  useOutletContext,
+  Link,
+} from "remix";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import invariant from "tiny-invariant";
 import { getTapestries, getTapestryFromSlug } from "~/tapestryData";
@@ -100,7 +106,6 @@ export default function TapestryPage() {
     // console.log("tapestry changed!", tapestry);
     setVersion(tapestry);
   }, [tapestry]);
-  console.log(title);
   return (
     <Fragment>
       {isFullScreen ? null : (
@@ -133,6 +138,9 @@ export default function TapestryPage() {
             </Fragment>
           ) : (
             <Fragment>
+              <Link to="/" style={{ marginRight: "0.5em" }}>
+                «
+              </Link>{" "}
               {tapestry.title}
               {title ? (
                 <span style={{ fontWeight: "normal", fontStyle: "italic" }}>
@@ -147,7 +155,7 @@ export default function TapestryPage() {
             style={{
               marginLeft: "auto",
               fontWeight: "normal",
-              fontSize: "50%",
+              fontSize: "75%",
               userSelect: "none",
             }}
           >

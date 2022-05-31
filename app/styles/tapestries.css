@@ -80,8 +80,8 @@
 	align-items: center;
 	margin: 0;
 	box-sizing: border-box;
-	padding: 0 20px;
-	font-size: 28px;
+	padding: 0 20px 0 12px;
+	font-size: 21px;
 	border-bottom:1px solid black;
 	white-space: nowrap;
 }
@@ -180,9 +180,10 @@
 	right: 76px;
 	width: 28px; 
 	height: 28px;
-	color: var(--iconColor);
 	transition: 0.25s;
 	z-index: 10;
+	mix-blend-mode: difference;
+	color: white;
 }
 
 .tapestryItem .windowicon.notapestryicon {
@@ -197,24 +198,33 @@
 	--iconColor: var(--focusColor);
 }
 
+.tapestryItem:hover .windowicon, .tapestryItem:hover .fullscreenicon {
+	color: var(--iconColor);
+	mix-blend-mode: initial;
+}
+
+.tapestryItem:hover .tapestryIcon {
+color: var(--iconColor);
+border-color: var(--iconColor);
+mix-blend-mode: initial;
+}
+
 .tapestryItem .fullscreenicon {
 	position: absolute;
 	top: 6px;
 	right: 44px;
 	height: 24px;
 	width: 24px;
-	color: var(--iconColor);
 	transition: 0.25s;
 	z-index: 3;
+	mix-blend-mode: difference;
+	color: white;
 }
 
 .tapestryItem .fullscreenicon.notapestryicon {
 	right: 8px;
 }
 
-/* .tapestryItem .fullscreenicon:hover {
-	color: var(--focusColor);
-} */
 
 .tapestryItem img.thumbnail {
 	cursor: pointer;
@@ -421,6 +431,9 @@
 	font-weight: bold;
 	user-select: none;
 	z-index: 3;
+	mix-blend-mode: difference;
+	color: white;
+	border-color: white;
 }
 
 .hidetitle  {
@@ -430,6 +443,9 @@
 .tapestryIcon:hover, .tapestryIcon.on {
 	--iconColor: var(--focusColor);
 	text-decoration: none;
+	color: var(--iconColor);
+	border-color: var(--iconColor);
+	mix-blend-mode: initial;
 }
 
 .tapestryDetails {

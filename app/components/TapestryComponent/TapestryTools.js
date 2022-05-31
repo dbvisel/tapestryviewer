@@ -20,7 +20,8 @@ const TapestryTools = ({
   items,
   setTransform,
   slug,
-  isIframe, // would be nice to reduce these props!
+  isIframe,
+  over, // would be nice to reduce these props!
 }) => {
   const goPrev = () => {
     if (focused > -1) {
@@ -89,6 +90,10 @@ const TapestryTools = ({
     (event) => {
       if (focused > -1) {
         event.preventDefault();
+        if (event.code === "Enter") {
+          setFocused(-1);
+        }
+
         if (event.code === "ArrowUp" || event.code === "ArrowLeft") {
           goPrev();
         }
@@ -116,6 +121,9 @@ const TapestryTools = ({
         if (event.code === "ShiftRight") {
           panTapestry(0, 0, 1);
         }
+        if (event.code === "Enter") {
+          setFocused(over);
+        }
         if (event.code === "Space") {
           // this resets it.
           resetTransform();
@@ -125,7 +133,7 @@ const TapestryTools = ({
       }
     }
   );
-
+  // console.log(over);
   return (
     <Fragment>
       {usePanButtons ? (

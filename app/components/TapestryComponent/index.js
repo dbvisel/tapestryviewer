@@ -46,6 +46,7 @@ const TapestryComponent = ({
   const [flag, setFlag] = useState("1");
   const [loading, setLoading] = useState(useComments);
   const [initialScale, setInitialScale] = useState(0);
+  const [over, setOver] = useState(-1);
   const [itemStyle, setItemStyle] = useState({
     top: "initial",
     left: "initial",
@@ -320,6 +321,12 @@ const TapestryComponent = ({
                                   }
                                 }
                               }}
+                              onMouseEnter={(e) => {
+                                setOver(index);
+                              }}
+                              onMouseLeave={(e) => {
+                                setOver(-1);
+                              }}
                               currentZoom={1}
                               style={
                                 focused === index &&
@@ -348,7 +355,22 @@ const TapestryComponent = ({
                     )}
                     <TapestryTools
                       focused={focused}
-                      setFocused={setFocused}
+                      setFocused={(x) => {
+                        if (x > -1) {
+                          setFocused(x);
+                        } else {
+                          defocus();
+                          setFocused(-1);
+                          if (zoomWholeTapestry) {
+                            // TODO: break this down into x, y, and zoom
+                            const values = getTransformSetting(transformStyle);
+                            setTransform(values[0], values[1], values[2]);
+                            // resetTransform();
+                          } else {
+                            setItemStyle({});
+                          }
+                        }
+                      }}
                       isFullScreen={isFullScreen}
                       setFullScreen={setFullScreen}
                       commentShown={commentShown}
@@ -361,6 +383,7 @@ const TapestryComponent = ({
                       slug={tapestry.slug}
                       setTransform={setTransform}
                       isIframe={isIframe}
+                      over={over}
                     />
                   </Fragment>
                 );
