@@ -72,6 +72,11 @@ There are some configuration settings in `config.js` – base URL is most import
 
 ## TODO:
 
+
+### bugs
+
+ - the demo grid is a mess when it's too large.
+ - automatically adding links doesn't work for offsets.
 ### important
 
  - layers
@@ -79,7 +84,7 @@ There are some configuration settings in `config.js` – base URL is most import
    - can't really do this inside of grid context?
 
  - move preview to iframe? Can we do this?
- - BUG: why can't we scroll text fields?
+ - BUG: why can't we scroll text fields normally?
  - take out arrow buttons if focused item doesn't have connections?
 
  - it zooms too much
@@ -90,7 +95,6 @@ There are some configuration settings in `config.js` – base URL is most import
 
 ### new potential content types
  - flickr image frame
- - extract links from Wikipedia page, make items out of it?
  - video frame + caption, image + caption
 
 ### mildly important

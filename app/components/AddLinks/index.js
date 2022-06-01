@@ -167,7 +167,7 @@ const AddLinks = ({ setAddCollection, segments, setSegments, id }) => {
                 recent: id,
                 x:
                   itemX + itemXOffset
-                    ? (itemWidth + itemXOffset - 1) * i + 1
+                    ? (itemWidth + itemXOffset - 1) * i + 1 // this is broken
                     : 0,
                 y:
                   itemY + itemYOffset
