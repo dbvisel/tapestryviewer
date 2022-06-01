@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { slugify, getColor } from "~/utils/utils.mjs";
 import AddTapestryItem from "~/components/AddTapestryItem";
 import AddItems from "~/components/AddItems";
+import AddLinks from "~/components/AddLinks";
 import AddCollection from "~/components/AddCollection";
 import DemoGrid from "~/components/DemoGrid";
 import TapestryComponent from "~/components/TapestryComponent";
@@ -56,6 +57,7 @@ export default function MakerPage() {
   const [existingTapestry, setExistingTapestry] = useState(null);
   const [addItems, setAddItems] = useState("");
   const [addCollection, setAddCollection] = useState("");
+  const [addLinks, setAddLinks] = useState("");
 
   const handleSetTapestry = (id) => {
     if (id === "0" || id === 0) {
@@ -475,9 +477,27 @@ export default function MakerPage() {
               >
                 Add IA collection
               </button>
+              <button
+                style={{ marginTop: "20px" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log("Add links mode!");
+                  setAddLinks(uuidv4());
+                }}
+              >
+                Add links from URL
+              </button>
             </div>
             {addCollection ? (
               <AddCollection
+                setAddCollection={setAddCollection}
+                segments={segments}
+                setSegments={setSegments}
+                id={addItems}
+              />
+            ) : null}
+            {addLinks ? (
+              <AddLinks
                 setAddCollection={setAddCollection}
                 segments={segments}
                 setSegments={setSegments}

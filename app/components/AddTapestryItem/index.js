@@ -88,9 +88,7 @@ const AddTapestryItem = ({
     linksTo,
     hideTitle,
     thumbnail,
-    controlList,
-    itemData,
-    setItemData,
+    controlList, // itemData, setItemData
   ]);
 
   useEffect(() => {
@@ -288,7 +286,9 @@ const AddTapestryItem = ({
       }
     };
 
-    checkIaResource();
+    if (type === "iaresource" && url) {
+      checkIaResource();
+    }
   }, [type, url, maxLength]);
 
   return (
