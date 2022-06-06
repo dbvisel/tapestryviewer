@@ -73,10 +73,19 @@ There are some configuration settings in `config.js` – base URL is most import
 ## TODO:
 
 
+### api updates
+ - add IA identifier to tapestry data in google import script
+ - make JSON API page which delivers tapestry data (figure out how to really do this)
+ - make embed page for each tapestry at /embed
+
 ### bugs
 
+ - control audio behaves weirdly in maker
+ - Safari zooming is weird – two-finger scrolling
+ - is there a bug in Digital Maoism?
  - the demo grid is a mess when it's too large.
  - automatically adding links doesn't work for offsets.
+ - transparent webframes hide throbber; workaround is to give them a background color, though that hides throbber entirely.
 ### important
 
  - layers
