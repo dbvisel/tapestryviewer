@@ -75,8 +75,7 @@ There are some configuration settings in `config.js` – base URL is most import
 
 ### api updates
  - add IA identifier to tapestry data in google import script
- - make JSON API page which delivers tapestry data (figure out how to really do this)
- - make embed page for each tapestry at /embed
+   - (what else needs to happen here?)
 
 ### bugs
 
