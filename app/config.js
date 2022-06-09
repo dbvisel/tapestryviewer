@@ -7,6 +7,7 @@ const Config = {
   baseUrl: "https://tapestryviewer.netlify.app", // basic url, no trailing slash
   useTapestrySelector: false,
   usePanButtons: false,
+  titleBarSelectsItem: true,
 };
 
 export default Config;

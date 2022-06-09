@@ -66,11 +66,37 @@ To put an item at a specific point in the grid, set _x_ and _y_ to the desired v
 
 To make a link from one item to another item, put the linked item's ID in the **linksTo** field of the linking item. You can link to multiple items; separate them with commas: _item1,item2_.
 
+## API
+
+Tapestries have a slug. If you have a slug like `tapestry-name`, the tapestry is at `/tapestry/tapestry-name`. If you add `/api/` to the end of that (`/tapestry/tapestry-name/api`) or swap the `/tapestry/` for `/api/` (`/api/tapestry-name`), you'll see the JSON for the tapestry. If you use `/embed/` in the same way (`/tapestry/tapestry-name/embed` or `/embed/tapestry-name`), you'll see the tapestry in an iframe and the HTML to copy to use it that way.
+
 ## Deployment
 
 There are some configuration settings in `config.js` – base URL is most important for deployment, but also some flags that can change behavior.
 
+
+
 ## TODO:
+
+
+## ui overhaul
+
+ - titlebar should go full-window
+ - make click-to-select mode
+ - clarity of model
+   - Safari zooming is weird – two-finger scrolling
+ - work through mark/jim's comments
+- make list of interactions (mouse/keyboard)
+- tooltips?
+
+From Brento:
+Proposed navigation approach for desktop
+ - With nothing selected, then no matter where you are, two-finger panning on trackpad (or single-finger on Magic Mouse or scrollwheel) pans tapestry; pinch-zoom scales
+ - To select an item, click anywhere on it
+ - When an item is selected and the cursor is hovering over it, gestures are sent into the iframe
+ - When an item is selected and the cursor is not hovering over it, the tapestry-level navigation controls are in play
+ - Double-clicking anywhere on an item causes it to fill the browser frame and be selected
+ - Browser reset command (e.g. command-0) causes tapestry size to reset to showing the full canvas
 
 
 ### api updates
@@ -80,7 +106,6 @@ There are some configuration settings in `config.js` – base URL is most import
 ### bugs
 
  - control audio behaves weirdly in maker
- - Safari zooming is weird – two-finger scrolling
  - is there a bug in Digital Maoism?
  - the demo grid is a mess when it's too large.
  - automatically adding links doesn't work for offsets.
@@ -99,7 +124,6 @@ There are some configuration settings in `config.js` – base URL is most import
    - maybe think about using this library: https://github.com/retyui/react-quick-pinch-zoom  
  - can we visually annotate images of pages of books?
  - make a demo with comments
- - work through mark/jim's comments
 
 ### new potential content types
  - flickr image frame

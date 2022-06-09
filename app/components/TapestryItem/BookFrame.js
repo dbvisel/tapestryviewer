@@ -2,11 +2,21 @@ import { useState } from "react";
 import Config from "~/config";
 const { hideThumbnail } = Config;
 
-const BookFrame = ({ title, url, thumbnail, hideTitle }) => {
+const BookFrame = ({ title, url, thumbnail, hideTitle, titleClick }) => {
   const [clicked, setClicked] = useState(false);
   return (
     <div className={`${hideTitle ? "notitle" : ""}  frame bookframe`}>
-      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+      {hideTitle ? null : (
+        <h2
+          className="tapestryItemHead"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onDoubleClick={titleClick}
+        >
+          {title}
+        </h2>
+      )}
       {clicked || !thumbnail || hideThumbnail ? (
         <iframe
           src={url}

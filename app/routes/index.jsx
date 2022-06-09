@@ -26,10 +26,7 @@ export default function MainIndex() {
       <ul>
         {filteredTapestries.map((tapestry) => (
           <li key={tapestry.slug}>
-            <Link to={`/tapestry/${tapestry.slug}`}>
-              {tapestry.title}
-              {/*({cleanDate(tapestry.dateCreated)})*/}
-            </Link>
+            <Link to={`/tapestry/${tapestry.slug}`}>{tapestry.title}</Link>
           </li>
         ))}
       </ul>
@@ -45,7 +42,9 @@ export default function MainIndex() {
         You can also try the <Link to="/maker">tapestry maker</Link>, which
         should let you edit any of the above tapestries.{" "}
         <Link to="/test">This page</Link> will generate the code for an iframe
-        which can be embedded elsewhere.
+        which can be embedded elsewhere. The{" "}
+        <a href="https://tapestrycloud.netlify.app">word cloud demo</a> shows
+        how the API can be used to get data out of tapestry items.
       </p>
       <p>
         Model reference is{" "}

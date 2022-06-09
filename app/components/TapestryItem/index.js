@@ -23,7 +23,9 @@ import IaFrame from "./IaFrame";
 import TapestryIcon from "./TapestryIcon";
 import Config from "~/config";
 
-const { zoomingMode } = Config;
+const { zoomingMode, titleBarSelectsItem } = Config;
+
+// TODO: bring title bar our of component?
 
 const TapestryItem = ({
   item,
@@ -65,6 +67,7 @@ const TapestryItem = ({
       }
       onClick={(e) => {
         if (!zoomingMode) {
+          console.log("this is firign!");
           setFocus(e);
         }
       }}
@@ -76,6 +79,7 @@ const TapestryItem = ({
             item.type === "textFrame" ? "notapestryicon" : ""
           }`}
           onClick={(e) => {
+            console.log("this is firing!");
             e.preventDefault();
             if (focused) {
               setFocusElsewhere(e);
@@ -95,6 +99,7 @@ const TapestryItem = ({
               item.type === "textFrame" ? "notapestryicon" : ""
             }`}
             onClick={(e) => {
+              console.log("this is firing!");
               e.preventDefault();
               if (itemIsFullScreen) {
                 itemHandle.exit();
@@ -130,6 +135,19 @@ const TapestryItem = ({
             url={item.url}
             thumbnail={item.thumbnail}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                console.log("in titleclick");
+                if (focused) {
+                  console.log("unfocusing item");
+                  setFocusElsewhere(e);
+                } else {
+                  console.log("focusing item");
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "bookimage" ? (
           <BookImageFrame
