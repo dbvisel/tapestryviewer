@@ -82,6 +82,8 @@ There are some configuration settings in `config.js` – base URL is most import
 ## ui overhaul
 
  - titlebar should go full-window
+   - this currently works with books
+ - unfullscreen icon needs to appear
  - make click-to-select mode
  - clarity of model
    - Safari zooming is weird – two-finger scrolling
