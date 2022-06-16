@@ -67,7 +67,7 @@
 	margin-right: var(--navGap);
 }
 
-.scroller > div:not(.react-transform-wrapper,.tools,.panbuttons) {
+.scroller > div:not(.react-transform-wrapper,.tools,.panbuttons,.helpscrim) {
 	z-index: -1 !important;
 }
 

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import useKeypress from "react-use-keypress";
 import {
   ZoomOut,
@@ -6,8 +6,11 @@ import {
   Share,
   Expand,
   Collapse,
+  WindowOpen,
+  WindowClose,
 } from "@styled-icons/boxicons-regular";
 import { getTransformSetting } from "~/utils/tapestryUtils";
+import { HelpDiv } from "./elements";
 import Config from "~/config";
 
 const { useShareIcon, baseUrl, usePanButtons } = Config;
@@ -31,6 +34,8 @@ const TapestryTools = ({
   isIframe,
   over, // would be nice to reduce these props!
 }) => {
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
+
   const goPrev = () => {
     if (focused > -1) {
       const currentId = items[focused].id;
@@ -94,7 +99,19 @@ const TapestryTools = ({
   };
 
   useKeypress(
-    ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " ", "Shift", "Enter"],
+    [
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      " ",
+      "Shift",
+      "Enter",
+      "?",
+      "/",
+      "-",
+      "=",
+    ],
     (event) => {
       if (focused > -1) {
         event.preventDefault();
@@ -111,6 +128,11 @@ const TapestryTools = ({
           goNext();
         }
       } else {
+        // if we are here, we are unfocused
+        if (event.key === "?" || event.key === "/") {
+          setHelpModalOpen(!helpModalOpen);
+          return;
+        }
         if (event.code === "ArrowUp") {
           panTapestry(0, 1, 0);
         }
@@ -123,10 +145,10 @@ const TapestryTools = ({
         if (event.code === "ArrowRight") {
           panTapestry(-1, 0, 0);
         }
-        if (event.code === "ShiftLeft") {
+        if (event.code === "ShiftLeft" || event.key === "-") {
           panTapestry(0, 0, -1);
         }
-        if (event.code === "ShiftRight") {
+        if (event.code === "ShiftRight" || event.key === "=") {
           panTapestry(0, 0, 1);
         }
         if (event.code === "Enter") {
@@ -286,6 +308,82 @@ const TapestryTools = ({
           <Share style={{ width: "24px", height: "24px" }} />
         </a>
       )}
+      {helpModalOpen ? (
+        <HelpDiv
+          className="helpscrim"
+          onClick={(e) => {
+            e.preventDefault();
+            setHelpModalOpen(false);
+          }}
+        >
+          <h2>Tapestry help</h2>
+          <div>
+            <div>
+              <h3>Keyboard commands</h3>
+              <ul>
+                <li>
+                  <strong>Left shift key</strong> or <strong>-:</strong> zoom
+                  out
+                </li>
+                <li>
+                  <strong>Right shift key</strong> or <strong>+:</strong> zoom
+                  in
+                </li>
+                <li>
+                  <strong>Space bar:</strong> reset zoom to default
+                </li>
+                <li>
+                  <strong>Arrow keys:</strong> pan tapestry
+                </li>
+                <li>
+                  <strong>Return</strong> (when over an item): focus on that
+                  item
+                </li>
+                <li>
+                  <strong>?</strong>: open this help screen
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3>Icons on items</h3>
+              <ul>
+                <li>
+                  <WindowOpen width={24} height={24} /> focus an item (makes it
+                  fullscreen)
+                </li>
+                <li>
+                  <WindowClose width={24} height={24} /> unfocus an item
+                </li>
+                <li>
+                  <Expand width={24} height={24} /> enter full screen
+                </li>
+                <li>
+                  <Collapse width={24} height={24} /> leave full screen
+                </li>
+                <li>
+                  <span
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      display: "inline-flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "2px solid white",
+                      borderRadius: "100%",
+                    }}
+                  >
+                    i
+                  </span>{" "}
+                  get item details
+                </li>
+              </ul>
+            </div>
+          </div>
+          <p style={{ textAlign: "center" }}>
+            Click this screen to make it go away!
+          </p>
+        </HelpDiv>
+      ) : null}
     </Fragment>
   );
 };
