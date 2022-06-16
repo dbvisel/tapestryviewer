@@ -100,12 +100,15 @@ export default function TapestryPage() {
       // console.log("isFullScreen set to false");
       handle.exit();
     }
-  }, [isFullScreen, handle]);
+    // NOTE: if we add "handle" into the dependency list, it breaks
+  }, [isFullScreen]);
 
   useEffect(() => {
     // console.log("tapestry changed!", tapestry);
     setVersion(tapestry);
   }, [tapestry]);
+
+  // console.log("isFullScreen in $slug: ", isFullScreen);
   return (
     <Fragment>
       {isFullScreen ? null : (

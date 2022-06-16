@@ -1,10 +1,18 @@
 import { Fragment } from "react";
 import useKeypress from "react-use-keypress";
-import { ZoomOut, ZoomIn, Share } from "@styled-icons/boxicons-regular";
+import {
+  ZoomOut,
+  ZoomIn,
+  Share,
+  Expand,
+  Collapse,
+} from "@styled-icons/boxicons-regular";
 import { getTransformSetting } from "~/utils/tapestryUtils";
 import Config from "~/config";
 
 const { useShareIcon, baseUrl, usePanButtons } = Config;
+
+// TODO: This is rendering too often! Why? Memoing doesn't help.
 
 const TapestryTools = ({
   focused,
@@ -181,7 +189,7 @@ const TapestryTools = ({
               setFullScreen(!isFullScreen);
             }}
           >
-            {isFullScreen ? "↙" : "↗"}
+            {isFullScreen ? <Collapse /> : <Expand />}
           </button>
         </div>
       ) : null}
@@ -201,7 +209,7 @@ const TapestryTools = ({
               setFullScreen(!isFullScreen);
             }}
           >
-            {isFullScreen ? "↙" : "↗"}
+            {isFullScreen ? <Collapse /> : <Expand />}
           </button>
         )}
         {focused === -1 ? null : (

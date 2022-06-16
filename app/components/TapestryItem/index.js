@@ -3,6 +3,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import {
   Comment,
   Expand,
+  Collapse,
   WindowOpen,
   WindowClose,
 } from "@styled-icons/boxicons-regular";
@@ -110,7 +111,7 @@ const TapestryItem = ({
               }
             }}
           >
-            <Expand />
+            {itemIsFullScreen ? <Collapse /> : <Expand />}
           </a>
         )}
         {item.type === "textFrame" || item.type === "tapestrylink" ? null : (

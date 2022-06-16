@@ -78,12 +78,13 @@ There are some configuration settings in `config.js` – base URL is most import
 
 ## TODO:
 
+# backend overhaul
+ - supabase seems like it would be an easy way to do this?
 
 ## ui overhaul
 
- - titlebar should go full-window
+ - titlebar should make item go full-window on double-click
    - this currently works with books
- - unfullscreen icon needs to appear
  - make click-to-select mode
  - clarity of model
    - Safari zooming is weird – two-finger scrolling
@@ -91,7 +92,7 @@ There are some configuration settings in `config.js` – base URL is most import
 - make list of interactions (mouse/keyboard)
 - tooltips?
 
-From Brento:
+From Brenton:
 Proposed navigation approach for desktop
  - With nothing selected, then no matter where you are, two-finger panning on trackpad (or single-finger on Magic Mouse or scrollwheel) pans tapestry; pinch-zoom scales
  - To select an item, click anywhere on it
