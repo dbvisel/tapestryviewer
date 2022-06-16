@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { humanDate } from "~/utils/utils.mjs";
 import throbber from "./images/Loading_icon_cropped.gif";
 
-const WaybackMachineFrame = ({ title, url, hideTitle }) => {
+const WaybackMachineFrame = ({ title, url, hideTitle, titleClick }) => {
   const [dates, setDates] = useState([]);
   const [thisUrl, setUrl] = useState(url);
   const deslashed = url
@@ -35,7 +35,11 @@ const WaybackMachineFrame = ({ title, url, hideTitle }) => {
 
   return (
     <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
-      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+      {hideTitle ? null : (
+        <h2 className="tapestryItemHead" onDoubleClick={titleClick}>
+          {title}
+        </h2>
+      )}
       <div>
         <img src={throbber} alt={"Loading..."} />
       </div>

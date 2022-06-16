@@ -1,6 +1,10 @@
-const AudioFrame = ({ title, url, hideTitle }) => (
+const AudioFrame = ({ title, url, hideTitle, titleClick }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+    {hideTitle ? null : (
+      <h2 className="tapestryItemHead" onDoubleClick={titleClick}>
+        {title}
+      </h2>
+    )}
     <div>
       <iframe
         src={url}

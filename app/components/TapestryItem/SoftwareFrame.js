@@ -1,6 +1,10 @@
-const SoftwareFrame = ({ title, url, hideTitle }) => (
+const SoftwareFrame = ({ title, url, hideTitle, titleClick }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+    {hideTitle ? null : (
+      <h2 className="tapestryItemHead" onDoubleClick={titleClick}>
+        {title}
+      </h2>
+    )}
     <iframe
       src={url}
       frameBorder="0"

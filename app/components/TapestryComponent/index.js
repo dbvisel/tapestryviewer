@@ -212,7 +212,7 @@ const TapestryComponent = ({
         onClick={(e) => {
           e.stopPropagation();
           // TODO: this is firing when an item is clicked!
-          console.log("this is firing in tapestry component!");
+          // console.log("this is firing in tapestry component!");
           defocus();
           // TODO: this should set the zoom center to mouse X, mouse Y. Maybe that should happen in controls?
           setFocused(-1);

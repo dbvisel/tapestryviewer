@@ -100,7 +100,7 @@ const TapestryItem = ({
               item.type === "textFrame" ? "notapestryicon" : ""
             }`}
             onClick={(e) => {
-              console.log("this is firing!");
+              // console.log("this is firing!");
               e.preventDefault();
               if (itemIsFullScreen) {
                 itemHandle.exit();
@@ -127,6 +127,16 @@ const TapestryItem = ({
             title={item.title}
             content={item.content}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "tapestrylink" ? (
           <TapestryLinkFrame title={item.title} link={item.url} />
@@ -139,12 +149,9 @@ const TapestryItem = ({
             titleClick={(e) => {
               e.preventDefault();
               if (titleBarSelectsItem) {
-                console.log("in titleclick");
                 if (focused) {
-                  console.log("unfocusing item");
                   setFocusElsewhere(e);
                 } else {
-                  console.log("focusing item");
                   setFocus(e);
                 }
               }
@@ -156,18 +163,48 @@ const TapestryItem = ({
             url={item.url}
             thumbnail={item.thumbnail}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "image" ? (
           <ImageFrame
             title={item.title}
             url={item.url}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "audio" ? (
           <AudioFrame
             title={item.title}
             url={item.url}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "audiocontroller" ? (
           <AudioControllerFrame
@@ -176,6 +213,16 @@ const TapestryItem = ({
             controlList={item.controlList}
             hideTitle={item.hideTitle}
             setFocus={setFocusElsewhere}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "video" ? (
           <VideoFrame
@@ -183,30 +230,80 @@ const TapestryItem = ({
             url={item.url}
             thumbnail={item.thumbnail}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "web" ? (
           <WebFrame
             title={item.title}
             url={item.url}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "waybackmachine" ? (
           <WaybackMachineFrame
             title={item.title}
             url={item.url}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "software" ? (
           <SoftwareFrame
             title={item.title}
             url={item.url}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "iaresource" ? (
           <IaFrame
             title={item.title}
             url={item.url}
             hideTitle={item.hideTitle}
+            titleClick={(e) => {
+              e.preventDefault();
+              if (titleBarSelectsItem) {
+                if (focused) {
+                  setFocusElsewhere(e);
+                } else {
+                  setFocus(e);
+                }
+              }
+            }}
           />
         ) : item.type === "tapestry" ? (
           <TapestryIframe

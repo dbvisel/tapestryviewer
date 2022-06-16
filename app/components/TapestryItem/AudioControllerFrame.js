@@ -7,6 +7,7 @@ const AudioControllerFrame = ({
   hideTitle,
   controlList,
   setFocus,
+  titleClick,
 }) => {
   const [currentId, setCurrentId] = useState("");
   const sortedControlList = controlList.sort((a, b) => {
@@ -17,7 +18,11 @@ const AudioControllerFrame = ({
   console.log("Going to: ", currentId);
   return (
     <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
-      {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+      {hideTitle ? null : (
+        <h2 className="tapestryItemHead" onDoubleClick={titleClick}>
+          {title}
+        </h2>
+      )}
       <div>
         <ReactAudioPlayer
           src={url}

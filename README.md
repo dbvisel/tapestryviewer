@@ -83,8 +83,6 @@ There are some configuration settings in `config.js` – base URL is most import
 
 ## ui overhaul
 
- - titlebar should make item go full-window on double-click
-   - this currently works with books
  - make click-to-select mode
  - clarity of model
    - Safari zooming is weird – two-finger scrolling
@@ -109,6 +107,7 @@ Proposed navigation approach for desktop
 ### bugs
 
  - control audio behaves weirdly in maker
+   - also maybe in playback? 
  - is there a bug in Digital Maoism?
  - the demo grid is a mess when it's too large.
  - automatically adding links doesn't work for offsets.

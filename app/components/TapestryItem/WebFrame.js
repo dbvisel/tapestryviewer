@@ -1,8 +1,12 @@
 import throbber from "./images/Loading_icon_cropped.gif";
 
-const WebFrame = ({ title, url, hideTitle }) => (
+const WebFrame = ({ title, url, hideTitle, titleClick }) => (
   <div className={`${hideTitle ? "notitle" : ""} frame webframe`}>
-    {hideTitle ? null : <h2 className="tapestryItemHead">{title}</h2>}
+    {hideTitle ? null : (
+      <h2 className="tapestryItemHead" onDoubleClick={titleClick}>
+        {title}
+      </h2>
+    )}
     <div>
       <img src={throbber} alt="Loading..." />
     </div>
