@@ -21,7 +21,7 @@ import AudioFrame from "./AudioFrame";
 import VideoFrame from "./VideoFrame";
 import TapestryIframe from "./TapestryIframe";
 import IaFrame from "./IaFrame";
-import TapestryIcon from "./TapestryIcon";
+// import TapestryIcon from "./TapestryIcon";
 import Config from "~/config";
 
 const { zoomingMode, titleBarSelectsItem } = Config;
@@ -42,6 +42,7 @@ const TapestryItem = ({
   onMouseLeave,
 }) => {
   const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const itemHandle = useFullScreenHandle();
   return (
     <section
@@ -54,7 +55,7 @@ const TapestryItem = ({
           : item.type === "tapestry"
           ? "tapestryTapestryItem"
           : ""
-      } ${item.hideTitle ? "hidetitle" : ""}`}
+      } ${item.hideTitle ? "hidetitle" : ""} ${showInfo ? "showinfo" : ""}`}
       style={
         isPreviewItem
           ? { gridArea: "initial", ...style }
@@ -92,31 +93,43 @@ const TapestryItem = ({
           {focused ? <WindowClose /> : <WindowOpen />}
         </a>
       ) : null}
+      {item.type === "tapestrylink" ? null : (
+        <a
+          href="/#"
+          className={`fullscreenicon ${
+            item.type === "textFrame" ? "notapestryicon" : ""
+          }`}
+          onClick={(e) => {
+            // console.log("this is firing!");
+            e.preventDefault();
+            if (itemIsFullScreen) {
+              itemHandle.exit();
+              setItemIsFullScreen(false);
+            } else {
+              itemHandle.enter();
+              setItemIsFullScreen(true);
+            }
+          }}
+        >
+          {itemIsFullScreen ? <Collapse /> : <Expand />}
+        </a>
+      )}
+      {item.type === "textFrame" || item.type === "tapestrylink" ? null : (
+        <a
+          href="/#"
+          className={`tapestryIcon ${showInfo ? "on" : ""}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowInfo(!showInfo);
+            // setShown(!shown);
+          }}
+        >
+          i
+        </a>
+        // <TapestryIcon item={item} />
+      )}
       <FullScreen handle={itemHandle}>
-        {item.type === "tapestrylink" ? null : (
-          <a
-            href="/#"
-            className={`fullscreenicon ${
-              item.type === "textFrame" ? "notapestryicon" : ""
-            }`}
-            onClick={(e) => {
-              // console.log("this is firing!");
-              e.preventDefault();
-              if (itemIsFullScreen) {
-                itemHandle.exit();
-                setItemIsFullScreen(false);
-              } else {
-                itemHandle.enter();
-                setItemIsFullScreen(true);
-              }
-            }}
-          >
-            {itemIsFullScreen ? <Collapse /> : <Expand />}
-          </a>
-        )}
-        {item.type === "textFrame" || item.type === "tapestrylink" ? null : (
-          <TapestryIcon item={item} />
-        )}
         {isPreviewItem || isPreview ? null : (
           <CommentIcon comments={comments} onClick={openComments}>
             <Comment />
@@ -318,6 +331,24 @@ const TapestryItem = ({
             {JSON.stringify(item)}
           </p>
         )}
+        <div className="backside">
+          <h2 className="tapestryItemHead">{item.title}</h2>
+          <div>
+            <h3>Details</h3>
+            <p>
+              <strong>Source: </strong>{" "}
+              {item.url ? <a href={item.url}>{item.url}</a> : item.content}
+            </p>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setShowInfo(false);
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
       </FullScreen>
     </section>
   );

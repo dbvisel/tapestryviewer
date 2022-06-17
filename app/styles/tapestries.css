@@ -225,7 +225,7 @@ mix-blend-mode: initial;
 	height: 24px;
 	width: 24px;
 	transition: 0.25s;
-	z-index: 3;
+	z-index: 10;
 	mix-blend-mode: difference;
 	color: white;
 }
@@ -439,7 +439,7 @@ mix-blend-mode: initial;
 	transition: 0.25s;
 	font-weight: bold;
 	user-select: none;
-	z-index: 3;
+	z-index: 10;
 	mix-blend-mode: difference;
 	color: white;
 	border-color: white;
@@ -651,4 +651,52 @@ nav.commentdrawer > div > button, nav.commentdrawer > div > form {
 
 .panbuttons button:hover {
 	color: var(--focusColor);
+}
+
+/* CARD FLIPPING */
+
+.tapestryItem > .fullscreen {
+	transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.tapestryItem.showinfo .fullscreen {
+  transform: rotateY(180deg);
+}
+
+.fullscreen > .frame {
+	backface-visibility: hidden;
+}
+
+.fullscreen > .backside{
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	transform: rotateY(180deg);
+	background-color: var(--headerBackground);
+	border: 1px solid white;
+	border-radius: var(--borderRadius);
+}
+
+.fullscreen > .backside > h2 {
+	border-bottom: 1px solid white;
+}
+
+.fullscreen > .backside > div {
+	padding: var(--outsideMargin);
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100% - calc(calc(2 * var(--outsideMargin)) + var(--itemHeaderHeight)));
+}
+
+.fullscreen > .backside > div h3 {
+	margin-top: 0;
+}
+
+.fullscreen > .backside > div > button {
+	margin-top: auto;
+	margin-left: auto;
 }
