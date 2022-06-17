@@ -13,7 +13,13 @@ import { getTransformSetting } from "~/utils/tapestryUtils";
 import { HelpDiv } from "./elements";
 import Config from "~/config";
 
-const { useShareIcon, baseUrl, usePanButtons } = Config;
+const {
+  useShareIcon,
+  baseUrl,
+  usePanButtons,
+  useHelpButton,
+  useComponentZoom,
+} = Config;
 
 // TODO: This is rendering too often! Why? Memoing doesn't help.
 
@@ -35,6 +41,10 @@ const TapestryTools = ({
   over, // would be nice to reduce these props!
 }) => {
   const [helpModalOpen, setHelpModalOpen] = useState(false);
+  const focusedAndHasConnections =
+    focused > -1 &&
+    (items[focused].linksTo.length > 0 ||
+      items.flatMap((x) => x.linksTo).indexOf(items[focused].id) > -1); // this is to check if the item is linked by some other item
 
   const goPrev = () => {
     if (focused > -1) {
@@ -146,10 +156,18 @@ const TapestryTools = ({
           panTapestry(-1, 0, 0);
         }
         if (event.code === "ShiftLeft" || event.key === "-") {
-          panTapestry(0, 0, -1);
+          if (useComponentZoom) {
+            zoomOut();
+          } else {
+            panTapestry(0, 0, -1);
+          }
         }
         if (event.code === "ShiftRight" || event.key === "=") {
-          panTapestry(0, 0, 1);
+          if (useComponentZoom) {
+            zoomIn();
+          } else {
+            panTapestry(0, 0, 1);
+          }
         }
         if (event.code === "Enter") {
           setFocused(over);
@@ -234,11 +252,9 @@ const TapestryTools = ({
             {isFullScreen ? <Collapse /> : <Expand />}
           </button>
         )}
-        {focused === -1 ? null : (
+        {focusedAndHasConnections ? (
           <Fragment>
             <button
-              className={focused === -1 ? "disabled" : ""}
-              disabled={focused === -1}
               onClick={(e) => {
                 e.stopPropagation();
                 goPrev();
@@ -247,8 +263,6 @@ const TapestryTools = ({
               ←
             </button>
             <button
-              className={focused === -1 ? "disabled" : ""}
-              disabled={focused === -1}
               onClick={(e) => {
                 e.stopPropagation();
                 goNext();
@@ -257,7 +271,7 @@ const TapestryTools = ({
               →
             </button>
           </Fragment>
-        )}
+        ) : null}
 
         <button
           onClick={(e) => {
@@ -283,6 +297,16 @@ const TapestryTools = ({
         >
           <ZoomIn />
         </button>
+        {useHelpButton ? (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setHelpModalOpen(!helpModalOpen);
+            }}
+          >
+            ?
+          </button>
+        ) : null}
       </div>
       {isIframe || !useShareIcon ? null : (
         <a

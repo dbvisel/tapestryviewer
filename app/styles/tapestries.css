@@ -159,6 +159,11 @@
 
 .tapestryItem.focused {
 	box-shadow: 0 0 20px var(--focusColor);
+	--borderColor: var(--focusColor);
+}
+
+.tapestryItem .focused .tapestryItemHead {
+	color: var(--focusColor);
 }
 
 .tapestryItem > .fullscreen {

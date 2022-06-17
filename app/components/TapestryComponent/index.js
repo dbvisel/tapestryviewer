@@ -230,8 +230,8 @@ const TapestryComponent = ({
               initialScale={
                 tapestry.initialView ? tapestry.defaultZoom : initialScale
               }
-              minScale={0.5}
-              maxScale={5}
+              minScale={0}
+              maxScale={2}
               centerOnInit={false}
               limitToBounds={false}
               onPanningStop={updateXarrow}
@@ -376,8 +376,12 @@ const TapestryComponent = ({
                       isFullScreen={isFullScreen}
                       setFullScreen={setFullScreen}
                       commentShown={commentShown}
-                      zoomIn={zoomIn}
-                      zoomOut={zoomOut}
+                      zoomIn={() => {
+                        zoomIn(0.25);
+                      }}
+                      zoomOut={() => {
+                        zoomOut(0.25);
+                      }}
                       resetTransform={resetTransform}
                       viewportRef={viewportRef}
                       updateXarrow={updateXarrow}

@@ -120,8 +120,6 @@ Proposed navigation approach for desktop
 
  - move preview to iframe? Can we do this?
  - BUG: why can't we scroll text fields normally?
- - take out arrow buttons if focused item doesn't have connections?
-
  - it zooms too much
    - maybe think about using this library: https://github.com/retyui/react-quick-pinch-zoom  
  - can we visually annotate images of pages of books?
