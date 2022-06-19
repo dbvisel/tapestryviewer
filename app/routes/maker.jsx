@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLoaderData, useOutletContext } from "remix";
 import { v4 as uuidv4 } from "uuid";
 import { slugify, getColor } from "~/utils/utils.mjs";
-import AddTapestryItem from "~/components/AddTapestryItem";
+import AddItem from "~/components/AddItem";
 import AddItems from "~/components/AddItems";
 import AddLinks from "~/components/AddLinks";
 import AddCollection from "~/components/AddCollection";
@@ -431,7 +431,7 @@ export default function MakerPage() {
               <h2>Items</h2>
               {segments.length ? (
                 segments.map((segment, index) => (
-                  <AddTapestryItem
+                  <AddItem
                     color={getColor(index)}
                     key={segment.id}
                     gridUnitSize={gridUnitSize}

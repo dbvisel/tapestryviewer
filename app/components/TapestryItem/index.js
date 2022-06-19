@@ -1,12 +1,6 @@
 import { memo, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import {
-  Comment,
-  Expand,
-  Collapse,
-  WindowOpen,
-  WindowClose,
-} from "@styled-icons/boxicons-regular";
+import { Comment } from "@styled-icons/boxicons-regular";
 import { CommentIcon } from "./elements";
 import BookFrame from "./BookFrame";
 import TextFrame from "./TextFrame";
@@ -23,10 +17,9 @@ import TapestryIframe from "./TapestryIframe";
 import IaFrame from "./IaFrame";
 // import TapestryIcon from "./TapestryIcon";
 import Config from "~/config";
+import ItemHeaderButtons from "./ItemHeaderButtons";
 
 const { zoomingMode, titleBarSelectsItem } = Config;
-
-// TODO: bring title bar our of component?
 
 const TapestryItem = ({
   item,
@@ -41,7 +34,6 @@ const TapestryItem = ({
   onMouseEnter,
   onMouseLeave,
 }) => {
-  const [itemIsFullScreen, setItemIsFullScreen] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const itemHandle = useFullScreenHandle();
   return (
@@ -69,72 +61,26 @@ const TapestryItem = ({
       }
       onClick={(e) => {
         if (!zoomingMode) {
-          console.log("this is firign!");
+          // console.log("this is firign!");
           setFocus(e);
         }
       }}
     >
-      {zoomingMode && item.type !== "tapestrylink" ? (
-        <a
-          href="/#"
-          className={`windowicon ${
-            item.type === "textFrame" ? "notapestryicon" : ""
-          }`}
-          onClick={(e) => {
-            console.log("this is firing!");
-            e.preventDefault();
-            if (focused) {
-              setFocusElsewhere(e);
-            } else {
-              setFocus(e);
-            }
-          }}
-        >
-          {focused ? <WindowClose /> : <WindowOpen />}
-        </a>
-      ) : null}
-      {item.type === "tapestrylink" ? null : (
-        <a
-          href="/#"
-          className={`fullscreenicon ${
-            item.type === "textFrame" ? "notapestryicon" : ""
-          }`}
-          onClick={(e) => {
-            // console.log("this is firing!");
-            e.preventDefault();
-            if (itemIsFullScreen) {
-              itemHandle.exit();
-              setItemIsFullScreen(false);
-            } else {
-              itemHandle.enter();
-              setItemIsFullScreen(true);
-            }
-          }}
-        >
-          {itemIsFullScreen ? <Collapse /> : <Expand />}
-        </a>
-      )}
-      {item.type === "textFrame" || item.type === "tapestrylink" ? null : (
-        <a
-          href="/#"
-          className={`tapestryIcon ${showInfo ? "on" : ""}`}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setShowInfo(!showInfo);
-            // setShown(!shown);
-          }}
-        >
-          i
-        </a>
-        // <TapestryIcon item={item} />
-      )}
       <FullScreen handle={itemHandle}>
         {isPreviewItem || isPreview ? null : (
           <CommentIcon comments={comments} onClick={openComments}>
             <Comment />
           </CommentIcon>
         )}
+        <ItemHeaderButtons
+          item={item}
+          itemHandle={itemHandle}
+          focused={focused}
+          setFocus={setFocus}
+          setFocusElsewhere={setFocusElsewhere}
+          showInfo={showInfo}
+          setShowInfo={setShowInfo}
+        />
         {item.type === "textFrame" ? (
           <TextFrame
             title={item.title}
@@ -332,6 +278,15 @@ const TapestryItem = ({
           </p>
         )}
         <div className="backside">
+          <ItemHeaderButtons
+            item={item}
+            itemHandle={itemHandle}
+            focused={focused}
+            setFocus={setFocus}
+            setFocusElsewhere={setFocusElsewhere}
+            showInfo={showInfo}
+            setShowInfo={setShowInfo}
+          />
           <h2 className="tapestryItemHead">{item.title}</h2>
           <div>
             <h3>Details</h3>
@@ -339,6 +294,7 @@ const TapestryItem = ({
               <strong>Source: </strong>{" "}
               {item.url ? <a href={item.url}>{item.url}</a> : item.content}
             </p>
+            <p>Internal data: {JSON.stringify(item)}</p>
             <button
               onClick={(e) => {
                 e.preventDefault();

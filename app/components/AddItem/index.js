@@ -11,7 +11,7 @@ import {
   getDownloadUrl,
 } from "~/utils/iaUtils";
 
-const AddTapestryItem = ({
+const AddItem = ({
   itemData,
   setItemData,
   gridUnitSize,
@@ -781,4 +781,4 @@ const AddTapestryItem = ({
   );
 };
 
-export default AddTapestryItem;
+export default AddItem;

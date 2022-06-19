@@ -15,7 +15,7 @@ const AudioControllerFrame = ({
     if (a.time < b.time) return -1;
     return 0;
   });
-  console.log("Going to: ", currentId);
+  // console.log("Going to: ", currentId);
   return (
     <div className={`${hideTitle ? "notitle" : ""} frame audioframe`}>
       {hideTitle ? null : (
@@ -26,7 +26,7 @@ const AudioControllerFrame = ({
       <div>
         <ReactAudioPlayer
           src={url}
-          crossOrigin
+          crossOrigin={"true"}
           controls
           listenInterval={500}
           onListen={(e) => {

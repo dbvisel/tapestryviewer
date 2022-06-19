@@ -683,13 +683,14 @@ nav.commentdrawer > div > button, nav.commentdrawer > div > form {
 
 .fullscreen > .backside > h2 {
 	border-bottom: 1px solid white;
+	margin-bottom: 0;
 }
 
 .fullscreen > .backside > div {
 	padding: var(--outsideMargin);
 	display: flex;
 	flex-direction: column;
-	min-height: calc(100% - calc(calc(2 * var(--outsideMargin)) + var(--itemHeaderHeight)));
+	min-height: calc(100% - calc(var(--outsideMargin) + var(--itemHeaderHeight)));
 }
 
 .fullscreen > .backside > div h3 {
