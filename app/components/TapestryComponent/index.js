@@ -90,6 +90,32 @@ const TapestryComponent = ({
   // console.log(linksList);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      const publicIds = tapestry.items.map((x) => x.googleId);
+      if (publicIds.includes(url.hash.substring(1))) {
+        console.log("Found initial hash: ", url.hash);
+        setTimeout(() => {
+          console.log("setting initial focus!");
+          setFocused(publicIds.indexOf(url.hash.substring(1)));
+        }, 1000);
+      }
+    }
+    window.addEventListener("hashchange", (e) => {
+      const url = new URL(e.newURL);
+      console.log("Changed hash:", url.hash);
+      const publicIds = tapestry.items.map((x) => x.googleId);
+      if (publicIds.includes(url.hash.substring(1))) {
+        console.log("Found it!");
+        setFocused(publicIds.indexOf(url.hash.substring(1)));
+      } else {
+        // console.log("not found:", url.hash.substring(1));
+        // console.log(publicIds);
+      }
+    });
+  }, [tapestry.items, tapestry.id]);
+
+  useEffect(() => {
     // console.log("tapestryID changed!");
     setInitialScale(0);
   }, [tapestry.id]);

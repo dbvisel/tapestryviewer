@@ -41,6 +41,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <script src="https://hypothes.is/embed.js" async></script>
       </body>
     </html>
   );
