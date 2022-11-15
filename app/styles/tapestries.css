@@ -311,9 +311,9 @@ mix-blend-mode: initial;
 
 .textframe > div p {
 	margin-bottom: calc(var(--fontSize) / 2);
-	text-overflow: ellipsis;
+	/* text-overflow: ellipsis;
 	white-space: nowrap;
-	overflow: hidden;
+	overflow: hidden; */
 }
 
 .textframe > div:after {
