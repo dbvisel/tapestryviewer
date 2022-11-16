@@ -298,6 +298,7 @@ const TapestryComponent = ({
                           tapestry.items.map((item, index) => (
                             <TapestryItem
                               key={`${flag}_${index}`}
+                              transformerRef={transformerRef}
                               item={item}
                               focused={
                                 focused === index && tapestry.id !== "preview"

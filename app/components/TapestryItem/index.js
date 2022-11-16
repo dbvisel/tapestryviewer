@@ -33,6 +33,7 @@ const TapestryItem = ({
   style,
   onMouseEnter,
   onMouseLeave,
+  transformerRef,
 }) => {
   const [showInfo, setShowInfo] = useState(false);
   const itemHandle = useFullScreenHandle();
@@ -86,6 +87,8 @@ const TapestryItem = ({
             title={item.title}
             content={item.content}
             hideTitle={item.hideTitle}
+            transformerRef={transformerRef}
+            isFocused={focused}
             titleClick={(e) => {
               e.preventDefault();
               if (titleBarSelectsItem) {
