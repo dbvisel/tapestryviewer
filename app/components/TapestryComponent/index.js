@@ -271,6 +271,7 @@ const TapestryComponent = ({
                 tapestry.initialView ? 0 - tapestry.initialY : 0
               }
               ref={transformerRef}
+
               // panning={{ disabled: focused !== -1, velocityDisabled: true }}
               // panning={{
               //   disabled: true,
@@ -290,6 +291,9 @@ const TapestryComponent = ({
                       <article
                         className="tapestryGrid"
                         style={{
+                          "--zoomFactor": transformerRef.current
+                            ? transformerRef.current.state.scale
+                            : 1,
                           minWidth: "100vw",
                           minHeight: "calc(100vh - var(--headerHeight)",
                         }}

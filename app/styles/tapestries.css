@@ -340,8 +340,8 @@ mix-blend-mode: initial;
 	white-space: normal;
 	text-overflow: initial;
 	overflow: visible;
-	font-size: calc(var(--zoomFactor) * var(--fontSize));
-	line-height: calc(var(--zoomFactor) * var(--lineHeight));
+	font-size: calc(var(--fontSize) / var(--zoomFactor) );
+	line-height: calc(var(--lineHeight) / var(--zoomFactor) );
 }
 
 .focused .textframe > div:after {

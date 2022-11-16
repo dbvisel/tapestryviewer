@@ -87,8 +87,6 @@ const TapestryItem = ({
             title={item.title}
             content={item.content}
             hideTitle={item.hideTitle}
-            transformerRef={transformerRef}
-            isFocused={focused}
             titleClick={(e) => {
               e.preventDefault();
               if (titleBarSelectsItem) {
