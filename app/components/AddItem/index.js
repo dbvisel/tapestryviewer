@@ -42,6 +42,7 @@ const AddItem = ({
   const [useAudioController, setUseAudioController] = useState(
     itemData.type === "audiocontroller"
   );
+  const [possibleThumbnails, setPossibleThumbnails] = useState([]);
   const [controlList, setControlList] = useState(
     itemData.type === "audiocontroller"
       ? itemData.controlList
@@ -159,15 +160,20 @@ const AddItem = ({
                 //     });
                 // }
 
-                // Could take this as a thumbnail (does this always work?):
-                // though to do this we would need to make sure this works for everything.
-                // and we would need to have a "thumbnail" as part of the itemData.
+                const theThumbnails = r.files
+                  .filter((x) => x.format === "Thumbnail" && !x.private)
+                  .map((x) => `https://${r.d1}${r.dir}/${x.name}`);
+                // this fails for TV archive clips!
+                setPossibleThumbnails(
+                  theThumbnails.length ? theThumbnails : []
+                );
 
-                const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
-                // (this is wrong for tv archive)
-                setThumbnail(thumbnail);
-                console.log("Possible thumbnail: ", thumbnail);
-                // this fails for TV archive clips.
+                setThumbnail(
+                  theThumbnails[0] && theThumbnails[0].indexOf(".jpg") > -1
+                    ? theThumbnails[0]
+                    : ""
+                );
+                // console.log(r);
                 setMaxLength(r.files[1]?.length || 0);
                 console.log("Possible maxLength: ", maxLength);
                 setType("video");
@@ -176,7 +182,9 @@ const AddItem = ({
                 const pageCount = parseInt(r.metadata.imagecount, 10);
                 setMaxPageCount(pageCount);
                 const thumbnail = `https://${r.d1}${r.dir}/${r.files[0].name}`;
-                setThumbnail(thumbnail);
+                if (thumbnail.indexOf(".jpg") > -1) {
+                  setThumbnail(thumbnail);
+                }
                 const page = getPage(newUrl);
                 const mode = getMode(newUrl);
                 console.log(thumbnail, page, pageCount, mode);
@@ -434,6 +442,26 @@ const AddItem = ({
                   </span>
                 </label>
               </p>
+            ) : null}
+            {possibleThumbnails.length ? (
+              <Fragment>
+                <h4>Choose a thumbnail:</h4>
+                <ul className="thumbnailgallery">
+                  {possibleThumbnails.map((x, xi) => (
+                    <li key={xi} className={x === thumbnail ? "selected" : ""}>
+                      <a
+                        href="/#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setThumbnail(possibleThumbnails[xi]);
+                        }}
+                      >
+                        <img src={x} alt={`Thumbnail ${xi}`} height="auto" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </Fragment>
             ) : null}
             {(type === "audio" || type === "audiocontroller") &&
             directAudioUrl ? (

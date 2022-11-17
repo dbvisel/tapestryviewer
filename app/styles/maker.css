@@ -256,3 +256,25 @@ input[type="color"] {
 	bottom: -10px;
 	left: calc(50% + 20px);
 }
+
+.thumbnailgallery {
+	list-style-type: none;
+	display: inline-flex;
+	flex-wrap: nowrap;
+	margin: 0;
+	padding: 0;
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+.thumbnailgallery li {
+	min-width: 200px;
+	margin-right: 10px;
+	box-sizing: border-box;
+	border: 2px solid transparent;
+
+}
+
+.thumbnailgallery li.selected {
+	border-color: var(--focusColor);
+}

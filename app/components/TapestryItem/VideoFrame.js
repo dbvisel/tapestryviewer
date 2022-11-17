@@ -5,7 +5,12 @@ const { hideThumbnail } = Config;
 const VideoFrame = ({ title, url, thumbnail, hideTitle, titleClick }) => {
   const [clicked, setClicked] = useState(false);
   return (
-    <div className={`${hideTitle ? "notitle" : ""} frame videoframe`}>
+    <div
+      className={`${hideTitle ? "notitle" : ""} frame videoframe`}
+      onClick={() => {
+        setClicked(true);
+      }}
+    >
       {hideTitle ? null : (
         <h2 className="tapestryItemHead" onDoubleClick={titleClick}>
           {title}
@@ -22,12 +27,7 @@ const VideoFrame = ({ title, url, thumbnail, hideTitle, titleClick }) => {
           title={title}
         />
       ) : (
-        <img
-          src={thumbnail}
-          alt={title}
-          className="thumbnail"
-          onClick={() => setClicked(true)}
-        />
+        <img src={thumbnail} alt={title} className="thumbnail" />
       )}
     </div>
   );
