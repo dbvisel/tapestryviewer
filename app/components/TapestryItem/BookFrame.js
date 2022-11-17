@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Config from "~/config";
-const { hideThumbnail } = Config;
+// import Config from "~/config";
+// const { hideThumbnail } = Config;
+const hideThumbnail = true;
 
 const BookFrame = ({ title, url, thumbnail, hideTitle, titleClick }) => {
   const [clicked, setClicked] = useState(false);
