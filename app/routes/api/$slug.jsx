@@ -15,7 +15,7 @@ export const loader = async ({ params, request }) => {
       },
     });
   } else {
-    console.log("tapestry not found");
+    console.log("tapestry not found: ", params.slug);
     throw new Response("Tapestry not found", {
       status: 404,
     });

@@ -12,8 +12,8 @@ const WaybackMachineFrame = ({ title, url, hideTitle, titleClick }) => {
 
   useEffect(() => {
     const getDates = async () => {
-      // console.log("querying for dates!");
-      // console.log(deslashed);
+      console.log("querying for dates!");
+      console.log(deslashed);
       await fetch(`/.netlify/functions/memento`, {
         method: "POST",
         body: JSON.stringify({ url: deslashed }),
@@ -21,7 +21,7 @@ const WaybackMachineFrame = ({ title, url, hideTitle, titleClick }) => {
         .then((res) => res.json())
         .then(async (r) => {
           // r is an array of dates
-          // console.log(r);
+          console.log("Array of dates from Memento:", r);
           setDates(r);
           // console.log(r);
         })

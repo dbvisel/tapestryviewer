@@ -287,10 +287,14 @@ const getDownloadedGoogleData = async () => {
           if (toLink) {
             // console.log(thisTapestry.items[j].id, toLink.id);
             thisTapestry.addLink(thisTapestry.items[j].id, toLink.id);
+          } else {
+            console.log(
+              "Can't find",
+              thisGoogleLink,
+              " in ",
+              thisTapestry.title
+            );
           }
-          // else {
-          //   console.log("Can't find", thisGoogleLink);
-          // }
         }
       }
     }
@@ -303,6 +307,10 @@ const getDownloadedGoogleData = async () => {
 export async function getTapestries() {
   const googleTapestries = await getDownloadedGoogleData();
   const tapestries = [...manualTapestries, ...googleTapestries];
+  console.log(
+    "tapestries",
+    tapestries.map((x) => x.title)
+  );
   return tapestries;
 }
 
