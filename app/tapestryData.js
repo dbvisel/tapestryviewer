@@ -269,7 +269,7 @@ const getDownloadedGoogleData = async () => {
             thisItemRow.thumbnail &&
             String(thisItemRow.thumbnail).indexOf(".jpg") > -1
               ? thisItemRow.thumbnail
-              : 0,
+              : "",
           controlList: thisItemRow.controlList,
         });
         listOfGoogleIds[thisItemRow.id] = thisItem.id;
