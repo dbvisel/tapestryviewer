@@ -231,6 +231,7 @@ const getDownloadedGoogleData = async () => {
   const listOfGoogleIds = [];
   for (let i = 0; i < googleData.tapestryRows.length; i++) {
     const thisTapestryRow = googleData.tapestryRows[i];
+    if (thisTapestryRow.title && thisTapestryRow.slug) {
     const thisTapestry = new Tapestry({
       title: thisTapestryRow.title,
       slug: thisTapestryRow.slug,
@@ -299,6 +300,7 @@ const getDownloadedGoogleData = async () => {
       }
     }
     googleTapestries[googleTapestries.length] = thisTapestry;
+  }
   }
 
   return googleTapestries;
