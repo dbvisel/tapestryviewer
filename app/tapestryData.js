@@ -231,78 +231,80 @@ const getDownloadedGoogleData = async () => {
   const listOfGoogleIds = [];
   for (let i = 0; i < googleData.tapestryRows.length; i++) {
     const thisTapestryRow = googleData.tapestryRows[i];
-    const thisTapestry = new Tapestry({
-      title: thisTapestryRow.title,
-      slug: thisTapestryRow.slug,
-      author: thisTapestryRow.author,
-      forkable: Boolean(thisTapestryRow.forkable),
-      background: thisTapestryRow.background,
-      gridGap: thisTapestryRow.gridGap,
-      gridUnitSize: thisTapestryRow.gridUnitSize,
-      items: [],
-      googleId: thisTapestryRow.googleId,
-      hideOnFront: thisTapestryRow.hideOnFront,
-      initialView: Boolean(thisTapestryRow.initialView),
-      initialX: thisTapestryRow.initialX,
-      initialY: thisTapestryRow.initialY,
-      defaultZoom: thisTapestryRow.defaultZoom,
-    });
-    const thisId = thisTapestryRow.id;
+    if (thisTapestryRow.title && thisTapestryRow.slug) {
+      const thisTapestry = new Tapestry({
+        title: thisTapestryRow.title,
+        slug: thisTapestryRow.slug,
+        author: thisTapestryRow.author,
+        forkable: Boolean(thisTapestryRow.forkable),
+        background: thisTapestryRow.background,
+        gridGap: thisTapestryRow.gridGap,
+        gridUnitSize: thisTapestryRow.gridUnitSize,
+        items: [],
+        googleId: thisTapestryRow.googleId,
+        hideOnFront: thisTapestryRow.hideOnFront,
+        initialView: Boolean(thisTapestryRow.initialView),
+        initialX: thisTapestryRow.initialX,
+        initialY: thisTapestryRow.initialY,
+        defaultZoom: thisTapestryRow.defaultZoom,
+      });
+      const thisId = thisTapestryRow.id;
 
-    for (let j = 0; j < googleData.itemRows.length; j++) {
-      const thisItemRow = googleData.itemRows[j];
-      const thisItemId = thisItemRow.tapestryId;
-      if (thisItemId === thisId) {
-        const thisItem = new Item({
-          title: thisItemRow.title,
-          content: thisItemRow.content,
-          type: thisItemRow.type,
-          x: thisItemRow.x,
-          y: thisItemRow.y,
-          width: thisItemRow.width,
-          height: thisItemRow.height,
-          url: thisItemRow.url,
-          googleLinksTo: thisItemRow.linksTo, // this is still uncleaned!
-          googleId: thisItemRow.id, // why is this not coming thorough?n
-          hideTitle: thisItemRow.hideTitle,
-          thumbnail:
-            thisItemRow.thumbnail &&
-            String(thisItemRow.thumbnail).indexOf(".jpg") > -1
-              ? thisItemRow.thumbnail
-              : "",
-          controlList: thisItemRow.controlList,
-        });
-        listOfGoogleIds[thisItemRow.id] = thisItem.id;
-        thisTapestry.addItem(thisItem);
+      for (let j = 0; j < googleData.itemRows.length; j++) {
+        const thisItemRow = googleData.itemRows[j];
+        const thisItemId = thisItemRow.tapestryId;
+        if (thisItemId === thisId) {
+          const thisItem = new Item({
+            title: thisItemRow.title,
+            content: thisItemRow.content,
+            type: thisItemRow.type,
+            x: thisItemRow.x,
+            y: thisItemRow.y,
+            width: thisItemRow.width,
+            height: thisItemRow.height,
+            url: thisItemRow.url,
+            googleLinksTo: thisItemRow.linksTo, // this is still uncleaned!
+            googleId: thisItemRow.id, // why is this not coming thorough?n
+            hideTitle: thisItemRow.hideTitle,
+            thumbnail:
+              thisItemRow.thumbnail &&
+              String(thisItemRow.thumbnail).indexOf(".jpg") > -1
+                ? thisItemRow.thumbnail
+                : "",
+            controlList: thisItemRow.controlList,
+          });
+          listOfGoogleIds[thisItemRow.id] = thisItem.id;
+          thisTapestry.addItem(thisItem);
+        }
       }
-    }
 
-    // now, add in all the links
+      // now, add in all the links
 
-    for (let j = 0; j < thisTapestry.items.length; j++) {
-      if (thisTapestry.items[j].googleLinksTo.length) {
-        // console.log("\n\n\n", thisTapestry.title, thisTapestry.items[j].title);
-        for (let k = 0; k < thisTapestry.items[j].googleLinksTo.length; k++) {
-          const thisGoogleLink = thisTapestry.items[j].googleLinksTo[k];
-          // console.log(thisTapestry.title, thisGoogleLink);
-          const toLink = thisTapestry.items.find(
-            (x) => x.googleId === thisGoogleLink
-          );
-          if (toLink) {
-            // console.log(thisTapestry.items[j].id, toLink.id);
-            thisTapestry.addLink(thisTapestry.items[j].id, toLink.id);
-          } else {
-            console.log(
-              "Can't find",
-              thisGoogleLink,
-              " in ",
-              thisTapestry.title
+      for (let j = 0; j < thisTapestry.items.length; j++) {
+        if (thisTapestry.items[j].googleLinksTo.length) {
+          // console.log("\n\n\n", thisTapestry.title, thisTapestry.items[j].title);
+          for (let k = 0; k < thisTapestry.items[j].googleLinksTo.length; k++) {
+            const thisGoogleLink = thisTapestry.items[j].googleLinksTo[k];
+            // console.log(thisTapestry.title, thisGoogleLink);
+            const toLink = thisTapestry.items.find(
+              (x) => x.googleId === thisGoogleLink
             );
+            if (toLink) {
+              // console.log(thisTapestry.items[j].id, toLink.id);
+              thisTapestry.addLink(thisTapestry.items[j].id, toLink.id);
+            } else {
+              console.log(
+                "Can't find",
+                thisGoogleLink,
+                " in ",
+                thisTapestry.title
+              );
+            }
           }
         }
       }
+      googleTapestries[googleTapestries.length] = thisTapestry;
     }
-    googleTapestries[googleTapestries.length] = thisTapestry;
   }
 
   return googleTapestries;
