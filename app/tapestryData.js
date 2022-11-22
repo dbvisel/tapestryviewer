@@ -307,10 +307,10 @@ const getDownloadedGoogleData = async () => {
 export async function getTapestries() {
   const googleTapestries = await getDownloadedGoogleData();
   const tapestries = [...manualTapestries, ...googleTapestries];
-  console.log(
-    "tapestries",
-    tapestries.map((x) => x.title)
-  );
+  // console.log(
+  //   "tapestries",
+  //   tapestries.map((x) => x.title)
+  // );
   return tapestries;
 }
 
