@@ -256,7 +256,7 @@ const TapestryComponent = ({
               initialScale={
                 tapestry.initialView ? tapestry.defaultZoom : initialScale
               }
-              minScale={0}
+              minScale={0.1} // was 0, changed per radan's suggestion
               maxScale={2}
               centerOnInit={false}
               limitToBounds={false}
@@ -264,6 +264,7 @@ const TapestryComponent = ({
               onZoomStop={updateXarrow}
               onPinchingStop={updateXarrow}
               onWheelStop={updateXarrow}
+              wheel={{ step: 0.05 }} // added per radan's suggestion
               initialPositionX={
                 tapestry.initialView ? 0 - tapestry.initialX : 0
               }
@@ -271,6 +272,8 @@ const TapestryComponent = ({
                 tapestry.initialView ? 0 - tapestry.initialY : 0
               }
               ref={transformerRef}
+              panning={{ velocityDisabled: true }} // added per radan's suggestion
+
               // panning={{ disabled: focused !== -1, velocityDisabled: true }}
               // panning={{
               //   disabled: true,
