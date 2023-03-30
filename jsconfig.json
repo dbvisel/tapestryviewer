@@ -16,6 +16,6 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules",".cache"],
   "include": ["**/*.js", "**/*.jsx"]
 }
