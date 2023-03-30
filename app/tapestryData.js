@@ -231,6 +231,7 @@ const getDownloadedGoogleData = async () => {
   const listOfGoogleIds = [];
   for (let i = 0; i < googleData.tapestryRows.length; i++) {
     const thisTapestryRow = googleData.tapestryRows[i];
+    if (thisTapestryRow.title && thisTapestryRow.slug) {
     const thisTapestry = new Tapestry({
       title: thisTapestryRow.title,
       slug: thisTapestryRow.slug,
@@ -265,7 +266,11 @@ const getDownloadedGoogleData = async () => {
           googleLinksTo: thisItemRow.linksTo, // this is still uncleaned!
           googleId: thisItemRow.id, // why is this not coming thorough?n
           hideTitle: thisItemRow.hideTitle,
-          thumbnail: thisItemRow.thumbnail,
+          thumbnail:
+            thisItemRow.thumbnail &&
+            String(thisItemRow.thumbnail).indexOf(".jpg") > -1
+              ? thisItemRow.thumbnail
+              : "",
           controlList: thisItemRow.controlList,
         });
         listOfGoogleIds[thisItemRow.id] = thisItem.id;
@@ -295,6 +300,7 @@ const getDownloadedGoogleData = async () => {
       }
     }
     googleTapestries[googleTapestries.length] = thisTapestry;
+  }
   }
 
   return googleTapestries;
