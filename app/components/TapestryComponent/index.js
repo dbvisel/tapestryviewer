@@ -91,6 +91,12 @@ const TapestryComponent = ({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      // for safari, turning off pinch zoom – need to fix this!
+      window.addEventListener("gesturestart", (e) => e.preventDefault());
+      window.addEventListener("gesturechange", (e) => e.preventDefault());
+      window.addEventListener("gestureend", (e) => e.preventDefault());
+      // probably should make these do native zooming?
+
       const url = new URL(window.location.href);
       const publicIds = tapestry.items.map((x) => x.googleId);
       if (publicIds.includes(url.hash.substring(1))) {
@@ -264,7 +270,7 @@ const TapestryComponent = ({
               onZoomStop={updateXarrow}
               onPinchingStop={updateXarrow}
               onWheelStop={updateXarrow}
-              wheel={{ step: 0.05 }} // added per radan's suggestion
+              wheel={{ wheelDisabled: true, step: 0.05 }} // added per radan's suggestion
               initialPositionX={
                 tapestry.initialView ? 0 - tapestry.initialX : 0
               }
