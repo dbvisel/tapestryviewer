@@ -11,6 +11,7 @@ import {
   makeLinkList,
   getTransformSetting,
 } from "~/utils/tapestryUtils";
+import { patchZoomPanPinch } from "./patchZoomPanPinch";
 
 const { useComments, zoomingMode, zoomWholeTapestry } = Config;
 
@@ -261,6 +262,7 @@ const TapestryComponent = ({
             style={{ padding: 0, margin: 0 }}
           >
             <TransformWrapper
+              onInit={(ctx) => patchZoomPanPinch(ctx.instance)}
               initialScale={
                 tapestry.initialView ? tapestry.defaultZoom : initialScale
               }
