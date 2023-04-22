@@ -11,6 +11,7 @@ import {
   makeLinkList,
   getTransformSetting,
 } from "~/utils/tapestryUtils";
+import { patchZoomPanPinch } from "./patchZoomPanPinch";
 
 const { useComments, zoomingMode, zoomWholeTapestry } = Config;
 
@@ -54,6 +55,8 @@ const TapestryComponent = ({
     height: "initial",
   });
   const [transformStyle, setTransformStyle] = useState("");
+  const [isPanning, setIsPanning] = useState(false);
+  const [isZooming, setIsZooming] = useState(false);
 
   const updateXarrow = useXarrow();
 
@@ -259,6 +262,7 @@ const TapestryComponent = ({
             style={{ padding: 0, margin: 0 }}
           >
             <TransformWrapper
+              onInit={(ctx) => patchZoomPanPinch(ctx.instance)}
               initialScale={
                 tapestry.initialView ? tapestry.defaultZoom : initialScale
               }
@@ -266,8 +270,13 @@ const TapestryComponent = ({
               maxScale={2}
               centerOnInit={false}
               limitToBounds={false}
-              onPanningStop={updateXarrow}
-              onZoomStop={updateXarrow}
+              disablePadding
+              onPanning={updateXarrow}
+              onZoom={updateXarrow}
+              onPanningStart={() => setIsPanning(true)}
+              onPanningStop={() => setIsPanning(false)}
+              onZoomStart={() => setIsZooming(true)}
+              onZoomStop={() => setIsZooming(false)}
               onPinchingStop={updateXarrow}
               onWheelStop={updateXarrow}
               wheel={{ wheelDisabled: true, step: 0.05 }} // added per radan's suggestion
@@ -278,7 +287,11 @@ const TapestryComponent = ({
                 tapestry.initialView ? 0 - tapestry.initialY : 0
               }
               ref={transformerRef}
-              panning={{ velocityDisabled: true }} // added per radan's suggestion
+              panning={{
+                // Prevent panning from interfering with clicks on SVG icons
+                excluded: ['svg', 'path', 'notapestryicon'],
+                velocityDisabled: true
+              }} // added per radan's suggestion
 
               // panning={{ disabled: focused !== -1, velocityDisabled: true }}
               // panning={{
@@ -378,6 +391,10 @@ const TapestryComponent = ({
                         ) : (
                           <p>(No items on this tapestry.)</p>
                         )}
+
+                        {(isZooming || isPanning) &&
+                          <div className="tapestryOverlay" />
+                        }
                       </article>
                     </TransformComponent>
                     {linksList.map((link, index) =>

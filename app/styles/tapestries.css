@@ -125,6 +125,15 @@
 	border: none;
 }
 
+.tapestryOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+}
+
 .tapestryItem {
 	box-sizing: border-box;
 	border-radius: var(--borderRadius);
@@ -187,7 +196,7 @@
 	position: absolute;
 	top: 6px;
 	right: 76px;
-	width: 28px; 
+	width: 28px;
 	height: 28px;
 	transition: 0.25s;
 	z-index: 10;
@@ -254,7 +263,7 @@ mix-blend-mode: initial;
 	color: var(--headerColor);
 	width: 100%;
 	align-items: center;
-	white-space: nowrap; 
+	white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 	cursor: grab;
@@ -389,7 +398,7 @@ mix-blend-mode: initial;
 
 .webframe  iframe {
 	z-index: 2;
-	position: absolute; 
+	position: absolute;
 	top: calc(var(--itemHeaderHeight) - var(--textPadding));
 }
 
@@ -500,7 +509,7 @@ mix-blend-mode: initial;
 	.tapestrypage > main > div > h1 {
 		flex-direction: column;
 	}
-	
+
 }
 
 .tools {
