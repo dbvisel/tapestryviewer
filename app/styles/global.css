@@ -27,10 +27,11 @@
 	--button-base: #202b38;
 }
 
-body { 
+body {
 	max-width: 100%;
 	line-height: 1.5;
 	margin: 0;
 	padding: 0;
 	background-color: var(--black);
+  overscroll-behavior-x: none;
 }
