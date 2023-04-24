@@ -3,7 +3,8 @@ const MOUSE_EVENT_PROPS = ['bubbles', 'cancelable', 'composed',
   'shiftKey', 'altKey', 'metaKey', 'button', 'buttons','relatedTarget'];
 
 export function patchZoomPanPinch(zoomPanPinch) {
-  attachWheelPanEvents(zoomPanPinch)
+  attachWheelPanEvents(zoomPanPinch);
+  handleSafariGestureEvents(zoomPanPinch);
 }
 
 function attachWheelPanEvents(zoomPanPinch) {
@@ -35,4 +36,32 @@ function pick(obj, props) {
     }
     return acc;
   }, {});
+}
+
+function handleSafariGestureEvents(zoomPanPinch) {
+  let scale;
+  zoomPanPinch.wrapperComponent.addEventListener('gesturestart', event => {
+    scale = 1;
+    event.stopPropagation();
+    event.preventDefault();
+  });
+  zoomPanPinch.wrapperComponent.addEventListener('gesturechange', event => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const simulatedWheelEvent = new WheelEvent('wheel', {
+      ...pick(event, MOUSE_EVENT_PROPS),
+      // react-zoom-pan-pinch actually ignores this value,
+      // it only matters if it's positive or negative
+      deltaY: scale - event.scale,
+      ctrlKey: true,
+    });
+    scale = event.scale;
+
+    zoomPanPinch.wrapperComponent.dispatchEvent(simulatedWheelEvent);
+  });
+  zoomPanPinch.wrapperComponent.addEventListener('gestureend', event => {
+    event.stopPropagation();
+    event.preventDefault();
+  });
 }
